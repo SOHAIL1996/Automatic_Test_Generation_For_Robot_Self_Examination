@@ -29,11 +29,3 @@
 		</include>
   </world>
 </sdf>
-
-    <!-- The Chair
-    <include>                          <!-- Including Model -->
-      <uri>model://chair</uri>         <!-- Model location in package -->
-      <name>chair</name>               <!-- Different name for same copy, powerful tool -->
-      <static>false</static>
-      <pose>4 2 0 1.5708 0 3.14</pose> <!-- Translation: X Y Z and Rotation: Roll Pitch Yaw (In Radian)-->
-    </include> -->

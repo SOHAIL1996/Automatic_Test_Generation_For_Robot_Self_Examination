@@ -24,6 +24,11 @@
     <arg name="world_name" value="$(find atg)/Environment/worlds/my_world.world"/>
     <arg name="robot_pos" value="-x -4.5 -y 0 -z 0.0254 -Y 0" />
   </include>
+  <!-- Navigation Files -->
+  <include file="$(find mas_hsr_move_arm_action)/ros/launch/move_arm.launch" />
+  <include file="$(find mas_hsr_move_base_action)/ros/launch/move_base.launch" />
+  <!-- Rviz with custom config -->
+  <node name='rviz' pkg='rviz' type='rviz' args='-d $(find atg)/Environment/rviz/hsr.rviz' />
 
   <group ns="laser_2d_localizer">
     <param name="init_x" value="0.0"/>

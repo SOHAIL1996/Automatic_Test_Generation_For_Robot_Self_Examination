@@ -20,7 +20,7 @@
        <collision name="collision"> <!-- You can use mesh like below -->
         <geometry>
           <mesh><!-- Very important to change-->
-             <uri>/home/orion92/Downloads/RnD/model_config/models/shelf/meshes/shelf.stl</uri>
+             <uri>/home/orion92/catkin_ws/src/atg/Environment/models/shelf/meshes/shelf.stl</uri>
              <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
@@ -29,15 +29,15 @@
       <visual name="visual">
         <geometry>
           <mesh><!-- Very important to change-->
-             <uri>/home/orion92/Downloads/RnD/model_config/models/shelf/meshes/shelf.stl</uri>
+             <uri>/home/orion92/catkin_ws/src/atg/Environment/models/shelf/meshes/shelf.stl</uri>
              <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
 
         <material>
           <script> <!-- Very important to change-->
-             <uri>/home/orion92/Downloads/RnD/model_config/models/shelf/materials/scripts</uri>
-             <uri>/home/orion92/Downloads/RnD/model_config/models/shelf/materials/textures</uri>
+             <uri>/home/orion92/catkin_ws/src/atg/Environment/models/shelf/materials/scripts</uri>
+             <uri>/home/orion92/catkin_ws/src/atg/Environment/models/shelf/materials/textures</uri>
              <name>PR2/White</name>
           </script>
         </material>
