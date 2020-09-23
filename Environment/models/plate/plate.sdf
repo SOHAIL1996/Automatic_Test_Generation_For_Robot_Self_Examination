@@ -20,7 +20,7 @@
        <collision name="collision"> <!-- You can use mesh like below -->
         <geometry>
           <mesh>
-             <uri>/home/orion92/Downloads/RnD/model_config/models/plate/meshes/plate.stl</uri>
+             <uri>/home/orion92/catkin_ws/src/atg/Environment/models/plate/meshes/plate.stl</uri>
               <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
@@ -29,15 +29,15 @@
       <visual name="visual">
         <geometry>
           <mesh>
-             <uri>/home/orion92/Downloads/RnD/model_config/models/plate/meshes/plate.stl</uri>
+             <uri>/home/orion92/catkin_ws/src/atg/Environment/models/plate/meshes/plate.stl</uri>
             <scale>0.001 0.001 0.001</scale>
           </mesh>
         </geometry>
 
         <material>
           <script> 
-             <uri>/home/orion92/Downloads/RnD/model_config/models/plate/materials/scripts</uri>
-             <uri>/home/orion92/Downloads/RnD/model_config/models/plate/materials/textures</uri>
+             <uri>/home/orion92/catkin_ws/src/atg/Environment/models/plate/materials/scripts</uri>
+             <uri>/home/orion92/catkin_ws/src/atg/Environment/models/plate/materials/textures</uri>
              <name>Gazebo/FlatBlack</name>
           </script>
         </material>
