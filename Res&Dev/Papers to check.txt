@@ -1,0 +1,16 @@
+W. Qian, Z. Xia, J. Xiong, Y. Gan, Y. Guo, S. Weng, H. Deng, Y. Hu,
+and J. Zhang, “Manipulation task simulation using ros and gazebo,”
+in Robotics and Biomimetics (ROBIO), 2014 IEEE International
+Conference on. IEEE, 2014, pp. 2594–2598.
+
+K. Takaya, T. Asai, V. Kroumov, and F. Smarandache, “Simulation
+environment for mobile robots testing using ros and gazebo,” in System
+Theory, Control and Computing (ICSTCC), 2016 20th International
+Conference on. IEEE, 2016, pp. 96–101
+
+Banerjee, D., Yu, K., & Aggarwal, G. (2018). 
+Object Tracking Test Automation Using a Robotic Arm. 
+IEEE Access, 1–1. doi:10.1109/access.2018.2873284 
+
+Software-in-the-loop Modeling and Simulation
+Framework for Autonomous Vehicles 

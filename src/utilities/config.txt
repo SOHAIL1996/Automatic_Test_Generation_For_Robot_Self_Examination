@@ -1,0 +1,12 @@
+#==============================================================================#
+#      Configuration file for the object placement in the Gazebo world.        #
+#==============================================================================#
+
+--launch_dir          = /home/orion92/catkin_ws/src/atg/launch/hsr.launch
+--model_dir           = /home/orion92/catkin_ws/src/atg/Environment/models
+
+
+--Required_#_of_Models = 12
+--models_1             = bottle,glass,plate,spoon,fork,knife,mug
+--models_2             = 
+#==============================================================================#

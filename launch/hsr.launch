@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="namespace" default="hsrb"/>
+  <arg name="debug" default="false"/>
+  <arg name="gui" default="true" />
+  <arg name="rviz" default="false"/>
+  <arg name="gazebo_visualization" default="false" />
+  <arg name="use_manipulation" default="true" />
+  <arg name="use_navigation" default="true" />
+  <arg name="use_perception" default="true" />
+  <arg name="use_task" default="true" />
+  <arg name="use_teleop" default="true" />
+  <arg name="use_web" default="true" />
+  <arg name="use_laser_odom" default="false" />
+  <arg name="paused" default="true" />
+  <arg name="fast_physics" default="false" />
+  <arg name="robot_name" default="$(optenv ROBOT_NAME hsrb)" />
+
+  <arg unless="$(arg fast_physics)" name="world_suffix" value=""/>
+  <arg     if="$(arg fast_physics)" name="world_suffix" value="_fast"/>
+  <!-- Change World name and Map -->
+  <include file="$(find hsrb_gazebo_launch)/launch/include/hsrb_gazebo_common.xml" pass_all_args="true" >
+    <arg name="map" default="$(find atg)/Environment/maps/my_map.yaml" />
+    <arg name="world_name" value="$(find atg)/Environment/worlds/my_world.world"/>
+    <arg name="robot_pos" value="-x -4.5 -y 0 -z 0.0254 -Y 0" />
+  </include>
+
+  <group ns="laser_2d_localizer">
+    <param name="init_x" value="0.0"/>
+    <param name="init_y" value="0.0"/>
+    <param name="init_theta_deg" value="0.0"/>
+  </group>
+</launch>
+
+<!-- If you use only a controller and sensors, the following merits and demerits exist.
+
+merit: You can move it at speed in real-time.
+You can incorporate functions such as one’s own recognition, autonomous movement, and manipulation.
+
+demerit: You cannot use prepared functions such as recognition, autonomous movement, and manipulation,
+ navigation (e.g., HMI), and the Python interface, etc. -->

@@ -1,0 +1,47 @@
+<?xml version='1.0'?>
+<sdf version="1.5">
+  <model name="knife"> <!-- Very important to change-->
+    <static>false</static>
+    <pose>0 0 0 0 0 0</pose> <!-- Translation: X Y Z and Rotation: Roll Pitch Yaw (In Radian)-->
+    <link name="body">
+
+      <inertial> >
+        <mass>0.421</mass>
+          <inertia> 
+          <ixx>2.85e-5</ixx>      
+          <ixy>-1.71e-5</ixy>     
+          <ixz>-1.01e-7</ixz>        
+          <iyy>0.001</iyy>      
+          <iyz>6.66e-9</iyz>      
+          <izz>0.001</izz>  
+        </inertia>
+      </inertial>
+
+       <collision name="collision"> <!-- You can use mesh like below -->
+        <geometry>
+          <mesh>
+             <uri>/home/orion92/catkin_ws/src/atg/Environment/models/knife/meshes/knife.stl</uri>
+            <scale>0.001 0.001 0.001</scale>
+          </mesh>
+        </geometry>
+      </collision>
+
+      <visual name="visual">
+        <geometry>
+          <mesh>
+             <uri>/home/orion92/catkin_ws/src/atg/Environment/models/knife/meshes/knife.stl</uri>
+            <scale>0.001 0.001 0.001</scale>
+          </mesh>
+        </geometry>
+
+        <material>
+          <script> 
+             <uri>/home/orion92/catkin_ws/src/atg/Environment/models/knife/materials/scripts</uri>
+             <uri>/home/orion92/catkin_ws/src/atg/Environment/models/knife/materials/textures</uri>
+             <name>Gazebo/FlatBlack</name>
+          </script>
+        </material>
+      </visual>
+    </link>
+  </model>
+</sdf>

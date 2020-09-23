@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+  <world name="my_world"> 
+    <!-- The sun -->
+    <include>
+      <uri>model://sun</uri>
+    </include>
+    <!-- The ground -->
+    <include>
+			<uri>model://ground_plane</uri>
+		</include>
+    <!-- The Lab -->
+    <include>
+			<uri>/home/orion92/catkin_ws/src/atg/Environment/models/lab</uri>
+      <name>lab</name>  
+      <pose>0 0 0 0 0 0</pose> <!-- Translation: X Y Z and Rotation: Roll Pitch Yaw (In Radian)-->
+		</include>
+    <!-- The Shelf -->
+    <include>
+			<uri>/home/orion92/catkin_ws/src/atg/Environment/models/shelf</uri>
+      <name>shelf</name>  
+      <pose>4.8 3 0.0254 0 0 1.5708</pose> <!-- Translation: X Y Z and Rotation: Roll Pitch Yaw (In Radian)-->
+		</include>
+    <!-- The Table -->
+    <include>
+			<uri>/home/orion92/catkin_ws/src/atg/Environment/models/table</uri>
+      <name>table</name>  
+      <pose>0 4 0.0254 0 0 0</pose> <!-- Translation: X Y Z and Rotation: Roll Pitch Yaw (In Radian)-->
+		</include>
+  </world>
+</sdf>
+
+    <!-- The Chair
+    <include>                          <!-- Including Model -->
+      <uri>model://chair</uri>         <!-- Model location in package -->
+      <name>chair</name>               <!-- Different name for same copy, powerful tool -->
+      <static>false</static>
+      <pose>4 2 0 1.5708 0 3.14</pose> <!-- Translation: X Y Z and Rotation: Roll Pitch Yaw (In Radian)-->
+    </include> -->
