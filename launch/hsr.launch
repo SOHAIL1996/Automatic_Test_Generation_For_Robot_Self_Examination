@@ -9,11 +9,11 @@
   <arg name="use_navigation" default="true" />
   <arg name="use_perception" default="true" />
   <arg name="use_task" default="true" />
-  <arg name="use_teleop" default="true" />
-  <arg name="use_web" default="true" />
+  <arg name="use_teleop" default="false" />
+  <arg name="use_web" default="false" />
   <arg name="use_laser_odom" default="false" />
-  <arg name="paused" default="true" />
-  <arg name="fast_physics" default="false" />
+  <arg name="paused" default="false" />
+  <arg name="fast_physics" default="true" />
   <arg name="robot_name" default="$(optenv ROBOT_NAME hsrb)" />
 
   <arg unless="$(arg fast_physics)" name="world_suffix" value=""/>
@@ -22,7 +22,7 @@
   <include file="$(find hsrb_gazebo_launch)/launch/include/hsrb_gazebo_common.xml" pass_all_args="true" >
     <arg name="map" default="$(find atg)/Environment/maps/my_map.yaml" />
     <arg name="world_name" value="$(find atg)/Environment/worlds/my_world.world"/>
-    <arg name="robot_pos" value="-x -4.5 -y 0 -z 0.0254 -Y 0" />
+    <arg name="robot_pos" value="-x 0 -y 0 -z 0.0254 -Y 0" />
   </include>
   <!-- Navigation Files -->
   <include file="$(find mas_hsr_move_arm_action)/ros/launch/move_arm.launch" />

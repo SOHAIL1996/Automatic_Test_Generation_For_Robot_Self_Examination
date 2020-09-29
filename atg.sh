@@ -5,7 +5,7 @@ sudo pkill gzserver
 sudo pkill gzclient
 sudo pkill roscore
 
-python3 src/RSG.py
+python3 src/random_scenario_generator.py
 # rosrun rviz rviz
 
 

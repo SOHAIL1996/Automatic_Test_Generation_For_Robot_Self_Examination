@@ -53,9 +53,6 @@ To use simply open the terminal goto the package directory and run `./atg.sh`
 ## Navigation
 
 - Run `atg.sh`.
-- Run `rosrun rviz rviz` and open the `hsr.rviz` configuration.
-- Run `roslaunch mas_hsr_move_arm_action move_arm.launch`.
-- Run `roslaunch mas_hsr_move_base_action move_base.launch`.
 - Run `rosrun mdr_move_base_action move_base_action_client_test <Navigation goal>`
 
 ## First time installation

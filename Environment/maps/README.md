@@ -7,3 +7,5 @@
 5. Run `rqt`.
 6. Goto `Plugins -> Tools -> Robot Steering` and change the velocity command to `/hsrb/command_velocity`.
 7. Save the map by `rosrun map_server map_saver -f my_map`.
+8. Goto the `mdr_environments` package and place the map in the `atg_lab` folder. Additionally, place the map in this maps folder.
+9. Update the `navigation` file in `mdr_enviroments` by utilizing the `2D nav` coordinates given by `rviz` in the terminal.
