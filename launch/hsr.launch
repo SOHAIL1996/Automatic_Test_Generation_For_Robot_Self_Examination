@@ -26,7 +26,11 @@
   </include>
   <!-- Navigation Files -->
   <include file="$(find mas_hsr_move_arm_action)/ros/launch/move_arm.launch" />
-  <include file="$(find mas_hsr_move_base_action)/ros/launch/move_base.launch" />
+  <include file="$(find mas_hsr_move_base_action)/ros/launch/move_base.launch" /> 
+  <include file="$(find mas_hsr_move_forward_action)/ros/launch/move_forward.launch" /> 
+  <include file="$(find mas_hsr_move_arm_joints_action)/ros/launch/move_arm_joints.launch" />
+  <include file="$(find mas_hsr_pickup_action)/ros/launch/pickup_action.launch" />
+  <!-- rosrun mdr_pickup_action pickup_action_client_test -->
   <!-- Rviz with custom config -->
   <node name='rviz' pkg='rviz' type='rviz' args='-d $(find atg)/Environment/rviz/hsr.rviz' />
 

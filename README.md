@@ -54,6 +54,7 @@ To use simply open the terminal goto the package directory and run `./atg.sh`
 
 - Run `atg.sh`.
 - Run `rosrun mdr_move_base_action move_base_action_client_test <Navigation goal>`
+- Run `python3.7 -m pytest action_test.py -v -s`
 
 ## First time installation
 
