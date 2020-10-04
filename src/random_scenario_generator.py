@@ -28,6 +28,9 @@ import std_srvs.srv as std_srvs
 import gazebo_msgs.srv as gazebo_srvs
 from geometry_msgs.msg import *
 from gazebo_msgs.srv import SpawnModel
+from gazebo_msgs.srv import GetModelState
+from gazebo_msgs.srv import GetLinkState
+from gazebo_msgs.srv import GetWorldProperties
 
 from utilities.utility import bound_box
 from utilities.utility import Configuration
@@ -83,7 +86,7 @@ class World():
         finally:
             time.sleep(2)
             world_node.terminate()  
-
+               
 class Model():
     """
     This class contains all relevant information of a gazebo model.
@@ -146,29 +149,7 @@ class Model():
             print(colored('Successfully spawned {0} model'.format(self.model_real_name),'green'))
             
         except rospy.ServiceException as e:
-            print(colored('Cannot spawn {0} model'.format(self.model_real_name),'red'))
-
-        # Old version
-        # try:
-        #     print(colored('Inserting {0} model'.format(self.model_real_name),'yellow'))
-            
-        #     # Un-comment if first time using the package. Corrects the uri of sdf models.
-        #     # conf.model_uri_correcter(self.model_real_name)
-            
-        #     model_node = subprocess.Popen(['rosrun','gazebo_ros','spawn_model',
-        #     '-file',  self.model_dir +'/'+self.model_real_name+'/'+self.model_real_name+'.sdf','-sdf',
-        #     '-model', self.model_real_name + self.model_node_name,
-        #     '-reference_frame','world',
-        #     '-x',self.x_coord ,
-        #     '-y',self.y_coord ,
-        #     '-z',self.z_coord ,
-        #     '-R',self.R_coord ,
-        #     '-P',self.P_coord ,
-        #     '-Y',self.Y_coord ])
-        # finally:
-        #     time.sleep(2)
-        #     model_node.terminate()   
-        #     print(colored('Successfully spawned {0} model'.format(self.model_real_name),'green'))   
+            print(colored('Cannot spawn {0} model'.format(self.model_real_name),'red')) 
 
     def delete_model(self, model_name):
         """
@@ -186,7 +167,38 @@ class Model():
             time.sleep(2)
             delete_node.terminate()   
             print(colored('Successfully deleted {0} model'.format(model_name),'green'))   
-          
+            
+    def model_state(self):
+        
+        rospy.wait_for_service("/gazebo/get_world_properties")
+        rospy.wait_for_service("/gazebo/get_model_state")
+        rospy.wait_for_service("/gazebo/get_link_state")
+        try:
+            print(colored('Acquiring Model State','yellow'))
+            
+            world = rospy.ServiceProxy('/gazebo/get_world_properties',GetWorldProperties)
+            model = rospy.ServiceProxy('/gazebo/get_model_state', GetModelState)
+            end_of_effector_left = rospy.ServiceProxy('/gazebo/get_link_state', GetLinkState)
+            end_of_effector_right= rospy.ServiceProxy('/gazebo/get_link_state', GetLinkState)
+            
+            world_props = world()
+            lucy_lef_gripper = end_of_effector_left('hsrb::hand_l_distal_link','world')
+            lucy_rig_gripper = end_of_effector_right('hsrb::hand_r_distal_link','world')
+            # for objs in world_props.model_names:
+            #     coordinates = model(objs,'world')
+            #     print(coordinates.pose.position)
+            print(lucy_lef_gripper.link_state.pose.position)
+            print(lucy_rig_gripper.link_state.pose.position)
+
+            print(colored('Successfully acquired Model State','green')) 
+        except rospy.ServiceException as e:
+            print(colored('Cannot acquire Model State.','red')) 
+        
+        return
+
+
+            
+                      
 def collision_checker(model,x,y,z):
     """Checks the collision with all other dynamic models. Uses 
     Axis-Aligned Bounding Box.
@@ -201,7 +213,7 @@ def collision_checker(model,x,y,z):
         bool: Returns True if there is no valid position for given model.
               Returns False if there is a valid position for given model.
     """    
-    # original bounding box
+    # Model to be placed bounding box
     org_sx = np.around(model.bounding_box[0]+x,2)+0.6
     org_bx = np.around(model.bounding_box[1]+x,2)+0.6
     org_sy = np.around(model.bounding_box[2]+y,2)+0.6
@@ -212,7 +224,7 @@ def collision_checker(model,x,y,z):
     if model_tracer != []: 
              
         for models in np.arange(len(model_tracer)): 
-            # compared bounding box
+            # Previous models bounding box
             com_sx = np.around(model_tracer[models].bounding_box[0]+float(model_tracer[models].x_coord),2)+0.6
             com_bx = np.around(model_tracer[models].bounding_box[1]+float(model_tracer[models].x_coord),2)+0.6
             com_sy = np.around(model_tracer[models].bounding_box[2]+float(model_tracer[models].y_coord),2)+0.6
@@ -226,7 +238,6 @@ def collision_checker(model,x,y,z):
             # Collision X-Y-element Axis Aligned Collision Box
             if (org_sx < com_bx and org_bx > com_sx and org_sy < com_by and org_by > com_sy):
                 return True
-
         return False
     else:
         return False
@@ -291,8 +302,6 @@ if __name__ == "__main__":
         # static_model.model_properties(model_tracer[1].model_real_name + model_tracer[1].model_node_name)
         # # Delete a model
         # static_model.delete_model(model_tracer[1].model_real_name + model_tracer[1].model_node_name)
-        
-        # world.unpause_simulation()
 
     finally:
         time.sleep(6000)

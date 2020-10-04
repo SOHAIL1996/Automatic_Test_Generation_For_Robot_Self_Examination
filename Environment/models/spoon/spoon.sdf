@@ -8,12 +8,12 @@
     <inertial> >
       <mass>0.024</mass>
         <inertia> 
-        <ixx>1.22e-4</ixx>      
-        <ixy>-5.2e-8</ixy>     
-        <ixz>3.51e-9</ixz>        
-        <iyy>4.29e-6</iyy>      
-        <iyz>1.39e-5</iyz>      
-        <izz>1.22e-4</izz>  
+          <ixx>1</ixx>      
+          <ixy>0</ixy>     
+          <ixz>0</ixz>        
+          <iyy>1</iyy>      
+          <iyz>0</iyz>      
+          <izz>1</izz>  
       </inertia>
     </inertial>
 
