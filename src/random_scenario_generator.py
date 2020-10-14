@@ -253,7 +253,6 @@ if __name__ == "__main__":
     print(colored('Starting HSR Simulator', 'green'))
     try:
         hsr_node = subprocess.Popen(['roslaunch', conf.rospakg, conf.ros_file_name])
-        time.sleep(10)
         
         # Static model placement
         static_model = Model('table')
@@ -297,6 +296,9 @@ if __name__ == "__main__":
                     continue
                 
         print(colored('Completed spawning dynamic models','cyan'))
+        
+        time.sleep(5)
+        nav_node = subprocess.Popen(['roslaunch', conf.rospakg, 'nav.launch'])
                 
         # # Get model properties
         # static_model.model_properties(model_tracer[1].model_real_name + model_tracer[1].model_node_name)
@@ -305,5 +307,6 @@ if __name__ == "__main__":
 
     finally:
         time.sleep(6000)
-        hsr_node.terminate()  
+        hsr_node.terminate() 
+        nav_node.terminate()  
         print(colored('Terminating ros!','red'))    

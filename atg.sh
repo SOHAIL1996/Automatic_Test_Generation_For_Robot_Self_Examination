@@ -1,5 +1,6 @@
 #!/bin/bash
 
+sudo pkill roscore
 sudo pkill gazebo
 sudo pkill gzserver
 sudo pkill gzclient

@@ -22,17 +22,12 @@
   <include file="$(find hsrb_gazebo_launch)/launch/include/hsrb_gazebo_common.xml" pass_all_args="true" >
     <arg name="map" default="$(find atg)/Environment/maps/my_map.yaml" />
     <arg name="world_name" value="$(find atg)/Environment/worlds/my_world.world"/>
-    <arg name="robot_pos" value="-x 0 -y 0 -z 0.0254 -Y 0" />
+    <arg name="robot_pos" value="-x 0 -y 0 -z 0.0254 -Y 1.567" />
   </include>
-  <!-- Navigation Files -->
-  <!-- <include file="$(find mas_hsr_move_arm_action)/ros/launch/move_arm.launch" />
-  <include file="$(find mas_hsr_move_base_action)/ros/launch/move_base.launch" /> 
-  <include file="$(find mas_hsr_move_forward_action)/ros/launch/move_forward.launch" /> 
-  <include file="$(find mas_hsr_move_arm_joints_action)/ros/launch/move_arm_joints.launch" />
-  <include file="$(find mas_hsr_pickup_action)/ros/launch/pickup_action.launch" /> -->
   <!-- rosrun mdr_pickup_action pickup_action_client_test -->
+  <!-- python3.6 -m pytest src/action_test.py -v -s -->
   <!-- Rviz with custom config -->
-  <node name='rviz' pkg='rviz' type='rviz' args='-d $(find atg)/Environment/rviz/hsr.rviz' />
+  <!-- <node name='rviz' pkg='rviz' type='rviz' args='-d $(find atg)/Environment/rviz/hsr.rviz' /> -->
 
   <group ns="laser_2d_localizer">
     <param name="init_x" value="0.0"/>

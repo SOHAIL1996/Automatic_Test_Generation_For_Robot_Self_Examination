@@ -6,7 +6,9 @@
 --model_dir           = /home/orion92/catkin_ws/src/atg/Environment/models
 
 
---Required_#_of_Models = 20
+--Required_#_of_Models = 8
 --models_1             = bottle,glass,plate,spoon,fork,knife,mug,saltshaker
 --models_2             = 
 #==============================================================================#
+Nav_test .. Paracosm
+pic_test ..
