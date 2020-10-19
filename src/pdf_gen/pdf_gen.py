@@ -78,9 +78,9 @@ pdf.drawInlineImage('Images/bit.png', -700, 770,height=40,preserveAspectRatio=Tr
 ##############################
 # PDF_Table_Properties
 ##############################
-table_1 = Table(data_1)
-table_2 = Table(data_2)
-table_3 = Table(data_3)
+table_1 = Table(data_1, colWidths=[1.9*inch] * 5)
+table_2 = Table(data_2, colWidths=[1.9*inch] * 5)
+table_3 = Table(data_3, colWidths=[1.9*inch] * 5)
 style = TableStyle([
     # ('BACKGROUND', (0,0),(4,0),(135/255,206/255,235/255)),
     # ('BACKGROUND', (0,3),(4,3),(135/255,206/255,235/255)),

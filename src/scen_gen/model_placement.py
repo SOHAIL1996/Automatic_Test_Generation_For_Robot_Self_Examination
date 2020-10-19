@@ -28,7 +28,7 @@ from utilities.utility import choices
 from utilities.utility import collision_checker
 from termcolor import colored
 
-def model_placement():
+def model_placement(param=None):
     conf = Configuration()
     world = World()
 
@@ -46,8 +46,10 @@ def model_placement():
     static_model_cabinet = Model('cabinet',4.5, -4.8, 0.0254, 0, 0, 1.5708)
     static_model_cabinet.insert_model()
     
-    # Dynamic model placement
+    # Dynamic model placement through config file
     model_choices = choices(conf.model_list(), k=int(conf.num_of_mod))
+    # Dynamic model placement through testing
+    # model_choices = choices(conf.model_list(), k=int(param))
     
     # Ensuring the models spawns in the vicinity of the static model in this case the table
     minx = np.around(static_model.bounding_box[0]*0.8+float(static_model.x_coord),2)

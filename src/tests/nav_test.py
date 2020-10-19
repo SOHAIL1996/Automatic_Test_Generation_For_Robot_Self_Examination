@@ -15,9 +15,17 @@ Author    : Salman Omar Sohail
 Date: August 19, 2020
 ----------------------------------------------------
 """
-
+import os
+import time
+import random
+from subprocess import check_output
 import pytest
-from random_scenario_generator import Model
+from termcolor import colored
+
+from utilities.utility import navi_action_client
+from scen_gen.random_scenario_generator import Model
+from logger.data_logger import data_logger
+from logger.data_logger import data_reader
 from hypothesis import given, settings, Verbosity, example
 import hypothesis.strategies as st
 
@@ -35,8 +43,27 @@ import hypothesis.strategies as st
 # Ensure property is satisfied
 # Generalized property
 #################################################################################################
-model_info = Model('spoon')
-o          = model_info.model_state()
+class NavTest():
+    """
+    This class contains all relevant information of a gazebo model.
+    """    
+    def __init__(self, destination):
+        
+        data_logger('nav_start')
+        self.nav_start_world_props, ignore = data_reader('nav_start')
+        
+        result = navi_action_client('table')
+        print(colored('Navigation completed.','blue')) 
+        
+        data_logger('nav_end')
+        self.nav_end_world_props, ignore = data_reader('nav_end')
+        print(self.nav_end_world_props)
+      
+    # Checking if the position of objects changed
+    # def test_obj_pos_x(lef_gri_x, rig_grip_x, obj_x):
+    #     self.nav_start_world_props.equals(self.nav_end_world_props)
+
+
 #################################################################################################
 # @given(st.integers(), st.integers())
 # def test_sum_basic(num1, num2):

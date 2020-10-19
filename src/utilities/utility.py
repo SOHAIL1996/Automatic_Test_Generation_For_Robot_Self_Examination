@@ -24,6 +24,12 @@ from stl import mesh
 from itertools import accumulate as _accumulate, repeat as _repeat
 from bisect import bisect as _bisect
 
+import sys
+import rospy
+import actionlib
+
+from mdr_move_base_action.msg import MoveBaseAction, MoveBaseGoal
+
 class Configuration():
     
     def __init__(self):
@@ -191,4 +197,27 @@ def collision_checker(model,x,y,z,model_tracer):
                 return True
         return False
     else:
-        return False    
+        return False   
+    
+def navi_action_client(loc):
+
+    rospy.init_node('mdr_move_base_client_test')
+    client = actionlib.SimpleActionClient('move_base_server', MoveBaseAction)
+    client.wait_for_server()
+    goal = MoveBaseGoal()
+
+    try:
+        goal.goal_type = MoveBaseGoal.NAMED_TARGET
+        goal.destination_location = loc
+        timeout = 500.0
+        rospy.loginfo('Sending action lib goal to move_base_server, ' +
+                    'destination : ' + goal.destination_location)
+        client.send_goal(goal)
+        client.wait_for_result(rospy.Duration.from_sec(int(timeout)))
+        print(client.get_result())
+    except Exception as exc:
+        print(str(exc))
+        return False
+
+        
+    return True
