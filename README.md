@@ -18,7 +18,7 @@ actions to the execution of complex scenarios automatically.
 
 ## SoftwareRequirements
 
-* `Python 3.5.2 64-bit`
+* `Python 3.6.12 64-bit`
 * `Gazebo 7.16.1`
 * `Catkin-pkg 0.4.22-100`
 * `roskinetic`

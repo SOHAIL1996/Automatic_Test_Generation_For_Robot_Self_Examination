@@ -37,8 +37,14 @@ today = str(today.strftime("%b-%d-%Y"))
 file_name = 'HSR_Report_'+today+'.pdf'
 doc_title = 'Report'
 title     = 'Toyota HSR-Test Report'
-data_1    = [['Data 1','Data 2','Data 3','Data 4',tick],
-             ['Data 5','Data 6','Data 7','Data 8',tick]]
+data_1    = [['Navigation Property Tests','','','','Results'],
+             ['','','','',''],
+             ['Robot pose is same as simulation pose','','','',tick],
+             ['Pose of objects are the same after navigation','','','',tick],
+             ['Robot nagivation run completed in average time','','','',tick],
+             ['','','','',''],
+             ['Legality Tests','','','',''],
+             ['','','','',''],]
 data_2    = [['Data 9','Data 10','Data 11','Data 12',tick],
              ['Data 13','Data 7','Data 8','Data 13',cross]]
 data_3    = [['Data 188','Data 2','Data 3','Data 4',tick],
@@ -53,7 +59,7 @@ styles.add(ParagraphStyle(name='Justify', alignment=TA_JUSTIFY))
 # PDF_Title
 ##############################
 pdf.setFont('Courier-Bold',32)
-pdf.setFillColorRGB(0/255,0/255,0/255)
+pdf.setFillColorRGB(9/255,28/255,87/255)
 pdf.setTitle(doc_title)
 pdf.drawCentredString(300,690, title)
 ##############################
@@ -78,9 +84,9 @@ pdf.drawInlineImage('Images/bit.png', -700, 770,height=40,preserveAspectRatio=Tr
 ##############################
 # PDF_Table_Properties
 ##############################
-table_1 = Table(data_1, colWidths=[1.9*inch] * 5)
-table_2 = Table(data_2, colWidths=[1.9*inch] * 5)
-table_3 = Table(data_3, colWidths=[1.9*inch] * 5)
+table_1 = Table(data_1, colWidths=[1.3*inch] * 1)
+table_2 = Table(data_2, colWidths=[1.3*inch] * 1)
+table_3 = Table(data_3, colWidths=[1.3*inch] * 1)
 style = TableStyle([
     # ('BACKGROUND', (0,0),(4,0),(135/255,206/255,235/255)),
     # ('BACKGROUND', (0,3),(4,3),(135/255,206/255,235/255)),
@@ -90,10 +96,11 @@ style = TableStyle([
     # ('TEXTCOLOR', (0,3),(-1,3),colors.whitesmoke),
     # ('TEXTCOLOR', (0,6),(-1,6),colors.whitesmoke),
     ('ALIGN',(0,0),(-1,-1),'LEFT'),
-    # ('FONTNAME',(0,0),(4,0),'Courier-Bold'),
+    ('ALIGN',(4,0),(4,-1),'CENTER'),
+    ('FONTNAME',(0,0),(4,0),'Courier-Bold'),
     # ('FONTNAME',(0,3),(4,3),'Courier-Bold'),
     # ('FONTNAME',(0,6),(4,6),'Courier-Bold'),
-    # ('FONTSIZE',(0,0),(-1,0),16),
+    ('FONTSIZE',(0,0),(4,0),14),
     # ('FONTSIZE',(0,3),(-1,3),16),
     # ('FONTSIZE',(0,6),(-1,6),16),
     # ('BOTTOMPADDING',(0,0),(-1,0),12),
@@ -117,14 +124,18 @@ def pdf_header_table(table,header_posx,header_posy,table_posx,table_posy,
     pdf.setFillColorRGB(color_r/255,color_g/255,color_b/255)
     pdf.setFont('Courier-Bold',font_size)
     pdf.drawCentredString(header_posx, header_posy, text)
-    table.setStyle(border)
+    # table.setStyle(border)
     table.setStyle(style)
     table.wrapOn(pdf, 700, 700)
     table.drawOn(pdf, table_posx, table_posy)
     
-pdf_header_table(table_1,1.6*inch,620,1*inch, 570,'Navigation',16,border,style,0,120,255)
-pdf_header_table(table_2,1.6*inch,420,1*inch, 370,'Pick Action',16,border,style,0,120,255)
-pdf_header_table(table_3,1.6*inch,220,1*inch, 170,'Place Action',16,border,style,0,120,255)
+pdf_header_table(table_1,2.4*inch,620,1*inch, 400,'Evaluation of Navigation',16,border,style,0,120,255)
+pdf.showPage()
+pdf_header_table(table_2,2.4*inch,620,1*inch, 400,'Evaluation of Pick Action',16,border,style,0,120,255)
+pdf.showPage()
+pdf_header_table(table_3,2.4*inch,620,1*inch, 400,'Evaluation of Place Action',16,border,style,0,120,255)
+pdf.showPage()
+pdf_header_table(table_3,1.6*inch,220,1*inch, 170,'Evaluation of Scenario',16,border,style,0,120,255)
 ############################## 
 # Text and Image
 ############################## 

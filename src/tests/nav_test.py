@@ -60,7 +60,15 @@ class NavTest():
         print(self.nav_end_world_props)
       
     # Checking if the position of objects changed
-    # def test_obj_pos_x(lef_gri_x, rig_grip_x, obj_x):
+    # def test_model_positons():
+    #     self.nav_start_world_props.equals(self.nav_end_world_props)
+    
+    # Checking if the robot is where it should be
+    # def test_robot_position():
+    #     self.nav_start_world_props.equals(self.nav_end_world_props)
+    
+    # Check the duration of the run
+    # def test_navigation_duration():
     #     self.nav_start_world_props.equals(self.nav_end_world_props)
 
 
