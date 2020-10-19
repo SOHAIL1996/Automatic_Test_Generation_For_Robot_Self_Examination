@@ -85,7 +85,62 @@ class World():
             world_node = subprocess.Popen(['rosservice','call','gazebo/unpause_physics'])
         finally:
             time.sleep(2)
-            world_node.terminate()  
+            world_node.terminate() 
+            
+    def world_state(self):
+        
+        logs = [['Models', 'X-pos','Y-pos','Z-pos','Q-1','Q-2','Q-3','Q-4']]
+        lucy_logs = [['Gripper Position', 'X-pos','Y-pos','Z-pos','Q-1','Q-2','Q-3','Q-4']]
+        rospy.wait_for_service("/gazebo/get_world_properties")
+        rospy.wait_for_service("/gazebo/get_model_state")
+        rospy.wait_for_service("/gazebo/get_link_state")
+        try:
+            print(colored('Acquiring Model State','yellow'))
+            
+            world = rospy.ServiceProxy('/gazebo/get_world_properties',GetWorldProperties)
+            model = rospy.ServiceProxy('/gazebo/get_model_state', GetModelState)
+            end_of_effector_left = rospy.ServiceProxy('/gazebo/get_link_state', GetLinkState)
+            end_of_effector_right= rospy.ServiceProxy('/gazebo/get_link_state', GetLinkState)
+
+            world_props = world()
+            lucy_lef_gripper = end_of_effector_left('hsrb::hand_l_distal_link','world')
+            lucy_rig_gripper = end_of_effector_right('hsrb::hand_r_distal_link','world')
+            for objs in world_props.model_names:
+                coordinates = model(objs,'world')
+                temp_data   = [objs,np.around(coordinates.pose.position.x,3),
+                               np.around(coordinates.pose.position.y,3),
+                               np.around(coordinates.pose.position.z,3),
+                               np.around(coordinates.pose.orientation.x,3),
+                               np.around(coordinates.pose.orientation.y,3),
+                               np.around(coordinates.pose.orientation.z,3),
+                               np.around(coordinates.pose.orientation.w,3)]
+                logs.append(temp_data)    
+                
+
+            lucy_data_lef  = ['Lucy left gripper',np.around(lucy_lef_gripper.link_state.pose.position.x,3),
+                            np.around(lucy_lef_gripper.link_state.pose.position.y,3),
+                            np.around(lucy_lef_gripper.link_state.pose.position.z,3),
+                            np.around(lucy_lef_gripper.link_state.pose.orientation.x,3),
+                            np.around(lucy_lef_gripper.link_state.pose.orientation.y,3),
+                            np.around(lucy_lef_gripper.link_state.pose.orientation.z,3),
+                            np.around(lucy_lef_gripper.link_state.pose.orientation.w,3)]
+            
+            lucy_data_rig  = ['Lucy right gripper',np.around(lucy_rig_gripper.link_state.pose.position.x,3),
+                            np.around(lucy_rig_gripper.link_state.pose.position.y,3),
+                            np.around(lucy_rig_gripper.link_state.pose.position.z,3),
+                            np.around(lucy_rig_gripper.link_state.pose.orientation.x,3),
+                            np.around(lucy_rig_gripper.link_state.pose.orientation.y,3),
+                            np.around(lucy_rig_gripper.link_state.pose.orientation.z,3),
+                            np.around(lucy_rig_gripper.link_state.pose.orientation.w,3)]
+            
+            lucy_logs.append(lucy_data_lef)
+            lucy_logs.append(lucy_data_rig) 
+            
+            print(colored('Successfully acquired Model State','green')) 
+            return logs, lucy_logs
+        except rospy.ServiceException as e:
+            print(colored('Cannot acquire Model State.','red')) 
+        return 
                
 class Model():
     """
@@ -168,31 +223,3 @@ class Model():
             time.sleep(2)
             delete_node.terminate()   
             print(colored('Successfully deleted {0} model'.format(model_name),'green'))   
-            
-    def model_state(self):
-        
-        rospy.wait_for_service("/gazebo/get_world_properties")
-        rospy.wait_for_service("/gazebo/get_model_state")
-        rospy.wait_for_service("/gazebo/get_link_state")
-        try:
-            print(colored('Acquiring Model State','yellow'))
-            
-            world = rospy.ServiceProxy('/gazebo/get_world_properties',GetWorldProperties)
-            model = rospy.ServiceProxy('/gazebo/get_model_state', GetModelState)
-            end_of_effector_left = rospy.ServiceProxy('/gazebo/get_link_state', GetLinkState)
-            end_of_effector_right= rospy.ServiceProxy('/gazebo/get_link_state', GetLinkState)
-            
-            world_props = world()
-            lucy_lef_gripper = end_of_effector_left('hsrb::hand_l_distal_link','world')
-            lucy_rig_gripper = end_of_effector_right('hsrb::hand_r_distal_link','world')
-            # for objs in world_props.model_names:
-            #     coordinates = model(objs,'world')
-            #     print(coordinates.pose.position)
-            print(lucy_lef_gripper.link_state.pose.position)
-            print(lucy_rig_gripper.link_state.pose.position)
-
-            print(colored('Successfully acquired Model State','green')) 
-        except rospy.ServiceException as e:
-            print(colored('Cannot acquire Model State.','red')) 
-        
-        return

@@ -5,7 +5,7 @@
 ---------------------------------------------------- 
 Utilities
 
-The ...
+Utilitie functions.
 ----------------------------------------------------
 Supervisor: Prof. Dr. Paul Ploger
             Prof. Dr. Nico Hochgeschwender
@@ -191,5 +191,4 @@ def collision_checker(model,x,y,z,model_tracer):
                 return True
         return False
     else:
-        return False
-    
+        return False    
