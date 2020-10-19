@@ -19,7 +19,7 @@ Date: August 19, 2020
 
 import random
 import sys,os
-import numpy
+import numpy as np
 from stl import mesh
 from itertools import accumulate as _accumulate, repeat as _repeat
 from bisect import bisect as _bisect
@@ -112,7 +112,7 @@ def find_mins_maxs(obj):
 def bound_box(model_name):
     mesh_obj = mesh_extractor(model_name)
     cartesian_min_max_vals = find_mins_maxs(mesh_obj)
-    adjusting_for_scaling = numpy.asarray(cartesian_min_max_vals)*0.001
+    adjusting_for_scaling = np.asarray(cartesian_min_max_vals)*0.001
     return adjusting_for_scaling   
 
 def stl_property_extractor(model_name):
@@ -149,3 +149,47 @@ def choices(population, weights=None, *, cum_weights=None, k=1):
     hi = n - 1
     return [population[bisect(cum_weights, random.random() * total, 0, hi)]
             for i in _repeat(None, k)]
+    
+def collision_checker(model,x,y,z,model_tracer):
+    """Checks the collision with all other dynamic models. Uses 
+    Axis-Aligned Bounding Box.
+
+    Args:
+        obj_small_x (float): Model's bounding box minimum x coordinate.
+        obj_big_x (float): Model's bounding box maximum x coordinate.
+        obj_small_y (float): Model's bounding box minimum y coordinate.
+        obj_big_y (float): Model's bounding box maximum y coordinate.
+
+    Returns:
+        bool: Returns True if there is no valid position for given model.
+              Returns False if there is a valid position for given model.
+    """    
+    # Model to be placed bounding box
+    org_sx = np.around(model.bounding_box[0]+x,2)+0.6
+    org_bx = np.around(model.bounding_box[1]+x,2)+0.6
+    org_sy = np.around(model.bounding_box[2]+y,2)+0.6
+    org_by = np.around(model.bounding_box[3]+y,2)+0.6
+    org_sz = np.around(model.bounding_box[4]+z,2)+0.6
+    org_bz = np.around(model.bounding_box[5]+z,2)+0.6
+        
+    if model_tracer != []: 
+             
+        for models in np.arange(len(model_tracer)): 
+            # Previous models bounding box
+            com_sx = np.around(model_tracer[models].bounding_box[0]+float(model_tracer[models].x_coord),2)+0.6
+            com_bx = np.around(model_tracer[models].bounding_box[1]+float(model_tracer[models].x_coord),2)+0.6
+            com_sy = np.around(model_tracer[models].bounding_box[2]+float(model_tracer[models].y_coord),2)+0.6
+            com_by = np.around(model_tracer[models].bounding_box[3]+float(model_tracer[models].y_coord),2)+0.6
+            com_sz = np.around(model_tracer[models].bounding_box[4]+float(model_tracer[models].z_coord),2)+0.6
+            com_bz = np.around(model_tracer[models].bounding_box[5]+float(model_tracer[models].z_coord),2)+0.6
+            
+            # Collision X-Y-Z-element
+            # if (org_sx < com_bx and org_bx > com_sx and org_sy < com_by and org_by > com_sy and org_sz < com_bz and org_bz > com_sz):
+            #     return True
+            # Collision X-Y-element Axis Aligned Collision Box
+            if (org_sx < com_bx and org_bx > com_sx and org_sy < com_by and org_by > com_sy):
+                return True
+        return False
+    else:
+        return False
+    

@@ -6,8 +6,7 @@ sudo pkill gzserver
 sudo pkill gzclient
 sudo pkill roscore
 
-python3 src/random_scenario_generator.py
-# rosrun rviz rviz
+python3 src/Engine.py
 
 
 # roslaunch mas_hsr_move_arm_action move_arm.launch 

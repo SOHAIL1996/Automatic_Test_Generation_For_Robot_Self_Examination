@@ -91,23 +91,23 @@ class Model():
     """
     This class contains all relevant information of a gazebo model.
     """    
-    def __init__(self, model_real_name):
+    def __init__(self, model_real_name,x=0,y=0,z=0,R=0,P=0,Y=0):
         
         conf = Configuration()
 
         self.model_dir       = conf.model_dir
         self.model_real_name = model_real_name
         self.model_node_name = str(np.random.randint(0,999)) 
-        self.x_coord   = 0  # X-coordinate
-        self.y_coord   = 0  # Y-coordinate
-        self.z_coord   = 0  # Z-coordinate
-        self.R_coord   = 0  # Roll in radians
-        self.P_coord   = 0  # Pitch in radians
-        self.Y_coord   = 0  # Yaw in radians
-        self.quat1     = 0  # quaternion 1
-        self.quat2     = 0  # quaternion 2
-        self.quat3     = 0  # quaternion 3
-        self.quat4     = 0  # quaternion 4
+        self.x_coord   = x  # X-coordinate
+        self.y_coord   = y  # Y-coordinate
+        self.z_coord   = z  # Z-coordinate
+        self.R_coord   = R  # Roll in radians
+        self.P_coord   = P  # Pitch in radians
+        self.Y_coord   = Y  # Yaw in radians
+        self.quat1     = np.sin(R/2) * np.cos(P/2) * np.cos(Y/2) - np.cos(R/2) * np.sin(P/2) * np.sin(Y/2)
+        self.quat2     = np.cos(R/2) * np.sin(P/2) * np.cos(Y/2) + np.sin(R/2) * np.cos(P/2) * np.sin(Y/2)
+        self.quat3     = np.cos(R/2) * np.cos(P/2) * np.sin(Y/2) - np.sin(R/2) * np.sin(P/2) * np.cos(Y/2)
+        self.quat4     = np.cos(R/2) * np.cos(P/2) * np.cos(Y/2) + np.sin(R/2) * np.sin(P/2) * np.sin(Y/2)
         
         self.bounding_box = bound_box(self.model_real_name)
         
@@ -133,6 +133,7 @@ class Model():
         This function inserts a model in the gazebo world by passing a roscommand from the terminal. 
         """        
         rospy.wait_for_service("/gazebo/spawn_sdf_model")
+        conf = Configuration()
         try:
             print(colored('Inserting {0} model'.format(self.model_real_name),'yellow'))
             
@@ -195,118 +196,3 @@ class Model():
             print(colored('Cannot acquire Model State.','red')) 
         
         return
-
-
-            
-                      
-def collision_checker(model,x,y,z):
-    """Checks the collision with all other dynamic models. Uses 
-    Axis-Aligned Bounding Box.
-
-    Args:
-        obj_small_x (float): Model's bounding box minimum x coordinate.
-        obj_big_x (float): Model's bounding box maximum x coordinate.
-        obj_small_y (float): Model's bounding box minimum y coordinate.
-        obj_big_y (float): Model's bounding box maximum y coordinate.
-
-    Returns:
-        bool: Returns True if there is no valid position for given model.
-              Returns False if there is a valid position for given model.
-    """    
-    # Model to be placed bounding box
-    org_sx = np.around(model.bounding_box[0]+x,2)+0.6
-    org_bx = np.around(model.bounding_box[1]+x,2)+0.6
-    org_sy = np.around(model.bounding_box[2]+y,2)+0.6
-    org_by = np.around(model.bounding_box[3]+y,2)+0.6
-    org_sz = np.around(model.bounding_box[4]+z,2)+0.6
-    org_bz = np.around(model.bounding_box[5]+z,2)+0.6
-        
-    if model_tracer != []: 
-             
-        for models in np.arange(len(model_tracer)): 
-            # Previous models bounding box
-            com_sx = np.around(model_tracer[models].bounding_box[0]+float(model_tracer[models].x_coord),2)+0.6
-            com_bx = np.around(model_tracer[models].bounding_box[1]+float(model_tracer[models].x_coord),2)+0.6
-            com_sy = np.around(model_tracer[models].bounding_box[2]+float(model_tracer[models].y_coord),2)+0.6
-            com_by = np.around(model_tracer[models].bounding_box[3]+float(model_tracer[models].y_coord),2)+0.6
-            com_sz = np.around(model_tracer[models].bounding_box[4]+float(model_tracer[models].z_coord),2)+0.6
-            com_bz = np.around(model_tracer[models].bounding_box[5]+float(model_tracer[models].z_coord),2)+0.6
-            
-            # Collision X-Y-Z-element
-            # if (org_sx < com_bx and org_bx > com_sx and org_sy < com_by and org_by > com_sy and org_sz < com_bz and org_bz > com_sz):
-            #     return True
-            # Collision X-Y-element Axis Aligned Collision Box
-            if (org_sx < com_bx and org_bx > com_sx and org_sy < com_by and org_by > com_sy):
-                return True
-        return False
-    else:
-        return False
-        
-           
-if __name__ == "__main__":
-    
-    conf = Configuration()
-    world = World()
-    model_tracer = []
-
- 
-    print(colored('Starting HSR Simulator', 'green'))
-    try:
-        hsr_node = subprocess.Popen(['roslaunch', conf.rospakg, conf.ros_file_name])
-        
-        # Static model placement
-        static_model = Model('table')
-        static_model.x_coord, static_model.y_coord, static_model.z_coord = '0','4','0'
-
-        # Dynamic model placement
-        model_choices = choices(conf.model_list(), k=int(conf.num_of_mod))
-        
-        # Ensuring the models spawns in the vicinity of the static model in this case the table
-        minx = np.around(static_model.bounding_box[0]*0.8+float(static_model.x_coord),2)
-        maxx = np.around(static_model.bounding_box[1]*0.8+float(static_model.x_coord),2)
-        miny = np.around(static_model.bounding_box[2]*0.8+float(static_model.y_coord),2)
-        maxy = np.around(static_model.bounding_box[3]*0.8+float(static_model.y_coord),2)
-        minz = np.around(static_model.bounding_box[4]+float(static_model.z_coord),2)
-        maxz = np.around(static_model.bounding_box[5]+float(static_model.z_coord),2)
-
-        for model in model_choices:
-            dynamic_model = Model(model)
-                                    
-            # Ensuring models don't spawn on top of existing models
-            for iteration in range(0,1000):
-                
-                x = random.uniform(minx, maxx)
-                y = random.uniform(miny, maxy)
-                z = maxz + 0.03
-
-                check = collision_checker(dynamic_model,x,y,z)
-                if check == False:
-                    
-                    dynamic_model.x_coord = x
-                    dynamic_model.y_coord = y
-                    dynamic_model.z_coord = z
-                    
-                    dynamic_model.insert_model()
-                        
-                    model_tracer.append(dynamic_model)
-                    break
-                
-                if iteration == 999:
-                    print(colored('No space for model insertion ','red'),dynamic_model.model_real_name)
-                    continue
-                
-        print(colored('Completed spawning dynamic models','cyan'))
-        
-        time.sleep(5)
-        nav_node = subprocess.Popen(['roslaunch', conf.rospakg, 'nav.launch'])
-                
-        # # Get model properties
-        # static_model.model_properties(model_tracer[1].model_real_name + model_tracer[1].model_node_name)
-        # # Delete a model
-        # static_model.delete_model(model_tracer[1].model_real_name + model_tracer[1].model_node_name)
-
-    finally:
-        time.sleep(6000)
-        hsr_node.terminate() 
-        nav_node.terminate()  
-        print(colored('Terminating ros!','red'))    
