@@ -30,7 +30,8 @@ import actionlib
 from mdr_move_base_action.msg import MoveBaseAction, MoveBaseGoal
 
 class Configuration():
-    
+    """It extracts information from the configuration file.
+    """    
     def __init__(self):
         
         self.rospakg       = 'atg'
@@ -83,10 +84,17 @@ class Configuration():
             file.writelines(data)
             
     def model_list(self):
+        """Simply splits the list of models
+
+        Returns:
+            [list]: list of models manually assigned.
+        """        
         all_models = self.models.split(',')
         return all_models
     
 def mesh_extractor(model):
+    """Extracts mesh from the model folder.
+    """    
     # model_directory = os.path.dirname(__file__)+'/Environment/models/'+ model +'/meshes/'+ model +'.stl'
     conf = Configuration()
     model_directory = conf.model_dir+'/'+ model +'/meshes/'+ model +'.stl'
@@ -115,12 +123,16 @@ def find_mins_maxs(obj):
     return minx, maxx, miny, maxy, minz, maxz
 
 def bound_box(model_name):
+    """Generates bounding box for a given model.
+    """    
     mesh_obj = mesh_extractor(model_name)
     cartesian_min_max_vals = find_mins_maxs(mesh_obj)
     adjusting_for_scaling = np.asarray(cartesian_min_max_vals)*0.001
     return adjusting_for_scaling   
 
 def stl_property_extractor(model_name):
+    """Views the property of a specific mesh, doesnt work well.
+    """    
     meshy = mesh_extractor(model_name)
     volume, cog, inertia = meshy.get_mass_properties()
     print("Volume                                  = {0}".format(volume))
@@ -130,8 +142,6 @@ def stl_property_extractor(model_name):
     print("                                          {0}".format(inertia[2,:]))
     print(inertia/volume)
     
-# stl_property_extractor('knife')
-
 
 def choices(population, weights=None, *, cum_weights=None, k=1):
     """Return a k sized list of population elements chosen with replacement.
@@ -189,17 +199,25 @@ def collision_checker(model,x,y,z,model_tracer):
             com_bz = np.around(model_tracer[models].bounding_box[5]+float(model_tracer[models].z_coord),2)+0.6
             
             # Collision X-Y-Z-element
-            # if (org_sx < com_bx and org_bx > com_sx and org_sy < com_by and org_by > com_sy and org_sz < com_bz and org_bz > com_sz):
-            #     return True
-            # Collision X-Y-element Axis Aligned Collision Box
-            if (org_sx < com_bx and org_bx > com_sx and org_sy < com_by and org_by > com_sy):
+            if (org_sx < com_bx and org_bx > com_sx and org_sy < com_by and org_by > com_sy and org_sz < com_bz and org_bz > com_sz):
                 return True
+            # Collision X-Y-element Axis Aligned Collision Box
+            # if (org_sx < com_bx and org_bx > com_sx and org_sy < com_by and org_by > com_sy):
+            #     return True
         return False
     else:
         return False   
     
 def navi_action_client(loc):
+    """Action client test for navigation
 
+    Args:
+        loc ([str]): The location it has to go, updated in
+        mas_domestic_robotics > mdr_environments > navigation goals.yaml
+
+    Returns:
+        [bool]: Returns boolean rarely works in my laptop.
+    """    
     rospy.init_node('mdr_move_base_client_test')
     client = actionlib.SimpleActionClient('move_base_server', MoveBaseAction)
     client.wait_for_server()

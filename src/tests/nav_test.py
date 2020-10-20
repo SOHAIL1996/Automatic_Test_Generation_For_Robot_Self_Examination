@@ -37,38 +37,44 @@ import hypothesis.strategies as st
 big_models = ['table','shelf','cabinet','sofa']
 #################################################################################################
    
-# Checking if test module starts up
 def test_startup_check():
+    """Checking if test module starts up
+    """    
     assert 1 == 1
 
-# def test_scenario_generation(): 
-#     # destination = random.choice(big_models)
-#     destination = 'table'
-#     data_logger('logger/logs/nav_start')
-#     result = navi_action_client(destination)
-#     data_logger('logger/logs/nav_end')
-#     assert result == True
+def test_scenario_generation(): 
+    """Defines a scenario for the rest of the tests to run in.
+    """    
+    # destination = random.choice(big_models)
+    destination = 'table'
+    data_logger('logger/logs/nav_start')
+    result = navi_action_client(destination)
+    data_logger('logger/logs/nav_end')
+    assert result == True
     
-# (Property_test) Checking if the position of objects changed
 def test_allmodels_positon_x():
-                
+    """(Property_test) Checking if the position of objects changed in x-axis.
+    """    
     expected_difference, original_difference = log_reader('X-pos')
     assert expected_difference == original_difference
 
-# (Property_test) Checking if the position of objects changed
 def test_allmodels_positon_y():
-    
+    """(Property_test) Checking if the position of objects changed in y-axis.
+    """    
     expected_difference, original_difference = log_reader('Y-pos')
     assert expected_difference == original_difference
 
-# (Property_test) Checking if the position of objects changed
 def test_allmodels_positon_z():
-    
+    """(Property_test) Checking if the position of objects changed in z-axis.
+    """    
     expected_difference, original_difference = log_reader('Z-pos')
     assert expected_difference == original_difference
 
 # # (Property_test) Checking if the robot is where it should be
 def test_robot_position():
+    """(Property_test) Checking if the projected position of the robot matches 
+    the position in the simulator.
+    """    
     log_hsrb_reader()
 
 # # (Property_test) Check the duration of the run

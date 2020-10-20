@@ -29,6 +29,13 @@ from utilities.utility import collision_checker
 from termcolor import colored
 
 def model_placement(param=None):
+    """This just places some static objects when the world starts.
+    It also logs the placement of the objects as startup_logs in the
+    logger file.
+
+    Args:
+        param ([type], optional): [description]. Defaults to None.
+    """    
     conf = Configuration()
     world = World()
 
