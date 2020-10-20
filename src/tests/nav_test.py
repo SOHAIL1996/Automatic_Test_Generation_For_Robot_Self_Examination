@@ -18,6 +18,8 @@ Date: August 19, 2020
 import os
 import time
 import random
+import numpy as np
+import pandas as pd
 from subprocess import check_output
 import pytest
 from termcolor import colored
@@ -26,50 +28,52 @@ from utilities.utility import navi_action_client
 from scen_gen.random_scenario_generator import Model
 from logger.data_logger import data_logger
 from logger.data_logger import data_reader
+from logger.data_logger import log_reader
+from logger.data_logger import log_hsrb_reader
 from hypothesis import given, settings, Verbosity, example
 import hypothesis.strategies as st
 
 #################################################################################################
-# Strategies
-# 'nothing','just', 'one_of','none','choices', 'streaming','booleans', 'integers',
-# 'floats', 'complex_numbers', 'fractions','decimals','characters', 'text', 'from_regex',
-# 'binary', 'uuids','tuples', 'lists', 'sets', 'frozensets', 'iterables','dictionaries',
-# 'fixed_dictionaries','sampled_from', 'permutations','datetimes', 'dates', 'times', 
-# 'timedeltas','builds','randoms', 'random_module','recursive', 'composite','shared', 
-# 'runner', 'data','deferred','from_type', 'register_type_strategy', 'emails'
-#################################################################################################               
-# Input type
-# check pre conditions
-# Ensure property is satisfied
-# Generalized property
+big_models = ['table','shelf','cabinet','sofa']
 #################################################################################################
-class NavTest():
-    """
-    This class contains all relevant information of a gazebo model.
-    """    
-    def __init__(self, destination):
-        
-        data_logger('nav_start')
-        self.nav_start_world_props, ignore = data_reader('nav_start')
-        
-        result = navi_action_client('table')
-        print(colored('Navigation completed.','blue')) 
-        
-        data_logger('nav_end')
-        self.nav_end_world_props, ignore = data_reader('nav_end')
-        print(self.nav_end_world_props)
-      
-    # Checking if the position of objects changed
-    # def test_model_positons():
-    #     self.nav_start_world_props.equals(self.nav_end_world_props)
+   
+# Checking if test module starts up
+def test_startup_check():
+    assert 1 == 1
+
+# def test_scenario_generation(): 
+#     # destination = random.choice(big_models)
+#     destination = 'table'
+#     data_logger('logger/logs/nav_start')
+#     result = navi_action_client(destination)
+#     data_logger('logger/logs/nav_end')
+#     assert result == True
     
-    # Checking if the robot is where it should be
-    # def test_robot_position():
-    #     self.nav_start_world_props.equals(self.nav_end_world_props)
+# (Property_test) Checking if the position of objects changed
+def test_allmodels_positon_x():
+                
+    expected_difference, original_difference = log_reader('X-pos')
+    assert expected_difference == original_difference
+
+# (Property_test) Checking if the position of objects changed
+def test_allmodels_positon_y():
     
-    # Check the duration of the run
-    # def test_navigation_duration():
-    #     self.nav_start_world_props.equals(self.nav_end_world_props)
+    expected_difference, original_difference = log_reader('Y-pos')
+    assert expected_difference == original_difference
+
+# (Property_test) Checking if the position of objects changed
+def test_allmodels_positon_z():
+    
+    expected_difference, original_difference = log_reader('Z-pos')
+    assert expected_difference == original_difference
+
+# # (Property_test) Checking if the robot is where it should be
+def test_robot_position():
+    log_hsrb_reader()
+
+# # (Property_test) Check the duration of the run
+# def test_navigation_duration():
+#     self.nav_start_world_props.equals(self.nav_end_world_props)
 
 
 #################################################################################################

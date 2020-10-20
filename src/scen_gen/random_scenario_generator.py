@@ -88,7 +88,11 @@ class World():
             world_node.terminate() 
             
     def world_state(self):
-        
+        """It extracts the information of all models in the gazebo world.
+
+        Returns:
+            [list]: Returns list of all relevant information
+        """        
         logs = [['Models', 'X-pos','Y-pos','Z-pos','Q-1','Q-2','Q-3','Q-4']]
         lucy_logs = [['Gripper Position', 'X-pos','Y-pos','Z-pos','Q-1','Q-2','Q-3','Q-4']]
         rospy.wait_for_service("/gazebo/get_world_properties")
@@ -107,13 +111,13 @@ class World():
             lucy_rig_gripper = end_of_effector_right('hsrb::hand_r_distal_link','world')
             for objs in world_props.model_names:
                 coordinates = model(objs,'world')
-                temp_data   = [objs,np.around(coordinates.pose.position.x,3),
-                               np.around(coordinates.pose.position.y,3),
-                               np.around(coordinates.pose.position.z,3),
-                               np.around(coordinates.pose.orientation.x,3),
-                               np.around(coordinates.pose.orientation.y,3),
-                               np.around(coordinates.pose.orientation.z,3),
-                               np.around(coordinates.pose.orientation.w,3)]
+                temp_data   = [objs,np.around(coordinates.pose.position.x,1),
+                               np.around(coordinates.pose.position.y,1),
+                               np.around(coordinates.pose.position.z,1),
+                               np.around(coordinates.pose.orientation.x,1),
+                               np.around(coordinates.pose.orientation.y,1),
+                               np.around(coordinates.pose.orientation.z,1),
+                               np.around(coordinates.pose.orientation.w,1)]
                 logs.append(temp_data)    
                 
 

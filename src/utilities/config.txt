@@ -7,8 +7,8 @@
 
 
 --Required_#_of_Models = 8
---models_1             = bottle,glass,plate,spoon,fork,knife,mug,saltshaker
+--models_1             = bottle,glass,plate,spoon,fork,mug,saltshaker
 --models_2             = 
 #==============================================================================#
-Nav_test .. Paracosm
+Nav_test .. Paracosm ,knife
 pic_test ..

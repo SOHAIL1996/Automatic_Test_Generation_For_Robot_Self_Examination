@@ -1,0 +1,12 @@
+. nav_test.py::test_startup_check
+. nav_test.py::test_allmodels_positon_x
+F nav_test.py::test_allmodels_positon_y
+ def test_allmodels_positon_y():
+     
+         expected_difference, original_difference = log_reader('Y-pos')
+ >       assert expected_difference == original_difference
+ E       assert 13 == 14
+ 
+ tests/nav_test.py:62: AssertionError
+. nav_test.py::test_allmodels_positon_z
+. nav_test.py::test_robot_position

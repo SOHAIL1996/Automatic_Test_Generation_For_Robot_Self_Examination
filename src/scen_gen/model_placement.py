@@ -85,4 +85,4 @@ def model_placement(param=None):
                 print(colored('No space for model insertion ','red'),dynamic_model.model_real_name)
                 continue
     print(colored('Completed spawning dynamic models','cyan'))
-    data_logger('start_up')
+    data_logger('src/logger/logs/start_up')

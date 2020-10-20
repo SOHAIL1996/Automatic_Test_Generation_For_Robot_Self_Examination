@@ -6,7 +6,7 @@ sudo pkill gzserver
 sudo pkill gzclient
 sudo pkill roscore
 
-python3.6 src/Engine.py
+python3.6 src/engine.py
 
 
 # roslaunch mas_hsr_move_arm_action move_arm.launch 

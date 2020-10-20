@@ -22,7 +22,6 @@ import subprocess
 
 from utilities.utility import Configuration
 from scen_gen.model_placement import model_placement
-from tests.nav_test import NavTest
 from logger.data_logger import data_reader
 from termcolor import colored
 
@@ -33,11 +32,8 @@ try:
     hsr_node = subprocess.Popen(['roslaunch', conf.rospakg, conf.ros_file_name])
     model_placement()
     nav_node = subprocess.Popen(['roslaunch', conf.rospakg, 'nav.launch'])
-    time.sleep(2)
-    navi = NavTest('table')
-
 finally:
     time.sleep(6000)
     hsr_node.terminate() 
-    # nav_node.terminate()  
+    nav_node.terminate()  
     print(colored('Terminating ros!','red'))    

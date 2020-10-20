@@ -27,7 +27,6 @@ from bisect import bisect as _bisect
 import sys
 import rospy
 import actionlib
-
 from mdr_move_base_action.msg import MoveBaseAction, MoveBaseGoal
 
 class Configuration():
@@ -218,6 +217,4 @@ def navi_action_client(loc):
     except Exception as exc:
         print(str(exc))
         return False
-
-        
     return True
