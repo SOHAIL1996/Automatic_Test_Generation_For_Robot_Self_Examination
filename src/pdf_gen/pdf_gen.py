@@ -121,6 +121,21 @@ border= TableStyle([
 ##############################
 def pdf_header_table(table,header_posx,header_posy,table_posx,table_posy,
                      text,font_size,border,style,color_r,color_g,color_b):
+    """Creates a table for the pdf.
+    Args:
+        table ([list]): Data list.
+        header_posx ([int]): 
+        header_posy ([int]): 
+        table_posx ([int]): 
+        table_posy ([int]): 
+        text ([str]): 
+        font_size ([int]): 
+        border ([list]): 
+        style ([list]): 
+        color_r ([int]): 
+        color_g ([int]): 
+        color_b ([int]): 
+    """    
     pdf.setFillColorRGB(color_r/255,color_g/255,color_b/255)
     pdf.setFont('Courier-Bold',font_size)
     pdf.drawCentredString(header_posx, header_posy, text)
