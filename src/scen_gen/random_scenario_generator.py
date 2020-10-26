@@ -99,7 +99,7 @@ class World():
         rospy.wait_for_service("/gazebo/get_model_state")
         rospy.wait_for_service("/gazebo/get_link_state")
         try:
-            print(colored('Acquiring Model State','yellow'))
+            # print(colored('Acquiring Model State','yellow'))
             
             world = rospy.ServiceProxy('/gazebo/get_world_properties',GetWorldProperties)
             model = rospy.ServiceProxy('/gazebo/get_model_state', GetModelState)
@@ -111,13 +111,13 @@ class World():
             lucy_rig_gripper = end_of_effector_right('hsrb::hand_r_distal_link','world')
             for objs in world_props.model_names:
                 coordinates = model(objs,'world')
-                temp_data   = [objs,np.around(coordinates.pose.position.x,1),
-                               np.around(coordinates.pose.position.y,1),
-                               np.around(coordinates.pose.position.z,1),
-                               np.around(coordinates.pose.orientation.x,1),
-                               np.around(coordinates.pose.orientation.y,1),
-                               np.around(coordinates.pose.orientation.z,1),
-                               np.around(coordinates.pose.orientation.w,1)]
+                temp_data   = [objs,np.around(coordinates.pose.position.x,3),
+                               np.around(coordinates.pose.position.y,3),
+                               np.around(coordinates.pose.position.z,3),
+                               np.around(coordinates.pose.orientation.x,3),
+                               np.around(coordinates.pose.orientation.y,3),
+                               np.around(coordinates.pose.orientation.z,3),
+                               np.around(coordinates.pose.orientation.w,3)]
                 logs.append(temp_data)    
                 
 
@@ -140,7 +140,7 @@ class World():
             lucy_logs.append(lucy_data_lef)
             lucy_logs.append(lucy_data_rig) 
             
-            print(colored('Successfully acquired Model State','green')) 
+            # print(colored('Successfully acquired Model State','green')) 
             return logs, lucy_logs
         except rospy.ServiceException as e:
             print(colored('Cannot acquire Model State.','red')) 

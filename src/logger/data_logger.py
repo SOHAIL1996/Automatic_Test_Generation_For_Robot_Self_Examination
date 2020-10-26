@@ -24,7 +24,7 @@ def data_logger(loc):
     """Writes data into a csv file.
 
     Args:
-        loc ([str]): file path.
+        loc (str): file path.
     """    
     world = World()
     logs, lucy_logs = world.world_state()
@@ -41,7 +41,7 @@ def data_reader(loc):
     left and right gripper positon and orientation.
 
     Args:
-        loc ([str]): code name for calling the log file
+        loc (str): code name for calling the log file
 
     Returns:
         df_1 data_frame: Position and orientation of all the models.
@@ -51,39 +51,51 @@ def data_reader(loc):
     df_2 = pd.read_csv(loc +'_lucy_logs.csv')
     return df_1, df_2
 
-def log_reader(loc):
+def log_reader_comparator(loc):
     """Reads nav files for testing purposes.
 
     Args:
-        loc ([str]): the column to be compared in testing
+        loc (str): the column to be compared in testing
 
     Returns:
-        [int]: Returns 2 numbers which are the difference in the log file,
+        int: Returns 2 numbers which are the difference in the log file,
                note the robot change in position in not taken into consideration.
     """    
-    nav_start_world_props, ignore = data_reader('logger/logs/nav_start')
-    nav_end_world_props, ignore = data_reader('logger/logs/nav_end')
+    nswp, ignore = data_reader('logger/logs/nav_start')
+    newp, ignore = data_reader('logger/logs/nav_end')
            
-    nav_start_world_props = nav_start_world_props.replace('-0.0', '0.0')
-    nav_end_world_props   = nav_end_world_props.replace('-0.0', '0.0')
+    nswp = nswp.replace('-0.0', '0.0')
+    newp   = newp.replace('-0.0', '0.0')
     
-    nav_end_world_props = nav_end_world_props.set_index("Models")
-    nav_end_world_props = nav_end_world_props.drop("hsrb", axis=0)
-    nav_start_world_props = nav_start_world_props.set_index("Models")
-    nav_start_world_props = nav_start_world_props.drop("hsrb", axis=0)
-    
-    nav_end_world_props['8'] = np.where(nav_start_world_props[loc] == nav_end_world_props[loc], 1, 0)
+    newp = newp.set_index("Models")
+    newp = newp.drop("hsrb", axis=0)
+    nswp = nswp.set_index("Models")
+    nswp = nswp.drop("hsrb", axis=0)
+    newp['8'] = np.where(nswp[loc]-0.5<=newp[loc] , 1, 0) 
+    newp['9'] = np.where(newp[loc]<=nswp[loc]+0.5, 1, 0)
              
-    expected_difference = nav_end_world_props['8'].sum()
-    original_difference = len(nav_end_world_props['8'])
+    expected_difference_lower_tolerance = newp['8'].sum()
+    original_difference_lower_tolerance = len(newp['8'])
+    if expected_difference_lower_tolerance == original_difference_lower_tolerance:
+        low = True
+    else: 
+        low = False
     
-    return expected_difference,original_difference
+    expected_difference_upper_tolerance = newp['9'].sum()
+    original_difference_upper_tolerance = len(newp['9'])
+    
+    if expected_difference_upper_tolerance == original_difference_upper_tolerance:
+        up = True
+    else: 
+        up = False
+    
+    return low,up
 
 def log_hsrb_reader():
     """Extracts the HSRB robots location
 
     Returns:
-        [list]: returns the x y z quat1 quat2 quat3 quat4
+        list: returns the x y z quat1 quat2 quat3 quat4
     """    
     nav_start_world_props, ignore = data_reader('logger/logs/nav_start')
     nav_end_world_props, ignore = data_reader('logger/logs/nav_end')
