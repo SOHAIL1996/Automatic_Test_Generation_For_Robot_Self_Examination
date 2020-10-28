@@ -18,6 +18,7 @@ Date: August 19, 2020
 import os
 import time
 import random
+import rospy
 import numpy as np
 import pandas as pd
 from subprocess import check_output
@@ -26,7 +27,7 @@ from termcolor import colored
 
 from utilities.utility import navi_action_client
 from utilities.utility import pose_action_client
-from utilities.Omni_base_locator.oml import OmniListner
+from utilities.Omni_base_locator.oml import OmniListener
 from scen_gen.random_scenario_generator import Model
 from logger.data_logger import data_logger
 from logger.data_logger import data_reader
@@ -39,10 +40,10 @@ import hypothesis.strategies as st
 # Currently, using 1 case due to lack of processing power.
 ###########################################################
 
-# def test_startup_check():
-#     """Checking if test module starts up
-#     """  
-#     assert 1 == 1
+def test_startup_check():
+    """Initializing nav test roscore.
+    """  
+    rospy.init_node('nav_test')
 
 # @settings(max_examples=1)
 # @given(st.floats(min_value=-4.5,max_value=4.5,allow_nan=False,allow_infinity=False),
@@ -63,11 +64,11 @@ import hypothesis.strategies as st
 #     data_logger('logger/logs/nav_end')
 #     assert result == True
 
-@settings(max_examples=1)
-@given(st.floats(min_value=-4.5,max_value=4.5,allow_nan=False,allow_infinity=False),
-       st.floats(min_value=-4.5,max_value=4.5,allow_nan=False,allow_infinity=False),
-       st.floats(min_value=0,max_value=360,allow_nan=False,allow_infinity=False))
-def test_scenario_generation_coordinates(coord_x, coord_y, direction): 
+# @settings(max_examples=1)
+# @given(st.floats(min_value=-4.5,max_value=4.5,allow_nan=False,allow_infinity=False),
+#        st.floats(min_value=-4.5,max_value=4.5,allow_nan=False,allow_infinity=False),
+#        st.floats(min_value=0,max_value=360,allow_nan=False,allow_infinity=False))
+def test_scenario_generation_coordinates(coord_x=1, coord_y=1, direction=1): 
     """Defines a scenario for the rest of the tests to run in using coodrinates.
     """    
     data_logger('logger/logs/nav_start')
@@ -90,7 +91,7 @@ def test_robot_position():
     the position in the simulator.
     """    
     hx,hy,hz = log_hsrb_reader()[0], log_hsrb_reader()[1], log_hsrb_reader()[2]
-    omni = OmniListner()
+    omni = OmniListener()
     omni.omnibase_listener()
     x,y,z = omni.x, omni.y, omni.z
 
@@ -103,7 +104,7 @@ def test_legal_zone():
     dimensions are 10x10 m^2.
     """    
     hx,hy,hz = log_hsrb_reader()[0], log_hsrb_reader()[1], log_hsrb_reader()[2]
-    omni = OmniListner()
+    omni = OmniListener()
     omni.omnibase_listener()
     x,y,z = omni.x, omni.y, omni.z
 

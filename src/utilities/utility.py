@@ -252,9 +252,9 @@ def pose_action_client(coord_x, coord_y, direction):
     Returns:
         bool: Returns boolean rarely works in a laptop.
     """
-    rospy.init_node('mdr_move_base_client_test')
+    # rospy.init_node('mdr_move_base_client_test')
     client = actionlib.SimpleActionClient('move_base_server', MoveBaseAction)
-    
+    rospy.sleep(1)
     head = std_msgs.msg.Header(frame_id='map',stamp=rospy.Time.now())
     location = Point(x=coord_x, y=coord_y, z=0)
     R = 0

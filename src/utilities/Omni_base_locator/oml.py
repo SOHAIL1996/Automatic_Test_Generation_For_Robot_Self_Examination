@@ -21,7 +21,7 @@ import numpy as np
 import rospy
 from control_msgs.msg import JointTrajectoryControllerState
 
-class OmniListner():
+class OmniListener():
     """Subscribes and extracts position of the omni base controller of Lucy.
     """    
     def __init__(self):
@@ -30,7 +30,7 @@ class OmniListner():
         self.z = None
         
     def omnibase_listener(self):
-        rospy.init_node('omnibase_listener')
+        # rospy.init_node('omnibase_listener')
         rospy.Subscriber('/hsrb/omni_base_controller/state',JointTrajectoryControllerState,self.omnibase_callback_parser)
         rospy.sleep(0.05)
          
