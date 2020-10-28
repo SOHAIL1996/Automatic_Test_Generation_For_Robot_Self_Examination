@@ -1,3 +1,0 @@
-. nav_test.py::test_scenario_generation_coordinates
-. nav_test.py::test_allmodels_positon
-. nav_test.py::test_robot_position

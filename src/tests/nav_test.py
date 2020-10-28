@@ -26,6 +26,7 @@ from termcolor import colored
 
 from utilities.utility import navi_action_client
 from utilities.utility import pose_action_client
+from utilities.Omni_base_locator.oml import OmniListner
 from scen_gen.random_scenario_generator import Model
 from logger.data_logger import data_logger
 from logger.data_logger import data_reader
@@ -33,29 +34,35 @@ from logger.data_logger import log_reader_comparator
 from logger.data_logger import log_hsrb_reader
 from hypothesis import given, settings, Verbosity, example
 import hypothesis.strategies as st
+
 ###########################################################
 # Currently, using 1 case due to lack of processing power.
 ###########################################################
-# @settings(max_examples=1)
-# @given(st.sampled_from(['table','shelf','cabinet','sofa']))
-# def test_startup_check(coord_x):
+
+# def test_startup_check():
 #     """Checking if test module starts up
 #     """  
-#     print(coord_x) 
 #     assert 1 == 1
-###########################################################
+
+# @settings(max_examples=1)
+# @given(st.floats(min_value=-4.5,max_value=4.5,allow_nan=False,allow_infinity=False),
+#        st.floats(min_value=-4.5,max_value=4.5,allow_nan=False,allow_infinity=False),
+#        st.floats(min_value=0,max_value=360,allow_nan=False,allow_infinity=False),
+#        st.sampled_from(['table','shelf','cabinet','sofa']))
+# def test_scenario_obstacle_generation(coord_x, coord_y, direction,object): 
+#     """Places obstacles for navigation.
+#     """  
+    
 # @settings(max_examples=1)
 # @given(st.sampled_from(['table','shelf','cabinet','sofa']))
-# def test_scenario_generation_map(): 
+# def test_scenario_generation_map(destination): 
 #     """Defines a scenario for the rest of the tests to run in using navigation map.
 #     """    
-#     # destination = random.choice(big_models)
-#     destination = 'table'
 #     data_logger('logger/logs/nav_start')
 #     result = navi_action_client(destination)
 #     data_logger('logger/logs/nav_end')
 #     assert result == True
-###########################################################
+
 @settings(max_examples=1)
 @given(st.floats(min_value=-4.5,max_value=4.5,allow_nan=False,allow_infinity=False),
        st.floats(min_value=-4.5,max_value=4.5,allow_nan=False,allow_infinity=False),
@@ -67,7 +74,7 @@ def test_scenario_generation_coordinates(coord_x, coord_y, direction):
     result = pose_action_client(coord_x, coord_y, direction)
     data_logger('logger/logs/nav_end')
     assert result == True    
-###########################################################
+
 def test_allmodels_positon():
     """(Property_test) Checking if the position of objects changed.
     """    
@@ -77,9 +84,30 @@ def test_allmodels_positon():
     assert lower_tolerance_difference == upper_tolerance_difference
     lower_tolerance_difference, upper_tolerance_difference = log_reader_comparator('Z-pos')
     assert lower_tolerance_difference == upper_tolerance_difference
-###########################################################
+
 def test_robot_position():
     """(Property_test) Checking if the projected position of the robot matches 
     the position in the simulator.
     """    
-    log_hsrb_reader()
+    hx,hy,hz = log_hsrb_reader()[0], log_hsrb_reader()[1], log_hsrb_reader()[2]
+    omni = OmniListner()
+    omni.omnibase_listener()
+    x,y,z = omni.x, omni.y, omni.z
+
+    assert hx-0.5 <= x <= hx+0.5
+    assert hy-0.5 <= y <= hy+0.5
+
+def test_legal_zone():
+    """(Property_test) Checking if the projected position of the robot has not 
+    gone out of the boundary. The boundary is the test lab navigation map and its 
+    dimensions are 10x10 m^2.
+    """    
+    hx,hy,hz = log_hsrb_reader()[0], log_hsrb_reader()[1], log_hsrb_reader()[2]
+    omni = OmniListner()
+    omni.omnibase_listener()
+    x,y,z = omni.x, omni.y, omni.z
+
+    assert -5 <= hx <= 5
+    assert -5 <= hy <= 5
+    assert -5 <= x <= 5
+    assert -5 <= y <= 5

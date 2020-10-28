@@ -64,14 +64,15 @@ def log_reader_comparator(loc):
     nswp, ignore = data_reader('logger/logs/nav_start')
     newp, ignore = data_reader('logger/logs/nav_end')
            
-    nswp = nswp.replace('-0.0', '0.0')
-    newp   = newp.replace('-0.0', '0.0')
+    nswp = nswp.replace('-0.000', '0.000')
+    newp = newp.replace('-0.000', '0.000')
     
     newp = newp.set_index("Models")
     newp = newp.drop("hsrb", axis=0)
     nswp = nswp.set_index("Models")
     nswp = nswp.drop("hsrb", axis=0)
-    newp['8'] = np.where(nswp[loc]-0.5<=newp[loc] , 1, 0) 
+
+    newp['8'] = np.where(nswp[loc]-0.5<=newp[loc], 1, 0) 
     newp['9'] = np.where(newp[loc]<=nswp[loc]+0.5, 1, 0)
              
     expected_difference_lower_tolerance = newp['8'].sum()

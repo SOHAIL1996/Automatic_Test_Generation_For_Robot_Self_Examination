@@ -28,6 +28,8 @@ import sys
 import rospy
 import actionlib
 import std_msgs.msg
+
+from control_msgs.msg import JointTrajectoryControllerState
 from geometry_msgs.msg import PoseStamped, Pose, Point, Quaternion
 from mdr_move_base_action.msg import MoveBaseAction, MoveBaseGoal
 
