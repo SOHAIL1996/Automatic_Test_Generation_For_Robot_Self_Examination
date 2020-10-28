@@ -29,6 +29,9 @@ actions to the execution of complex scenarios automatically.
 * `Toyota HSR package`
 * `MAS HSR package`
 * `MAS Domestic package`
+* `pytest`
+* `hypothesis`
+* `reportlab`
 
 ## Setup
 
@@ -53,8 +56,7 @@ To use simply open the terminal goto the package directory and run `./atg.sh`
 ## Navigation
 
 - Run `atg.sh`.
-- Run `rosrun mdr_move_base_action move_base_action_client_test <Navigation goal>`
-- Run `python3.7 -m pytest action_test.py -v -s`
+- Run `python3.6 -m pytest tests/nav_test.py -v -s --resultlog=tests/test_logs/nav_log`.
 
 ## First time installation
 
