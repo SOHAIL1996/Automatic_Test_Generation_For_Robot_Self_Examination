@@ -24,12 +24,12 @@ import pandas as pd
 from subprocess import check_output
 import pytest
 from termcolor import colored
+import actionlib
 
-from utilities.utility import navi_action_client
-from utilities.utility import pose_action_client
-from utilities.Omni_base_locator.oml import OmniListener
+from mdr_pickup_action.msg import PickupAction, PickupGoal
 from tests.obstacle_generator.obstacle_gen import Model
-# from tests.file_reader.file_reader import 
+from tests.file_reader.file_reader import Configuration
+from tests.action_client.pick_client import picker_client
 from logger.data_logger import data_logger
 from logger.data_logger import data_reader
 from logger.data_logger import log_reader_comparator
@@ -40,21 +40,36 @@ import hypothesis.strategies as st
 ###########################################################
 # Currently, using 1 case due to lack of processing power.
 ###########################################################
+c = Configuration()
 
-def test_startup_check():
-    """Initializing pick test roscore.
-    """  
-    rospy.init_node('pick_test')
-    
+
 @settings(max_examples=1)
-@given(st.sampled_from(['coffeetable']))  
-def test_Object_placement(obstacle):
-    """Obstacle placement for the navigation test.
+@given(st.sampled_from(c.obstacles))
+def test_startup_check(a):
+    print(a)
+
+def test_startus)
+    
+# @settings(max_examples=1)
+# @given(st.sampled_from(['coffeetable']))  
+def test_Object_placement():
+    """Obstacle placement for the pick test.
     """  
-    number_of_obstacles = np.random.randint(1,6)
-    for i in range(number_of_obstacles):
-        x,y,z = np.random.randint(-3,3),np.random.randint(-3,3),0
-        if x == 0 or y==0:
-            continue
-        obstacles = Model(obstacle,x,y,z)
-        obstacles.insert_model()
+    mo = Model('glass')   
+    hx,hy,hz = mo.lucy_pos()[0],mo.lucy_pos()[1],mo.lucy_pos()[2]
+    
+    base_obj = Model('coffeetable',hx+0.6,hy,hz)
+    base_obj.insert_model()
+    pick_obj = Model('glass',hx+0.4,hy,0.6)
+    pick_obj.insert_model() 
+
+    
+def test_pick_action():
+    """Pick action.
+    """
+    mo = Model('glass')   
+    hx,hy,hz = mo.lucy_pos()[0],mo.lucy_pos()[1],mo.lucy_pos()[2] 
+    
+    result = picker_client(hx,hy+0.4,0.6)
+    assert result == True
+

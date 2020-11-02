@@ -109,3 +109,18 @@ class Model():
             time.sleep(2)
             delete_node.terminate()   
             print(colored('Successfully deleted {0} model'.format(model_name),'green'))   
+            
+    def lucy_pos(self):
+        try:
+            model = rospy.ServiceProxy('/gazebo/get_model_state', GetModelState)
+            coordinates = model('hsrb','world')
+            log   = [np.around(coordinates.pose.position.x,3),
+                            np.around(coordinates.pose.position.y,3),
+                            np.around(coordinates.pose.position.z,3),
+                            np.around(coordinates.pose.orientation.x,3),
+                            np.around(coordinates.pose.orientation.y,3),
+                            np.around(coordinates.pose.orientation.z,3),
+                            np.around(coordinates.pose.orientation.w,3)] 
+            return log
+        except rospy.ServiceException as e:
+            print(colored('Cannot acquire Model State.','red')) 

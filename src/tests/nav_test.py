@@ -25,8 +25,8 @@ from subprocess import check_output
 import pytest
 from termcolor import colored
 
-from utilities.utility import navi_action_client
-from utilities.utility import pose_action_client
+from tests.action_client.nav_client import navi_action_client
+from tests.action_client.nav_client import pose_action_client
 from utilities.Omni_base_locator.oml import OmniListener
 from tests.obstacle_generator.obstacle_gen import Model
 # from tests.file_reader.file_reader import 

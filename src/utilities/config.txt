@@ -1,5 +1,5 @@
 #==============================================================================#
-#      Configuration file for the object placement in the Gazebo world.        #
+#      Configuration file for the ATF package in the Gazebo world.             #
 #==============================================================================#
 
 --launch_dir          = /home/orion92/catkin_ws/src/atg/launch/hsr.launch
@@ -7,8 +7,9 @@
 
 
 --Required_#_of_Models = 8
---models_1             = bottle,glass,plate,spoon,fork,mug,saltshaker
---models_2             = 
+--Models_1             = bottle,glass,plate,spoon,fork,mug,saltshaker
+--Models_2             = 
+--Obstacles            = coffeetable, bottle
 #==============================================================================#
 Nav_test .. Paracosm ,knife,coffeetable
 pic_test ..

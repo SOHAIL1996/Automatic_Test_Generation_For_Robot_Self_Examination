@@ -37,14 +37,19 @@ class Configuration():
             num_of_mod = data[8]
             models_1   = data[9]
             models_2   = data[10]
+            obstacles   = data[11]
 
             launch_dir             = launch_dir.split('=')
             model_dir              = model_dir.split('=')
             num_of_mod             = num_of_mod.split('=')
             models_1               = models_1.split('=')
             models_2               = models_2.split('=')
+            obstacles              = obstacles.split('=')
 
             self.launch_dir         = launch_dir[1].strip()
             self.model_dir          = model_dir[1].strip()
             self.num_of_mod         = num_of_mod[1].strip()
             self.models             = models_1[1].strip()+models_2[1].strip()
+            self.obstacles          = obstacles[1].strip()
+            self.obstacles          = self.obstacles .split(',')
+
