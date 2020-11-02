@@ -1,0 +1,6 @@
+F nav_test.py
+ src/tests/nav_test.py:31: in <module>
+     from src.scen_gen.random_scenario_generator import Model
+ src/scen_gen/random_scenario_generator.py:35: in <module>
+     from utilities.utility import bound_box
+ E   ModuleNotFoundError: No module named 'utilities'

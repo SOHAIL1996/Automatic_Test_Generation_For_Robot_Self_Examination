@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 ---------------------------------------------------- 
-Action Tests
+Navigation Tests
 
 The ...
 ----------------------------------------------------
@@ -28,7 +28,8 @@ from termcolor import colored
 from utilities.utility import navi_action_client
 from utilities.utility import pose_action_client
 from utilities.Omni_base_locator.oml import OmniListener
-from scen_gen.random_scenario_generator import Model
+from tests.obstacle_generator.obstacle_gen import Model
+# from tests.file_reader.file_reader import 
 from logger.data_logger import data_logger
 from logger.data_logger import data_reader
 from logger.data_logger import log_reader_comparator
@@ -45,15 +46,19 @@ def test_startup_check():
     """  
     rospy.init_node('nav_test')
 
-# @settings(max_examples=1)
-# @given(st.floats(min_value=-4.5,max_value=4.5,allow_nan=False,allow_infinity=False),
-#        st.floats(min_value=-4.5,max_value=4.5,allow_nan=False,allow_infinity=False),
-#        st.floats(min_value=0,max_value=360,allow_nan=False,allow_infinity=False),
-#        st.sampled_from(['table','shelf','cabinet','sofa']))
-# def test_scenario_obstacle_generation(coord_x, coord_y, direction,object): 
-#     """Places obstacles for navigation.
-#     """  
-    
+@settings(max_examples=1)
+@given(st.sampled_from(['coffeetable']))  
+def test_obstacle_placement(obstacle):
+    """Obstacle placement for the navigation test.
+    """  
+    number_of_obstacles = np.random.randint(1,6)
+    for i in range(number_of_obstacles):
+        x,y,z = np.random.randint(-3,3),np.random.randint(-3,3),0
+        if x == 0 or y==0:
+            continue
+        obstacles = Model(obstacle,x,y,z)
+        obstacles.insert_model()
+        
 # @settings(max_examples=1)
 # @given(st.sampled_from(['table','shelf','cabinet','sofa']))
 # def test_scenario_generation_map(destination): 
@@ -64,11 +69,11 @@ def test_startup_check():
 #     data_logger('logger/logs/nav_end')
 #     assert result == True
 
-# @settings(max_examples=1)
-# @given(st.floats(min_value=-4.5,max_value=4.5,allow_nan=False,allow_infinity=False),
-#        st.floats(min_value=-4.5,max_value=4.5,allow_nan=False,allow_infinity=False),
-#        st.floats(min_value=0,max_value=360,allow_nan=False,allow_infinity=False))
-def test_scenario_generation_coordinates(coord_x=1, coord_y=1, direction=1): 
+@settings(max_examples=1)
+@given(st.floats(min_value=-4.5,max_value=4.5,allow_nan=False,allow_infinity=False).filter(lambda x:x>1),
+       st.floats(min_value=-4.5,max_value=4.5,allow_nan=False,allow_infinity=False),
+       st.integers(min_value=1,max_value=360))
+def test_scenario_generation_coordinates(coord_x, coord_y, direction): 
     """Defines a scenario for the rest of the tests to run in using coodrinates.
     """    
     data_logger('logger/logs/nav_start')
@@ -112,3 +117,18 @@ def test_legal_zone():
     assert -5 <= hy <= 5
     assert -5 <= x <= 5
     assert -5 <= y <= 5
+    
+##########################################
+################ Storage #################
+##########################################
+# @settings(max_examples=1)
+# @given(st.integers(min_value=-3,max_value=3).filter(lambda x:x != 0), 
+#         st.integers(min_value=-3,max_value=3).filter(lambda x:x != 0),
+#         st.sampled_from(['coffeetable']))  
+# def test_obstacle_placement(x,y,obstacle):
+#     """Obstacle placement for the navigation test.
+#     """  
+#     z = 0
+#     for i in range(np.random.randint(1,5))
+#     obstacles = Model(obstacle,x,y,z)
+#     obstacles.insert_model()

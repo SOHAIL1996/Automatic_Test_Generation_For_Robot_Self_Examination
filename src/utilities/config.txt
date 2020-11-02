@@ -10,5 +10,5 @@
 --models_1             = bottle,glass,plate,spoon,fork,mug,saltshaker
 --models_2             = 
 #==============================================================================#
-Nav_test .. Paracosm ,knife
+Nav_test .. Paracosm ,knife,coffeetable
 pic_test ..
