@@ -67,12 +67,10 @@ class Model():
         model_desc = '{model_name: '+ model_name +'}'
 
         try:
-            print(colored('Getting {0} model properties.'.format(model_name),'yellow'))
             property_node = subprocess.Popen(['rosservice', 'call', 'gazebo/get_model_properties', model_desc])
         finally:
             time.sleep(1.5)
-            property_node.terminate()   
-            print(colored('Successfully obtained {0} model properties.'.format(model_name),'green')) 
+            property_node.terminate()    
                
     def insert_model(self):
         """
@@ -80,8 +78,7 @@ class Model():
         """        
         rospy.wait_for_service("/gazebo/spawn_sdf_model")
         conf = Configuration()
-        try:
-            print(colored('Inserting {0} model'.format(self.model_real_name),'yellow'))            
+        try:           
             model_node = rospy.ServiceProxy("/gazebo/spawn_sdf_model", SpawnModel)
             model_node(model_name= self.model_real_name + self.model_node_name, 
                        model_xml = open(self.model_dir +'/'+self.model_real_name+'/'+self.model_real_name+'.sdf', 'r').read(), 
@@ -89,7 +86,6 @@ class Model():
                        initial_pose = Pose(position=Point(self.x_coord,self.y_coord,self.z_coord),
                                           orientation=Quaternion(self.quat1,self.quat2,self.quat3,self.quat4)),
                        reference_frame ="world")
-            print(colored('Successfully spawned {0} model'.format(self.model_real_name),'green'))
         except rospy.ServiceException as e:
             print(colored('Cannot spawn {0} model'.format(self.model_real_name),'red')) 
 

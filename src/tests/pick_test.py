@@ -37,31 +37,24 @@ from logger.data_logger import log_hsrb_reader
 from hypothesis import given, settings, Verbosity, example
 import hypothesis.strategies as st
 
-###########################################################
-# Currently, using 1 case due to lack of processing power.
-###########################################################
 c = Configuration()
 
-
-@settings(max_examples=1)
-@given(st.sampled_from(c.obstacles))
-def test_startup_check(a):
-    print(a)
-
-def test_startus)
+def test_startup_roscore():
+    """Initializing pick test roscore.
+    """  
+    rospy.init_node('pick_test')
     
 # @settings(max_examples=1)
 # @given(st.sampled_from(['coffeetable']))  
-def test_Object_placement():
-    """Obstacle placement for the pick test.
-    """  
-    mo = Model('glass')   
-    hx,hy,hz = mo.lucy_pos()[0],mo.lucy_pos()[1],mo.lucy_pos()[2]
-    
-    base_obj = Model('coffeetable',hx+0.6,hy,hz)
-    base_obj.insert_model()
-    pick_obj = Model('glass',hx+0.4,hy,0.6)
-    pick_obj.insert_model() 
+# def test_Object_placement():
+#     """Obstacle placement for the pick test.
+#     """  
+#     mo = Model('glass')   
+#     hx,hy,hz = mo.lucy_pos()[0],mo.lucy_pos()[1],mo.lucy_pos()[2]
+#     base_obj = Model('coffeetable', hx+0.8, hy, hz)
+#     base_obj.insert_model()
+#     pick_obj = Model('glass', hx+0.6, hy, 0.72)
+#     pick_obj.insert_model() 
 
     
 def test_pick_action():
@@ -69,7 +62,6 @@ def test_pick_action():
     """
     mo = Model('glass')   
     hx,hy,hz = mo.lucy_pos()[0],mo.lucy_pos()[1],mo.lucy_pos()[2] 
-    
-    result = picker_client(hx,hy+0.4,0.6)
+    result = picker_client(0.45, 0.078, 0.825, 0.0, 0.0, 0.0)
     assert result == True
 

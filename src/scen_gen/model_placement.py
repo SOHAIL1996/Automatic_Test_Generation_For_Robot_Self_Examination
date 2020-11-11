@@ -74,7 +74,7 @@ def model_placement(param=None):
             
             x = random.uniform(minx, maxx)
             y = random.uniform(miny, maxy)
-            z = maxz + 0.03
+            z = maxz + 0.015
 
             check = collision_checker(dynamic_model,x,y,z,dynamic_model_tracer)
             if check == False:
