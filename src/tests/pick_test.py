@@ -46,22 +46,22 @@ def test_startup_roscore():
     
 # @settings(max_examples=1)
 # @given(st.sampled_from(['coffeetable']))  
-# def test_Object_placement():
-#     """Obstacle placement for the pick test.
-#     """  
-#     mo = Model('glass')   
-#     hx,hy,hz = mo.lucy_pos()[0],mo.lucy_pos()[1],mo.lucy_pos()[2]
-#     base_obj = Model('coffeetable', hx+0.8, hy, hz)
-#     base_obj.insert_model()
-#     pick_obj = Model('glass', hx+0.6, hy, 0.72)
-#     pick_obj.insert_model() 
+def test_Object_placement():
+    """Obstacle placement for the pick test.
+    """  
+    mo = Model('glass')   
+    hx,hy,hz = mo.lucy_pos()[0],mo.lucy_pos()[1],mo.lucy_pos()[2]
+    base_obj = Model('coffeetable', hx+0.8, hy, hz)
+    base_obj.insert_model()
+    pick_obj = Model('glass', hx+0.6, hy, 0.72)
+    pick_obj.insert_model() 
 
     
-def test_pick_action():
-    """Pick action.
-    """
-    mo = Model('glass')   
-    hx,hy,hz = mo.lucy_pos()[0],mo.lucy_pos()[1],mo.lucy_pos()[2] 
-    result = picker_client(0.45, 0.078, 0.825, 0.0, 0.0, 0.0)
-    assert result == True
+# def test_pick_action():
+#     """Pick action.
+#     """
+#     mo = Model('glass')   
+#     hx,hy,hz = mo.lucy_pos()[0],mo.lucy_pos()[1],mo.lucy_pos()[2] 
+#     result = picker_client(0.45, 0.078, 0.825, 0.0, 0.0, 0.0)
+#     assert result == True
 

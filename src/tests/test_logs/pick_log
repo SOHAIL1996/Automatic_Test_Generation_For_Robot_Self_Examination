@@ -1,2 +1,2 @@
 . pick_test.py::test_startup_roscore
-. pick_test.py::test_pick_action
+. pick_test.py::test_Object_placement

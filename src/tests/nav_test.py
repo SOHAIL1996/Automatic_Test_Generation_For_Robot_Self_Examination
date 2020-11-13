@@ -29,6 +29,7 @@ from tests.action_client.nav_client import navi_action_client
 from tests.action_client.nav_client import pose_action_client
 from utilities.Omni_base_locator.oml import OmniListener
 from tests.obstacle_generator.obstacle_gen import Model
+from pdf_gen.pdf_creator import PdfGenerator
 # from tests.file_reader.file_reader import 
 from logger.data_logger import data_logger
 from logger.data_logger import data_reader
@@ -37,13 +38,14 @@ from logger.data_logger import log_hsrb_reader
 from hypothesis import given, settings, Verbosity, example
 import hypothesis.strategies as st
 
-###########################################################
-# Currently, using 1 case due to lack of processing power.
-###########################################################
+global tracker
+global start_time
+start_time = 0.0
 
 def test_startup_check():
     """Initializing nav test roscore.
     """  
+    start_time = time.time()
     rospy.init_node('nav_test')
 
 @settings(max_examples=1)
@@ -51,11 +53,16 @@ def test_startup_check():
 def test_obstacle_placement(obstacle):
     """Obstacle placement for the navigation test.
     """  
-    number_of_obstacles = np.random.randint(1,6)
+    number_of_obstacles = np.random.randint(1,15)
+    store = [[0,0]]
     for i in range(number_of_obstacles):
         x,y,z = np.random.randint(-3,3),np.random.randint(-3,3),0
-        if x == 0 or y==0:
+        if x == 0 and y==0:
             continue
+        store.append([x,y])
+        for i in store:
+            if [x,y] == i:
+                continue
         obstacles = Model(obstacle,x,y,z)
         obstacles.insert_model()
         
@@ -76,6 +83,7 @@ def test_obstacle_placement(obstacle):
 def test_scenario_generation_coordinates(coord_x, coord_y, direction): 
     """Defines a scenario for the rest of the tests to run in using coodrinates.
     """    
+    coord_x, coord_y, direction = np.random.randint(-2,2),np.random.randint(-2,2),np.random.randint(0,360)
     data_logger('logger/logs/nav_start')
     result = pose_action_client(coord_x, coord_y, direction)
     data_logger('logger/logs/nav_end')
@@ -117,18 +125,11 @@ def test_legal_zone():
     assert -5 <= hy <= 5
     assert -5 <= x <= 5
     assert -5 <= y <= 5
+
+def test_evaluation_sheet():
+    pdf = PdfGenerator('Navigation Test')
     
-##########################################
-################ Storage #################
-##########################################
-# @settings(max_examples=1)
-# @given(st.integers(min_value=-3,max_value=3).filter(lambda x:x != 0), 
-#         st.integers(min_value=-3,max_value=3).filter(lambda x:x != 0),
-#         st.sampled_from(['coffeetable']))  
-# def test_obstacle_placement(x,y,obstacle):
-#     """Obstacle placement for the navigation test.
-#     """  
-#     z = 0
-#     for i in range(np.random.randint(1,5))
-#     obstacles = Model(obstacle,x,y,z)
-#     obstacles.insert_model()
+    pdf.robot_nav_time = time.time() - start_time
+    
+    pdf.pdf_creation()
+    
