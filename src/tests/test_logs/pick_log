@@ -1,2 +1,10 @@
-. pick_test.py::test_startup_roscore
-. pick_test.py::test_Object_placement
+F pick_test.py
+ tests/pick_test.py:33: in <module>
+     from tests.action_client.pick_place_client import MoveItPickAndPlace
+ tests/action_client/pick_place_client.py:13: in <module>
+     import moveit_commander
+ /opt/ros/kinetic/lib/python2.7/dist-packages/moveit_commander/__init__.py:2: in <module>
+     from .roscpp_initializer import *
+ /opt/ros/kinetic/lib/python2.7/dist-packages/moveit_commander/roscpp_initializer.py:35: in <module>
+     from moveit_ros_planning_interface import _moveit_roscpp_initializer
+ E   ImportError: dynamic module does not define module export function (PyInit__moveit_roscpp_initializer)

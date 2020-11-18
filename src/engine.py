@@ -31,7 +31,7 @@ try:
     conf = Configuration()
     hsr_node = subprocess.Popen(['roslaunch', conf.rospakg, conf.ros_file_name])
     model_placement()
-    nav_node = subprocess.Popen(['roslaunch', conf.rospakg, 'nav.launch'])
+    nav_node = subprocess.Popen(['roslaunch', conf.rospakg, 'auxiliary.launch'])
 finally:
     time.sleep(6000)
     hsr_node.terminate() 

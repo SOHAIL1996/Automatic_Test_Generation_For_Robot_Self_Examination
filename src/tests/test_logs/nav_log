@@ -1,2 +1,1 @@
-. nav_test.py::test_startup_check
-. nav_test.py::test_obstacle_placement
+. nav_test.py::test_evaluation_sheet

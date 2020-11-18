@@ -129,7 +129,7 @@ def test_legal_zone():
 def test_evaluation_sheet():
     pdf = PdfGenerator('Navigation Test')
     
-    pdf.robot_nav_time = time.time() - start_time
+    # pdf.robot_nav_time = time.time() - start_time
     
     pdf.pdf_creation()
     

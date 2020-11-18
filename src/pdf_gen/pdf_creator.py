@@ -40,6 +40,38 @@ class PdfGenerator():
         self.robot_nav_time = self.cross
         self.obstacles_placed = '0'
         
+        self.query_1 = '-'
+        self.query_2 = '-'
+        self.query_3 = '-'
+        self.query_4 = '-'
+        self.query_5 = '-'
+        self.query_6 = '-'
+        self.query_7 = '-'
+        self.query_8 = '-'
+        self.query_9 = '-'
+        self.query_10 = '-'
+        self.query_11 = '-'
+        self.query_12 = '-'
+        self.query_13 = '-'
+        self.query_14 = '-'
+        self.query_15 = '-'
+        
+        self.result_1 = '-'
+        self.result_2 = '-'
+        self.result_3 = '-'
+        self.result_4 = '-'
+        self.result_5 = '-'
+        self.result_6 = '-'
+        self.result_7 = '-'
+        self.result_8 = '-'
+        self.result_9 = '-'
+        self.result_10 = '-'
+        self.result_11 = '-'
+        self.result_12 = '-'
+        self.result_13 = '-'
+        self.result_14 = '-'
+        self.result_15 = '-'
+        
         self.test_type  = test_type
         self.today      = date.today()
         self.result_fol = 'tests/results/'
@@ -49,11 +81,22 @@ class PdfGenerator():
         self.title      = 'Toyota HSR-Test Report'
         self.data_1     = [[self.test_type,'','','','Results'],
                     ['','','','',''],
-                    ['Robot pose is same as simulation pose','','','',self.robot_pos_same_as_sim],
-                    ['Pose of objects are the same after navigation','','','',self.object_pose_same_after_nav],
-                    ['Robot nagivation run completed in average time','','','',self.robot_nav_time],
-                    ['Obstacles place in test area','','','',self.obstacles_placed],
-                    ['','','','','']]
+                    [self.query_1, '', '', '', self.result_1],
+                    [self.query_2, '', '', '', self.result_2],
+                    [self.query_3, '', '', '', self.result_3],
+                    [self.query_4, '', '', '', self.result_4],
+                    [self.query_5, '', '', '', self.result_5],
+                    [self.query_6, '', '', '', self.result_6],
+                    [self.query_7, '', '', '', self.result_7],
+                    [self.query_8, '', '', '', self.result_8],
+                    [self.query_9, '', '', '', self.result_9],
+                    [self.query_10, '', '', '', self.result_10],
+                    [self.query_11, '', '', '', self.result_11],
+                    [self.query_12, '', '', '', self.result_12],
+                    [self.query_13, '', '', '', self.result_13],
+                    [self.query_14, '', '', '', self.result_14],
+                    [self.query_15, '', '', '', self.result_15],
+                    ]
         
         
     def pdf_header_table(self,table,header_posx,header_posy,table_posx,table_posy,
@@ -141,7 +184,8 @@ class PdfGenerator():
             ('GRID',(0,7),(-1,8),2,colors.white),
         ])
 
-        self.pdf_header_table(self.table_1,2.4*inch,620,1*inch, 400,'Evaluation of Navigation',
+        self.pdf_header_table(self.table_1,2.4*inch,620,1*inch, 350,'',
                               16,self.border,self.style,0,120,255)
+        # add pie chart of passed and failed tests.
         self.pdf.showPage()
         self.pdf.save()
