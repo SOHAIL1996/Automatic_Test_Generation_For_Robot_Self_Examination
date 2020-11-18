@@ -19,7 +19,7 @@ import trajectory_msgs.msg
 
 
 class MoveItPickAndPlace(object):
-    def __init__(self, t1x = 0.5, t1y = 0.10, t1z = 0.5 + 0.2 / 2,wait=0.0):
+    def __init__(self, pick_x = 0, pick_y = 0, pick_z = 0, place_x = 0, place_y = 0, place_z = 0,wait=0.0):
         # initialize
         moveit_commander.roscpp_initialize(sys.argv)
         # rospy.init_node("moveit_demo", anonymous=True)
@@ -35,9 +35,12 @@ class MoveItPickAndPlace(object):
         self.whole_body.set_planning_time(5)
         self.whole_body.set_pose_reference_frame(self.reference_frame)
         self.end_effector = self.whole_body.get_end_effector_link()
-        self.target_1_x = t1x
-        self.target_1_y = t1y
-        self.target_1_z = t1z
+        self.pick_x = pick_x
+        self.pick_y = pick_y
+        self.pick_z = pick_z
+        self.place_x = place_x
+        self.place_y = place_y
+        self.place_z = place_z
         rospy.sleep(1)
         ##############################################################################
         # remove all objects
@@ -66,7 +69,7 @@ class MoveItPickAndPlace(object):
         #              [0.5, 0.0, 0.5 + 0.1 / 2])
         self.add_box("target1",
                      [0.02, 0.02, 0.2],
-                     [self.target_1_x, self.target_1_y, self.target_1_z])
+                     [self.pick_x, self.pick_y, self.pick_z])
         # self.add_cylinder("target2",
         #                   0.03, 0.08,
         #                   [0.5, 0.25, 0.5 + 0.08 / 2])
@@ -86,7 +89,7 @@ class MoveItPickAndPlace(object):
 
         # place target1
         rospy.loginfo("step3: place target1")
-        location = self.make_place_location(self.target_1_x+0.3, self.target_1_y, self.target_1_z)
+        location = self.make_place_location(self.place_x, self.place_y, self.place_z)
         self.place("target1", location)
         rospy.logdebug("done")
         rospy.sleep(wait)
