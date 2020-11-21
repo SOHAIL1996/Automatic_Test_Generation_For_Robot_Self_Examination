@@ -29,23 +29,21 @@ import actionlib
 from mdr_pickup_action.msg import PickupAction, PickupGoal
 from tests.obstacle_generator.obstacle_gen import Model
 from tests.file_reader.file_reader import Configuration
-from tests.action_client.pick_client import picker_client
-from logger.data_logger import data_logger
-from logger.data_logger import data_reader
-from logger.data_logger import log_reader_comparator
-from logger.data_logger import log_hsrb_reader
+from tests.world_properties.world_prop import world_state
+from tests.action_client.perceive_client import perceive_client
 from hypothesis import given, settings, Verbosity, example
 import hypothesis.strategies as st
 
 c = Configuration()
 
+def num_gen(min_val, max_val):
+    return np.random.randint(min_val, max_val)
+
 def test_startup_roscore():
-    """Initializing pick test roscore.
+    """Initializing perceive test roscore.
     """  
-    rospy.init_node('pick_test')
+    rospy.init_node('perceive_test')
     
-# @settings(max_examples=1)
-# @given(st.sampled_from(['coffeetable']))  
 def test_Object_placement():
     """Obstacle placement for the pick test.
     """  
@@ -55,13 +53,16 @@ def test_Object_placement():
     base_obj.insert_model()
     pick_obj = Model('glass', hx+0.6, hy, 0.72)
     pick_obj.insert_model() 
-
     
-# def test_pick_action():
-#     """Pick action.
-#     """
-#     mo = Model('glass')   
-#     hx,hy,hz = mo.lucy_pos()[0],mo.lucy_pos()[1],mo.lucy_pos()[2] 
-#     result = picker_client(0.45, 0.078, 0.825, 0.0, 0.0, 0.0)
-#     assert result == True
-
+def test_perceive_action():
+    """Perceive action.
+    """
+    result = perceive_client()
+    assert True == result
+    
+def test_Object_removal():
+    """Obstacle placement for the pick test.
+    """  
+    test = Model('glass')   
+    test.delete_model('glass')
+    test.delete_model('coffeetable')

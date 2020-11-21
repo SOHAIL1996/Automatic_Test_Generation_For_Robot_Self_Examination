@@ -27,7 +27,9 @@ import rospy
 import std_srvs.srv as std_srvs
 import gazebo_msgs.srv as gazebo_srvs
 from geometry_msgs.msg import *
+
 from gazebo_msgs.srv import SpawnModel
+from gazebo_msgs.srv import DeleteModel 
 from gazebo_msgs.srv import GetModelState
 from gazebo_msgs.srv import GetLinkState
 from gazebo_msgs.srv import GetWorldProperties
@@ -45,7 +47,6 @@ class Model():
 
         self.model_dir       = conf.model_dir
         self.model_real_name = model_real_name
-        self.model_node_name = str(np.random.randint(0,999)) 
         self.x_coord   = x  # X-coordinate
         self.y_coord   = y  # Y-coordinate
         self.z_coord   = z  # Z-coordinate
@@ -80,7 +81,7 @@ class Model():
         conf = Configuration()
         try:           
             model_node = rospy.ServiceProxy("/gazebo/spawn_sdf_model", SpawnModel)
-            model_node(model_name= self.model_real_name + self.model_node_name, 
+            model_node(model_name= self.model_real_name, 
                        model_xml = open(self.model_dir +'/'+self.model_real_name+'/'+self.model_real_name+'.sdf', 'r').read(), 
                        robot_namespace = "/RSG",
                        initial_pose = Pose(position=Point(self.x_coord,self.y_coord,self.z_coord),
@@ -99,12 +100,10 @@ class Model():
         model_desc = '{model_name: '+ model_name +'}'
 
         try:
-            print(colored('Deleting {0} model'.format(model_name),'yellow'))
-            delete_node = subprocess.Popen(['rosservice', 'call', 'gazebo/delete_model', model_desc])
-        finally:
-            time.sleep(2)
-            delete_node.terminate()   
-            print(colored('Successfully deleted {0} model'.format(model_name),'green'))   
+            del_model_prox = rospy.ServiceProxy('gazebo/delete_model', DeleteModel) 
+            del_model_prox(str(model_name)) 
+        finally:  
+            print(colored('Successfully deleted {0} model'.format(model_name),'green'))
             
     def lucy_pos(self):
         try:

@@ -11,10 +11,10 @@ def picker_client(x, y, z, R,P,Y):
     client.wait_for_server()
 
     goal = PickupGoal()
-    goal.pose.header.frame_id = 'base_link'
+    goal.pose.header.frame_id = 'odom'
     goal.pose.header.stamp = rospy.Time.now()
     
-    # goal.pose.pose.position.x = 0.418
+    # goal.pose.pose.position.x = 1.518
     # goal.pose.pose.position.y = 0.078
     # goal.pose.pose.position.z = 0.842
 
@@ -39,6 +39,7 @@ def picker_client(x, y, z, R,P,Y):
 
     client.send_goal(goal)
     client.wait_for_result()
+    rospy.sleep(1)
 
     rospy.loginfo(client.get_result())
     return True

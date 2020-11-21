@@ -41,8 +41,6 @@ def test_startup_roscore():
     """  
     rospy.init_node('pick_test', anonymous=True)
     
-# @settings(max_examples=1)
-# @given(st.sampled_from(['coffeetable']))  
 def test_Object_placement():
     """Obstacle placement for the pick test.
     """  
@@ -59,8 +57,15 @@ def test_pick_action():
     """
     mo = Model('glass')   
     hx,hy,hz = mo.lucy_pos()[0],mo.lucy_pos()[1],mo.lucy_pos()[2] 
-    # result = picker_client(0.45, 0.078, 0.825, 0.0, 0.0, 0.0)
-    result = MoveItPickAndPlace( pick_x = hx+1.15, pick_y = hy, pick_z = 0.76, 
-                                 place_x = hx+1.25, place_y = hy, place_z = 0.76) 
+    result = picker_client(0.45, 0.078, 0.825, 0.0, 0.0, 0.0)
+    # result = MoveItPickAndPlace( pick_x = 0.518, pick_y = 0.078, pick_z = 0.825, 
+    #                              place_x = hx+1.25, place_y = hy, place_z = 0.76) 
     assert 1 == 1
+    
+def test_Object_removal():
+    """Obstacle placement for the pick test.
+    """  
+    test = Model('glass')   
+    test.delete_model('glass')
+    test.delete_model('coffeetable')
 
