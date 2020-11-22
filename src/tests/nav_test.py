@@ -49,7 +49,7 @@ def test_startup_check():
     rospy.init_node('nav_test')
 
 @settings(max_examples=1)
-@given(st.sampled_from(['coffeetable']))  
+@given(st.sampled_from(['minicoffeetable']))  
 def test_obstacle_placement(obstacle):
     """Obstacle placement for the navigation test.
     """  

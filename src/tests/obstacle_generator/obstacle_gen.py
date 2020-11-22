@@ -98,12 +98,12 @@ class Model():
             model_name (str): Name of the object and the object ID to be deleted.
         """
         model_desc = '{model_name: '+ model_name +'}'
-
+        rospy.wait_for_service("/gazebo/delete_model")
         try:
-            del_model_prox = rospy.ServiceProxy('gazebo/delete_model', DeleteModel) 
-            del_model_prox(str(model_name)) 
+            del_model_prox = rospy.ServiceProxy('/gazebo/delete_model', DeleteModel) 
+            del_model_prox(model_name) 
         finally:  
-            print(colored('Successfully deleted {0} model'.format(model_name),'green'))
+            pass
             
     def lucy_pos(self):
         try:

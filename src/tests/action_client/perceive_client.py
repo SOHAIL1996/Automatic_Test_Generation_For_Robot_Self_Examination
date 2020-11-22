@@ -20,7 +20,7 @@ def perceive_client():
         rospy.loginfo('Sending action lib goal to perceive_plane_server')
         client.send_goal(goal)
         client.wait_for_result(rospy.Duration.from_sec(int(timeout)))
-        rospy.sleep(0.3)
+        rospy.sleep(0.5)
     except:
         pass
 
