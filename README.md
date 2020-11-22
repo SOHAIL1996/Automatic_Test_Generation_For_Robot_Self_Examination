@@ -29,6 +29,9 @@ actions to the execution of complex scenarios automatically.
 * `ssd_keras_ros package`
 * `yocs_cmd_vel_mux package`
 * `pytest`
+* `maven`
+* `jdk 8`
+* `Allure`
 * `hypothesis`
 * `reportlab`
 
