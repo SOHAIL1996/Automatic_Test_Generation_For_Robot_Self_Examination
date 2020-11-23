@@ -47,6 +47,7 @@ class Model():
 
         self.model_dir       = conf.model_dir
         self.model_real_name = model_real_name
+        self.model_number = ''
         self.x_coord   = x  # X-coordinate
         self.y_coord   = y  # Y-coordinate
         self.z_coord   = z  # Z-coordinate
@@ -81,7 +82,7 @@ class Model():
         conf = Configuration()
         try:           
             model_node = rospy.ServiceProxy("/gazebo/spawn_sdf_model", SpawnModel)
-            model_node(model_name= self.model_real_name, 
+            model_node(model_name= self.model_real_name+self.model_number, 
                        model_xml = open(self.model_dir +'/'+self.model_real_name+'/'+self.model_real_name+'.sdf', 'r').read(), 
                        robot_namespace = "/RSG",
                        initial_pose = Pose(position=Point(self.x_coord,self.y_coord,self.z_coord),
@@ -102,6 +103,7 @@ class Model():
         try:
             del_model_prox = rospy.ServiceProxy('/gazebo/delete_model', DeleteModel) 
             del_model_prox(model_name) 
+            # rospy.sleep(0.1)
         finally:  
             pass
             

@@ -31,21 +31,23 @@ from tests.obstacle_generator.obstacle_gen import Model
 from tests.file_reader.file_reader import Configuration
 from tests.world_properties.world_prop import world_state
 from tests.action_client.perceive_client import perceive_client
-from pdf_gen.pdf_creator import PdfGenerator
 from hypothesis import given, settings, Verbosity, example
 import hypothesis.strategies as st
 
-class TestPerception():
+
+class Base:
+    @pytest.fixture(autouse=True)
+    def set_up(self):
+        self.config = Configuration()
+        
+@pytest.mark.usefixtures('set_up')         
+class TestPerception(Base):
     
     def test_initialization(self):
         """Initialzing parameters for testing.
         """        
-        self.pdf = PdfGenerator('Perception Test')
         self.config = Configuration()    
-        
         rospy.init_node('perceive_test')
-        pytest.skip('implement later')
-
         
     def test_Object_placement(self):
         """Obstacle placement for the pick test.
@@ -56,19 +58,17 @@ class TestPerception():
         base_obj.insert_model()
         pick_obj = Model('mug', hx+0.6, hy, 0.72)
         pick_obj.insert_model() 
-        
-    # def test_perceive_action(self):
-    #     """Perceive action.
-    #     """
-    #     result = perceive_client()
-        
-    #     self.pdf.query_1 = 'Perception action'
-    #     if result == True:
-    #         self.pdf.result_1 = '\u2713'
-    #     else:
-    #         self.pdf.result_1 = '\u2717'
+
+    def test_perceive_action(self):
+        """Perceive action.
+        """
+        result = perceive_client()    
+        assert True == result
     
-    #     assert True == result
+    def test_verify_object_ahead_exists(self):
+        """Obstacle removal.
+        """  
+        pytest.skip('implement later
         
     def test_Object_removal(self):
         """Obstacle removal.
@@ -76,4 +76,5 @@ class TestPerception():
         test = Model('glass')   
         test.delete_model('mug')
         test.delete_model('coffeetable')
-        
+
+

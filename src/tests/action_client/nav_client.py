@@ -26,7 +26,7 @@ def navi_action_client(location):
     try:
         goal.goal_type = MoveBaseGoal.NAMED_TARGET
         goal.destination_location = location
-        timeout = 500.0
+        timeout = 120.0
         rospy.loginfo('Sending action lib goal to move_base_server, ' +
                     'destination : ' + goal.destination_location)
         client.send_goal(goal)
@@ -68,10 +68,11 @@ def pose_action_client(coord_x, coord_y, direction):
     try:
         goal.goal_type = MoveBaseGoal.POSE    
         goal.pose = PoseStamped(header=head, pose=Pose(position=location, orientation=angle))       
-        timeout = 500.0
+        timeout = 120.0
         rospy.loginfo('Sending action lib goal to move_base_server, ' + goal.destination_location)
         client.send_goal(goal)
         client.wait_for_result(rospy.Duration.from_sec(int(timeout)))
+        rospy.sleep(0.5)
         print(client.get_result())
     except Exception as exc:
         print(str(exc))

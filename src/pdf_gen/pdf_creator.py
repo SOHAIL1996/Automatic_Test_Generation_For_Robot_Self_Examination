@@ -78,26 +78,7 @@ class PdfGenerator():
         self.today      = str(self.today.strftime("%b-%d-%Y"))
         self.file_name  = 'HSR '+test_type+' Report '+self.today+'.pdf'
         self.doc_title  = 'Report'
-        self.title      = 'Toyota HSR-Test Report'
-        self.data_1     = [[self.test_type,'','','','Results'],
-                    ['','','','',''],
-                    [self.query_1, '', '', '', self.result_1],
-                    [self.query_2, '', '', '', self.result_2],
-                    [self.query_3, '', '', '', self.result_3],
-                    [self.query_4, '', '', '', self.result_4],
-                    [self.query_5, '', '', '', self.result_5],
-                    [self.query_6, '', '', '', self.result_6],
-                    [self.query_7, '', '', '', self.result_7],
-                    [self.query_8, '', '', '', self.result_8],
-                    [self.query_9, '', '', '', self.result_9],
-                    [self.query_10, '', '', '', self.result_10],
-                    [self.query_11, '', '', '', self.result_11],
-                    [self.query_12, '', '', '', self.result_12],
-                    [self.query_13, '', '', '', self.result_13],
-                    [self.query_14, '', '', '', self.result_14],
-                    [self.query_15, '', '', '', self.result_15],
-                    ]
-        
+        self.title      = 'Toyota HSR-Test Report'        
         
     def pdf_header_table(self,table,header_posx,header_posy,table_posx,table_posy,
                     text,font_size,border,style,color_r,color_g,color_b):
@@ -152,6 +133,24 @@ class PdfGenerator():
         self.pdf.drawInlineImage('pdf_gen/Images/bit.jpg', -700, 770,height=40,preserveAspectRatio=True)
 
         # PDF_Table_Properties
+        self.data_1     = [[self.test_type,'','','','Results'],
+                    ['','','','',''],
+                    [self.query_1, '', '', '', self.result_1],
+                    [self.query_2, '', '', '', self.result_2],
+                    [self.query_3, '', '', '', self.result_3],
+                    [self.query_4, '', '', '', self.result_4],
+                    [self.query_5, '', '', '', self.result_5],
+                    [self.query_6, '', '', '', self.result_6],
+                    [self.query_7, '', '', '', self.result_7],
+                    [self.query_8, '', '', '', self.result_8],
+                    [self.query_9, '', '', '', self.result_9],
+                    [self.query_10, '', '', '', self.result_10],
+                    [self.query_11, '', '', '', self.result_11],
+                    [self.query_12, '', '', '', self.result_12],
+                    [self.query_13, '', '', '', self.result_13],
+                    [self.query_14, '', '', '', self.result_14],
+                    [self.query_15, '', '', '', self.result_15],
+                    ]
         ##############################
         self.table_1 = Table(self.data_1, colWidths=[1.3*inch] * 1)
         self.style = TableStyle([
