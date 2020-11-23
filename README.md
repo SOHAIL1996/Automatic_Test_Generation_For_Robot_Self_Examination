@@ -31,7 +31,8 @@ actions to the execution of complex scenarios automatically.
 * `pytest`
 * `maven`
 * `jdk 8`
-* `Allure`
+* `allure==2.6.0`
+* `allure-python-commons==2.6.0`
 * `hypothesis`
 * `reportlab`
 
