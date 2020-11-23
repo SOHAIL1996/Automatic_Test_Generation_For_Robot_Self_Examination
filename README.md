@@ -9,7 +9,7 @@ actions to the execution of complex scenarios automatically.
 
 * `Ubuntu 16.04 LTS`
 * `Python 3.6.12 64-bit`
-* `Python 2.7 64-bit`
+* `Python 2.7.12 64-bit`
 * `Gazebo 7.16.1`
 * `Catkin-pkg 0.4.22-100`
 * `roskinetic`
@@ -28,12 +28,13 @@ actions to the execution of complex scenarios automatically.
 * `MAS Domestic package`
 * `ssd_keras_ros package`
 * `yocs_cmd_vel_mux package`
-* `pytest`
+* `pytest==4.6.11`
 * `maven`
 * `jdk 8`
+* `allure-pytest==2.6.0`
 * `allure==2.6.0`
 * `allure-python-commons==2.6.0`
-* `hypothesis`
+* `hypothesis--4.57.1`
 * `reportlab`
 
 ## Hardware Requirements
@@ -76,23 +77,26 @@ To use simply open the simulator with Lucy in it, run `./atg.sh` from `$(Parent 
 ## Running Navigation Test
 
 - Run `./atg.sh` from `$(Parent directory)/atg`.
-- Run `python3.6 -m pytest tests/nav_test.py -v -s` from `$(Parent directory)/atg/src`.
+- Run `python2 -m pytest --alluredir=results tests/nav_test.py -v -s` from `$(Parent directory)/atg/src`.
+- Run `allure serve results/` from `$(Parent directory)/atg/src` to view results.
 
 ## Running Perception Test
 
 - Run `atg.sh` from `$(Parent directory)/atg`.
-- Run `python2 -m pytest tests/perceive_test.py -v -s` from `$(Parent directory)/atg/src`.
+- Run `python2 -m pytest --alluredir=results tests/perceive_test.py -v -s` from `$(Parent directory)/atg/src`.
+- Run `allure serve results/` from `$(Parent directory)/atg/src` to view results.
 
 ## Running Pick Action Test
 
 - Run `atg.sh` from `$(Parent directory)/atg`.
-- Run `python2 -m pytest tests/pick_test.py -v -s` from `$(Parent directory)/atg/src`.
+- Run `python2 -m pytest --alluredir=results tests/pick_test.py -v -s` from `$(Parent directory)/atg/src`.
+- Run `allure serve results/` from `$(Parent directory)/atg/src` to view results.
 
 ## Running Place Action Test
 
 - Run `atg.sh` from `$(Parent directory)/atg`.
-- Run `python2 -m pytest tests/place_test.py -v -s` from `$(Parent directory)/atg/src`.
-
+- Run `python2 -m pytest --alluredir=results tests/place_test.py -v -s` from `$(Parent directory)/atg/src`.
+- Run `allure serve results/` from `$(Parent directory)/atg/src` to view results.
 
 
 ## Acknowledgments
