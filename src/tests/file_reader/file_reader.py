@@ -52,4 +52,16 @@ class Configuration():
             self.models             = models_1[1].strip()+models_2[1].strip()
             self.obstacles          = obstacles[1].strip()
             self.obstacles          = self.obstacles .split(',')
+            
+        def config_data_frame(self):
+            """[summary]
+            """    
+                    
+            data = {'Configuration Settings':  ['First value', 'Second value'],
+                    'Selected Parameters'   : ['First value', 'Second value']}
+            
+            
+            df = pd.DataFrame (data, columns = ['Configuration Settings','Selected Parameters'])
+            df.to_csv('tests/results/configuration_data.csv',index=False)
+            
 

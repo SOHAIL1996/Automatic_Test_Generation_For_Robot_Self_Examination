@@ -38,6 +38,7 @@ actions to the execution of complex scenarios automatically.
 * `allure-python-commons==2.6.0`
 * `hypothesis--4.57.1`
 * `reportlab`
+* `future`
 
 ## Hardware Requirements
 

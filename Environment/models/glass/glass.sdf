@@ -27,7 +27,7 @@
       </collision>
 
       <visual name="visual">
-      <transparency>0.8</transparency>
+      <!-- <transparency>0.8</transparency> -->
         <geometry>
           <mesh>
              <uri>/home/orion92/catkin_ws/src/atg/Environment/models/glass/meshes/glass.stl</uri>

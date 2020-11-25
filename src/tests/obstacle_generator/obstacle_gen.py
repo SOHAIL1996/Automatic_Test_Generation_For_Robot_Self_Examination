@@ -103,9 +103,8 @@ class Model():
         try:
             del_model_prox = rospy.ServiceProxy('/gazebo/delete_model', DeleteModel) 
             del_model_prox(model_name) 
-            # rospy.sleep(0.1)
-        finally:  
-            pass
+        except rospy.ServiceException as e:
+            print(colored('Error','red')) 
             
     def lucy_pos(self):
         try:

@@ -38,7 +38,7 @@ class Base:
     @pytest.fixture(autouse=True)
     def set_up(self):
         self.config = Configuration()
-        
+                
 @pytest.mark.usefixtures('set_up')         
 class TestPickAction(Base):
 
@@ -56,7 +56,6 @@ class TestPickAction(Base):
         base_obj.insert_model()
         pick_obj = Model('glass', hx+1.1, hy, 0.73)
         pick_obj.insert_model() 
-
         
     def test_pick_action_activation(self):
         """Pick action.
@@ -73,4 +72,3 @@ class TestPickAction(Base):
         test = Model('glass')   
         test.delete_model('glass')
         test.delete_model('minicoffeetable')
-
