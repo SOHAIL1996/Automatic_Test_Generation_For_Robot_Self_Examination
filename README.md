@@ -33,6 +33,8 @@ actions to the execution of complex scenarios automatically.
 * `jdk 8`
 * `allure-pytest==2.6.0`
 * `allure==2.6.0`
+* `torch==1.4.0`
+* `torchvision==0.5.0`
 * `allure-python-commons==2.6.0`
 * `hypothesis--4.57.1`
 * `reportlab`
