@@ -76,6 +76,25 @@ class TestPickAction(Base):
         result = MoveItPickAndPlace( pick_x = hx+0.65, pick_y = hy, pick_z = 0.5, 
                                      place_x = hx+0.7, place_y = hy, place_z = 0.76)
         data_logger('logger/logs/pick_action_end')
+        
+    def test_verify_object_ahead_exists(self):
+        """Verification if object is ahead.
+        """  
+        log, lucy_log = data_reader('logger/logs/pick_action_end')
+        log = log.set_index("Models")
+        hsrb = log.loc["hsrb"]
+        hsrb = hsrb.values.tolist()[1:] 
+        log = log.drop("hsrb", axis=0)
+        log = log.drop("ground_plane", axis=0)
+        log = log.drop("lab", axis=0)
+
+        x = log['X-pos'].values.tolist()
+        x_res = any(hsrb[0]-0.5 <= ele <= hsrb[0]+0.5 for ele in x)
+
+        y = log['Y-pos'].values.tolist()
+        y_res = any(hsrb[1]-0.5 <= ele <= hsrb[1]+0.5 for ele in y)
+
+        assert True == x_res and y_res  
     
     @pytest.mark.xfail(reason="One of the objects position should have changed")
     def test_allmodels_positon(self):
