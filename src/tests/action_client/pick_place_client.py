@@ -61,14 +61,14 @@ class MoveItPickAndPlace(object):
         rospy.sleep(wait)
         ##############################################################################
         # add objects
-        # self.add_box("table",
-        #              [0.3, 0.8, 0.01],
-        #              [0.5, 0.0, 0.5 - 0.01 / 2])
+        self.add_box("table",
+                     [0.63, 0.63, 0.44],
+                     [self.pick_x, self.pick_y, 0.02])
         # self.add_box("wall",
         #              [0.3, 0.01, 0.1],
         #              [0.5, 0.0, 0.5 + 0.1 / 2])
         self.add_box("target1",
-                     [0.02, 0.02, 0.2],
+                     [0.01, 0.01, 0.1],
                      [self.pick_x, self.pick_y, self.pick_z])
         # self.add_cylinder("target2",
         #                   0.03, 0.08,
@@ -116,9 +116,9 @@ class MoveItPickAndPlace(object):
         # rospy.logdebug("done")
         # rospy.sleep(wait)
 
-        # finalize
-        moveit_commander.roscpp_shutdown()
-        moveit_commander.os._exit(0)
+        # finalize it 
+        # moveit_commander.roscpp_shutdown()
+        # moveit_commander.os._exit(0)
 
     def pick(self, target, grasps):
         n_attempts = 0

@@ -32,6 +32,10 @@ from tests.file_reader.file_reader import Configuration
 from tests.action_client.pick_client import picker_client
 from tests.action_client.pick_place_client import MoveItPickAndPlace
 from hypothesis import given, settings, Verbosity, example
+from logger.data_logger import data_logger
+from logger.data_logger import data_reader
+from logger.data_logger import log_reader_comparator
+from logger.data_logger import log_hsrb_reader
 import hypothesis.strategies as st
 
 class Base:
@@ -41,33 +45,51 @@ class Base:
                 
 @pytest.mark.usefixtures('set_up')         
 class TestPickAction(Base):
+    
+    @pytest.fixture()
+    def randomizer(self):
+        def _parameters(min_val, max_val):
+            val = np.random.randint(min_val, max_val)
+            return val
+        return _parameters
 
-    def test_startup_roscore(self):
-        """Initializing pick test roscore.
+    def test_set_up(self,randomizer):
+        """Initializing the test scenario
         """  
         rospy.init_node('pick_test', anonymous=True)
-        
-    def test_object_placement(self):
-        """Obstacle placement for the pick test.
-        """  
         mo = Model('glass')   
         hx,hy,hz = mo.lucy_pos()[0],mo.lucy_pos()[1],mo.lucy_pos()[2]
-        base_obj = Model('minicoffeetable', hx+1.3, hy, hz)
+        base_obj = Model('minicoffeetable', hx+0.7, hy, hz)
         base_obj.insert_model()
-        pick_obj = Model('glass', hx+1.1, hy, 0.73)
+        pick_obj = Model('glass', hx+0.65, hy, 0.43)
         pick_obj.insert_model() 
+        first_case = randomizer(-3, 3)
+
         
     def test_pick_action_activation(self):
-        """Pick action.
+        """Activating the pick action test and checking whether it was successful.
         """
         mo = Model('glass')   
+        data_logger('logger/logs/pick_action_start')
         hx,hy,hz = mo.lucy_pos()[0],mo.lucy_pos()[1],mo.lucy_pos()[2] 
-        result = picker_client(0.45, 0.078, 0.825, 0.0, 0.0, 0.0)
-        # result = MoveItPickAndPlace( pick_x = 0.518, pick_y = 0.078, pick_z = 0.825, 
-        #                              place_x = hx+1.25, place_y = hy, place_z = 0.76) 
+        # result = picker_client(hx+0.7, hy, 0.43, 0.0, 0.0, 0.0)
+        result = MoveItPickAndPlace( pick_x = hx+0.65, pick_y = hy, pick_z = 0.5, 
+                                     place_x = hx+0.7, place_y = hy, place_z = 0.76)
+        data_logger('logger/logs/pick_action_end')
+    
+    @pytest.mark.xfail(reason="One of the objects position should have changed")
+    def test_allmodels_positon(self):
+        """ Checking if the position of objects changed during pick action i.e. Lucy collided with an obstacle.
+        """    
+        lower_tolerance_difference, upper_tolerance_difference = log_reader_comparator('X-pos', 'pick_action_start', 'pick_action_end')
+        assert lower_tolerance_difference == upper_tolerance_difference
+        lower_tolerance_difference, upper_tolerance_difference = log_reader_comparator('Y-pos', 'pick_action_start', 'pick_action_end')
+        assert lower_tolerance_difference == upper_tolerance_difference
+        lower_tolerance_difference, upper_tolerance_difference = log_reader_comparator('Z-pos', 'pick_action_start', 'pick_action_end')
+        assert lower_tolerance_difference == upper_tolerance_difference
         
-    def test_object_removal(self):
-        """Obstacle placement for the pick test.
+    def test_tear_down(self):
+        """Tearing down the setup for the pick test.
         """  
         test = Model('glass')   
         test.delete_model('glass')

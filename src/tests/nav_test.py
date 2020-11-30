@@ -39,6 +39,9 @@ from logger.data_logger import log_hsrb_reader
 from hypothesis import given, settings, Verbosity, example
 import hypothesis.strategies as st
 
+global spawned_items
+spawned_items = []
+
 class Base:
     @pytest.fixture(autouse=True)
     def set_up(self):
@@ -46,31 +49,37 @@ class Base:
         
 @pytest.mark.usefixtures('set_up')         
 class TestNavigation(Base):
-
-    def test_startup_check(self):
-        """Initializing nav test roscore.
+    
+    @pytest.fixture()
+    def randomizer(self):
+        def _parameters(min_val, max_val):
+            val = np.random.randint(min_val, max_val)
+            return val
+        return _parameters
+    
+    def test_set_up(self,randomizer):
+        """Initializing navigation scenario.
         """  
         start_time = time.time()
         rospy.init_node('nav_test')
-
-    @settings(max_examples=1)
-    @given(st.sampled_from(['minicoffeetable','coffeetable']))  
-    def test_obstacle_placement(self,obstacle):
-        """Obstacle placement for the navigation test.
-        """  
+        # Obstacle placement for navigation test
+        obstacle = 'coffeetable'
         number_of_obstacles = np.random.randint(1,6)
+        
         store = [[0,0]]
         for i in range(number_of_obstacles):
-            x,y,z = np.random.randint(-3,3),np.random.randint(-3,3),0
+            x,y,z = randomizer(-3,3), randomizer(-3,3), 0
             if x == 0 and y==0:
                 continue
             store.append([x,y])
             for i in store:
                 if [x,y] == i:
                     continue
-            obstacles = Model(obstacle,x,y,z)
-            obstacles.model_number = str(np.random.randint(1,1000))
-            obstacles.insert_model()
+                obstacles = Model(obstacle,x,y,z)
+                obstacles.model_number = str(randomizer(1,1000))
+                spawned_items.append(obstacle+obstacles.model_number)
+                obstacles.insert_model()
+
             
     # @settings(max_examples=1)
     # @given(st.sampled_from(['table','shelf','cabinet','sofa']))
@@ -82,32 +91,27 @@ class TestNavigation(Base):
     #     data_logger('logger/logs/nav_end')
     #     assert result == True
 
-    # @settings(max_examples=1)
-    # @given(st.floats(min_value=-4.5,max_value=4.5,allow_nan=False,allow_infinity=False).filter(lambda x:x>1),
-    #     st.floats(min_value=-4.5,max_value=4.5,allow_nan=False,allow_infinity=False),
-    #     st.integers(min_value=1,max_value=360))
-    # def test_scenario_generation_coordinates(self,coord_x, coord_y, direction): 
-    def test_scenario_generation_coordinates(self): 
+    def test_scenario_generation_coordinates(self,randomizer): 
         """Defines a scenario for the rest of the tests to run in using coodrinates.
         """    
-        coord_x, coord_y, direction = np.random.randint(-2,2),np.random.randint(-2,2),np.random.randint(0,360)
+        coord_x, coord_y, direction = randomizer(-2,2),randomizer(-2,2),randomizer(0,360)
         data_logger('logger/logs/nav_start')
         result = pose_action_client(coord_x, coord_y, direction)
         data_logger('logger/logs/nav_end')
         assert result == True    
 
     def test_allmodels_positon(self):
-        """(Property_test) Checking if the position of objects changed.
+        """ Checking if the position of objects changed furing navigation i.e. Lucy collided with an obstacle.
         """    
-        lower_tolerance_difference, upper_tolerance_difference = log_reader_comparator('X-pos')
+        lower_tolerance_difference, upper_tolerance_difference = log_reader_comparator('X-pos', 'nav_start', 'nav_end')
         assert lower_tolerance_difference == upper_tolerance_difference
-        lower_tolerance_difference, upper_tolerance_difference = log_reader_comparator('Y-pos')
+        lower_tolerance_difference, upper_tolerance_difference = log_reader_comparator('Y-pos', 'nav_start', 'nav_end')
         assert lower_tolerance_difference == upper_tolerance_difference
-        lower_tolerance_difference, upper_tolerance_difference = log_reader_comparator('Z-pos')
+        lower_tolerance_difference, upper_tolerance_difference = log_reader_comparator('Z-pos', 'nav_start', 'nav_end')
         assert lower_tolerance_difference == upper_tolerance_difference
 
     def test_robot_position(self):
-        """(Property_test) Checking if the projected position of the robot matches 
+        """Checking if the projected position of the robot matches 
         the position in the simulator.
         """    
         hx,hy,hz = log_hsrb_reader()[0], log_hsrb_reader()[1], log_hsrb_reader()[2]
@@ -119,9 +123,8 @@ class TestNavigation(Base):
         assert hy-0.5 <= y <= hy+0.5
 
     def test_legal_zone(self):
-        """(Property_test) Checking if the projected position of the robot has not 
-        gone out of the boundary. The boundary is the test lab navigation map and its 
-        dimensions are 10x10 m^2.
+        """Checking if the projected position of the robot has not gone out of the boundary. 
+        The boundary is the test lab navigation map and its dimensions are 10x10 m^2.
         """    
         hx,hy,hz = log_hsrb_reader()[0], log_hsrb_reader()[1], log_hsrb_reader()[2]
         omni = OmniListener()
@@ -131,4 +134,12 @@ class TestNavigation(Base):
         assert -5 <= hx <= 5
         assert -5 <= hy <= 5
         assert -5 <= x <= 5
-        assert -5 <= y <= 5        
+        assert -5 <= y <= 5   
+    
+    def test_tear_down(self):
+        """Tearing down the setup for navigation.
+        """  
+        test = Model('glass') 
+        for i in spawned_items:  
+            test.delete_model(i)
+        

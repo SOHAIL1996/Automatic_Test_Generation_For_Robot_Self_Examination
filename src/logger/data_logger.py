@@ -115,18 +115,20 @@ def data_reader(loc):
     df_2 = pd.read_csv(loc +'_lucy_logs.csv')
     return df_1, df_2
 
-def log_reader_comparator(loc):
+def log_reader_comparator(loc, action_start, action_end):
     """Reads nav files for testing purposes.
 
     Args:
         loc (str): the column to be compared in testing
-
+        
+        action (str): the filename of the action test e.g. nav_start, nav_end
+        
     Returns:
         int: Returns 2 numbers which are the difference in the log file,
-               note the robot change in position in not taken into consideration.
+             note the robot change in position in not taken into consideration.
     """    
-    nswp, ignore = data_reader('logger/logs/nav_start')
-    newp, ignore = data_reader('logger/logs/nav_end')
+    nswp, ignore = data_reader('logger/logs/'+ action_start)
+    newp, ignore = data_reader('logger/logs/'+ action_end)
            
     nswp = nswp.replace('-0.000', '0.000')
     newp = newp.replace('-0.000', '0.000')
