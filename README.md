@@ -25,8 +25,7 @@ actions to the execution of complex scenarios automatically.
 * `termcolor 1.1.0`
 * `Toyota HSR package`
 * `MAS HSR package`
-* `MAS Domestic package`
-* `ssd_keras_ros package`
+* `MAS MDR package`
 * `yocs_cmd_vel_mux package`
 * `pytest==4.6.11`
 * `maven`
@@ -37,7 +36,6 @@ actions to the execution of complex scenarios automatically.
 * `torchvision==0.5.0`
 * `allure-python-commons==2.6.0`
 * `hypothesis--4.57.1`
-* `reportlab`
 * `future`
 
 ## Hardware Requirements
