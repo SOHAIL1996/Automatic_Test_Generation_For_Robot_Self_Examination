@@ -17,10 +17,8 @@ actions to the execution of complex scenarios automatically.
 * `numpy-stl`
 * `cuda 11.0`
 * `cuddnn 8`
-* `numpy-stl`
 * `tensorflow 1.4.0`
 * `keras 2.0.8`
-* `numpy-stl`
 * `pandas 0.17.1`
 * `termcolor 1.1.0`
 * `Toyota HSR package`
