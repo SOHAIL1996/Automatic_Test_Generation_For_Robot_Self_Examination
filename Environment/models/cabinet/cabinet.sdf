@@ -7,6 +7,7 @@
 
     <inertial> >
       <mass>80</mass>
+      <!-- <pose>157 0 1067 0 0 0</pose> -->
         <inertia> 
         <ixx>0</ixx>      
         <ixy>0</ixy>     

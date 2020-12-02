@@ -7,7 +7,7 @@
 
 
 --Required_#_of_Models   = 8
---Models_1               = bottle,glass,plate,spoon,fork,mug,saltshaker
+--Models_1               = bottle,glass,plate,spoon,fork,mug,saltshaker,knife
 --Models_2               = 
 --Obstacles              = coffeetable, bottle
 --Platform_for_Obstacle  = 

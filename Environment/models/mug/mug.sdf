@@ -5,8 +5,9 @@
     <pose>0 0 0 0 0 0</pose> <!-- Translation: X Y Z and Rotation: Roll Pitch Yaw (In Radian)-->
     <link name="body">
 
-    <inertial> >
-      <mass>0.024</mass>
+    <inertial>
+      <mass>0.405</mass>
+      <pose>0 0 36 0 0 0</pose>
         <inertia> 
         <ixx>1.22e-4</ixx>      
         <ixy>-5.2e-8</ixy>     

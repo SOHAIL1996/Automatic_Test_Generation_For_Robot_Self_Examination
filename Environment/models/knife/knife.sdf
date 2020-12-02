@@ -7,6 +7,7 @@
 
       <inertial> 
         <mass>0.421</mass>
+        <pose>0 0 8.174 0 0 0</pose>
           <inertia> 
           <ixx>2.851e-005 </ixx>      
           <ixy>-1.713e-005</ixy>     
