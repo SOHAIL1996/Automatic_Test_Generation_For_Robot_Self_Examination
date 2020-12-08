@@ -25,7 +25,6 @@ from scen_gen.model_placement import model_placement
 from logger.data_logger import data_reader
 from termcolor import colored
 
-
 print(colored('Starting HSR Simulator', 'green'))
 try:
     conf = Configuration()
@@ -33,7 +32,7 @@ try:
     model_placement()
     nav_node = subprocess.Popen(['roslaunch', conf.rospakg, 'auxiliary.launch'])
 finally:
-    time.sleep(6000)
+    time.sleep(3600)
     hsr_node.terminate() 
     nav_node.terminate()  
     print(colored('Terminating ros!','red'))    

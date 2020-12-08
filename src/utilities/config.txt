@@ -5,13 +5,17 @@
 --launch_dir          = /home/orion92/catkin_ws/src/atg/launch/hsr.launch
 --model_dir           = /home/orion92/catkin_ws/src/atg/Environment/models
 
+--Multi_obstacle_platform     = coffeetable
+--#_of_models_on_platform     = 8
+--Models_list_1_for_table     = bottle,glass,plate,spoon,fork,mug,saltshaker,knife
+--Models_list_2_for_table     = 
+--#_of_obstacles_for_nav      = 4
+--Obstacles_for_nav           = coffeetable
+--Platform_for_obstacle_pick  = minicoffeetable
+--Obstacles_for_pick          = glass
+--Platform_for_obstacle_perc  = coffeetable
+--Obstacles_for_perc          = glass
 
---Required_#_of_Models   = 8
---Models_1               = bottle,glass,plate,spoon,fork,mug,saltshaker,knife
---Models_2               = 
---Obstacles              = coffeetable, bottle
---Platform_for_Obstacle  = 
---Pick_Obstacle          = 
+
+--Worlds                      = lab
 #==============================================================================#
-Nav_test .. Paracosm ,knife,coffeetable
-pic_test ..

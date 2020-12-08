@@ -38,10 +38,13 @@ def model_placement(param=None):
     """    
     conf = Configuration()
     world = World()
-
     dynamic_model_tracer = []
+    
     # Static model placement
-    static_model = Model('table',0,4,0.0254)
+    static_model = Model(conf.World,0,0,0)
+    static_model.insert_model()
+    
+    static_model = Model(conf.Multi_obstacle_platform,0,4,0.0254)
     static_model.insert_model()
     
     static_model_shelf = Model('shelf',4.8, 3, 0.0254, 0, 0, 1.5708)
@@ -52,7 +55,7 @@ def model_placement(param=None):
     
     static_model_cabinet = Model('cabinet',4.5, -4.8, 0.0254, 0, 0, 1.5708)
     static_model_cabinet.insert_model()
-    
+
     # Dynamic model placement through config file
     model_choices = choices(conf.model_list(), k=int(conf.num_of_mod))
     # Dynamic model placement through testing
@@ -78,13 +81,11 @@ def model_placement(param=None):
 
             check = collision_checker(dynamic_model,x,y,z,dynamic_model_tracer)
             if check == False:
-                
                 dynamic_model.x_coord = x
                 dynamic_model.y_coord = y
                 dynamic_model.z_coord = z
                 
                 dynamic_model.insert_model()
-                    
                 dynamic_model_tracer.append(dynamic_model)
                 break
             

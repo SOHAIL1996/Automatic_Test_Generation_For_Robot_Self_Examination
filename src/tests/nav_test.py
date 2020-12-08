@@ -62,12 +62,9 @@ class TestNavigation(Base):
         """  
         start_time = time.time()
         rospy.init_node('nav_test')
-        # Obstacle placement for navigation test
-        obstacle = 'coffeetable'
-        number_of_obstacles = np.random.randint(1,6)
-        
+
         store = [[0,0]]
-        for i in range(number_of_obstacles):
+        for i in range(self.config.num_of_obstacles_for_nav):
             x,y,z = randomizer(-3,3), randomizer(-3,3), 0
             if x == 0 and y==0:
                 continue
@@ -75,7 +72,7 @@ class TestNavigation(Base):
             for i in store:
                 if [x,y] == i:
                     continue
-                obstacles = Model(obstacle,x,y,z)
+                obstacles = Model(self.config.Obstacles_for_nav,x,y,z)
                 obstacles.model_number = str(randomizer(1,1000))
                 spawned_items.append(obstacle+obstacles.model_number)
                 obstacles.insert_model()
