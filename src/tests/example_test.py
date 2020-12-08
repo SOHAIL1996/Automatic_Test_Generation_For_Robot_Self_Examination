@@ -58,21 +58,10 @@ class TestPerception(Base):
     # @allure.severity('minor')   
     def test_set_up(self,randomizer):
         """Initialzing parameters for testing.
-        """        
-        rospy.init_node('perception_node') 
-        
+        """               
         self.config = Configuration()    
         
-        # Obtaining Lucy's position
-        lucy_loc = Model('glass')   
-        hx,hy,hz = lucy_loc.lucy_pos()[0],lucy_loc.lucy_pos()[1],lucy_loc.lucy_pos()[2]
-        
-        # Loading in a objects for perception
- 
-        base_obj = Model('coffeetable', hx+0.8, hy, hz)
-        base_obj.insert_model()
-        pick_obj = Model('glass', hx+0.6, hy, 0.72)
-        pick_obj.insert_model() 
+
 
         
         # Adding the configuration file

@@ -9,12 +9,12 @@
     <include>
 			<uri>model://ground_plane</uri>
 		</include>
-    <!-- The Lab -->
-    <!-- <include> -->
-			<!-- <uri>/home/orion92/catkin_ws/src/atg/Environment/models/lab</uri> -->
-      <!-- <name>lab</name>   -->
-      <!-- <pose>0 0 0 0 0 0</pose> Translation: X Y Z and Rotation: Roll Pitch Yaw (In Radian) -->
-		<!-- </include> -->
+    <!-- The world environment -->
+    <include>
+			<uri>/home/orion92/catkin_ws/src/atg/Environment/models/lab</uri>
+      <name>lab</name>  
+      <pose>0 0 0 0 0 0</pose> <!--Translation: X Y Z and Rotation: Roll Pitch Yaw (In Radian)-->
+		</include>
     <!-- The Camera position -->
     <gui>
         <camera name="user_camera">

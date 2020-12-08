@@ -59,12 +59,10 @@ class TestPickAction(Base):
         rospy.init_node('pick_test', anonymous=True)
         mo = Model('glass')   
         hx,hy,hz = mo.lucy_pos()[0],mo.lucy_pos()[1],mo.lucy_pos()[2]
-        base_obj = Model('minicoffeetable', hx+0.7, hy, hz)
+        base_obj = Model(self.config.Platform_for_obstacle_pick, hx+0.8, hy, hz)
         base_obj.insert_model()
-        pick_obj = Model('glass', hx+0.65, hy, 0.43)
+        pick_obj = Model(self.config.Obstacles_for_pick, hx+0.75, hy, 0.43)
         pick_obj.insert_model() 
-        first_case = randomizer(-3, 3)
-
         
     def test_pick_action_activation(self):
         """Activating the pick action test and checking whether it was successful.
@@ -72,8 +70,8 @@ class TestPickAction(Base):
         mo = Model('glass')   
         data_logger('logger/logs/pick_action_start')
         hx,hy,hz = mo.lucy_pos()[0],mo.lucy_pos()[1],mo.lucy_pos()[2] 
-        # result = picker_client(hx+0.7, hy, 0.43, 0.0, 0.0, 0.0)
-        result = MoveItPickAndPlace( pick_x = hx+0.65, pick_y = hy, pick_z = 0.5, 
+        # result = picker_client(hx+0.65, hy, 0.5, 0.0, 0.0, 0.0)
+        result = MoveItPickAndPlace( pick_x = hx+0.75, pick_y = hy, pick_z = 0.55, 
                                      place_x = hx+0.7, place_y = hy, place_z = 0.76)
         data_logger('logger/logs/pick_action_end')
         
@@ -97,7 +95,7 @@ class TestPickAction(Base):
         assert True == x_res and y_res  
     
     @pytest.mark.xfail(reason="One of the objects position should have changed")
-    def test_allmodels_positon(self):
+    def test_allmodels_positon_are_same(self):
         """ Checking if the position of objects changed during pick action i.e. Lucy collided with an obstacle.
         """    
         lower_tolerance_difference, upper_tolerance_difference = log_reader_comparator('X-pos', 'pick_action_start', 'pick_action_end')
@@ -111,5 +109,5 @@ class TestPickAction(Base):
         """Tearing down the setup for the pick test.
         """  
         test = Model('glass')   
-        test.delete_model('glass')
-        test.delete_model('minicoffeetable')
+        test.delete_model(self.config.Obstacles_for_pick)
+        test.delete_model(self.config.Platform_for_obstacle_pick)

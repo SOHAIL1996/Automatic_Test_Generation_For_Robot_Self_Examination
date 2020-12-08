@@ -137,9 +137,9 @@ def log_reader_comparator(loc, action_start, action_end):
     newp = newp.drop("hsrb", axis=0)
     nswp = nswp.set_index("Models")
     nswp = nswp.drop("hsrb", axis=0)
-
-    newp['8'] = np.where(nswp[loc]-0.5<=newp[loc], 1, 0) 
-    newp['9'] = np.where(newp[loc]<=nswp[loc]+0.5, 1, 0)
+    # Checking if objects have moved -+5 cm or 0.05 mm
+    newp['8'] = np.where(nswp[loc]-0.05<=newp[loc], 1, 0) 
+    newp['9'] = np.where(newp[loc]<=nswp[loc]+0.05, 1, 0)
              
     expected_difference_lower_tolerance = newp['8'].sum()
     original_difference_lower_tolerance = len(newp['8'])
