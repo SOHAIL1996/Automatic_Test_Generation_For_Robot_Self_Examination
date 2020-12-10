@@ -200,12 +200,20 @@ class Model():
             conf.model_uri_correcter(self.model_real_name)
             
             model_node = rospy.ServiceProxy("/gazebo/spawn_sdf_model", SpawnModel)
-            model_node(model_name= self.model_real_name + self.model_node_name, 
+            if self.model_real_name == conf.World:
+                model_node(model_name= self.model_real_name, 
                        model_xml = open(self.model_dir +'/'+self.model_real_name+'/'+self.model_real_name+'.sdf', 'r').read(), 
                        robot_namespace = "/RSG",
                        initial_pose = Pose(position=Point(self.x_coord,self.y_coord,self.z_coord),
                                           orientation=Quaternion(self.quat1,self.quat2,self.quat3,self.quat4)),
                        reference_frame ="world")
+            else:
+                model_node(model_name= self.model_real_name + self.model_node_name, 
+                        model_xml = open(self.model_dir +'/'+self.model_real_name+'/'+self.model_real_name+'.sdf', 'r').read(), 
+                        robot_namespace = "/RSG",
+                        initial_pose = Pose(position=Point(self.x_coord,self.y_coord,self.z_coord),
+                                            orientation=Quaternion(self.quat1,self.quat2,self.quat3,self.quat4)),
+                        reference_frame ="world")
             print(colored('Successfully spawned {0} model'.format(self.model_real_name),'green'))
             
         except rospy.ServiceException as e:

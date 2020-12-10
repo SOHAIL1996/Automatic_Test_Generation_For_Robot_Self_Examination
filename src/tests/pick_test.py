@@ -84,7 +84,7 @@ class TestPickAction(Base):
         hsrb = hsrb.values.tolist()[1:] 
         log = log.drop("hsrb", axis=0)
         log = log.drop("ground_plane", axis=0)
-        log = log.drop("lab", axis=0)
+        log = log.drop(self.config.World, axis=0, errors='ignore')
 
         x = log['X-pos'].values.tolist()
         x_res = any(hsrb[0]-0.5 <= ele <= hsrb[0]+0.5 for ele in x)

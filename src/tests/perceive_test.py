@@ -39,7 +39,6 @@ from logger.data_logger import log_reader_comparator
 from logger.data_logger import log_hsrb_reader
 import hypothesis.strategies as st
 
-
 class Base:
     @pytest.fixture(autouse=True)
     def set_up(self):
@@ -65,10 +64,10 @@ class TestPerception(Base):
         lucy_loc = Model('glass')   
         hx,hy,hz = lucy_loc.lucy_pos()[0],lucy_loc.lucy_pos()[1],lucy_loc.lucy_pos()[2]
         # Loading in a objects for perception
-        base_obj = Model('coffeetable', hx+0.8, hy, hz)
+        base_obj = Model(self.config.Platform_for_obstacle_perc, hx+0.8, hy, hz)
         base_obj.insert_model()
-        pick_obj = Model('glass', hx+0.6, hy, 0.72)
-        pick_obj.insert_model() 
+        perceive_obj = Model(self.config.Obstacles_for_perc, hx+0.6, hy, 0.72)
+        perceive_obj.insert_model() 
   
         # Adding the configuration file
         # data = {'First Column Name':  ['First value', 'Second value'],
@@ -93,7 +92,7 @@ class TestPerception(Base):
         hsrb = hsrb.values.tolist()[1:] 
         log = log.drop("hsrb", axis=0)
         log = log.drop("ground_plane", axis=0)
-        log = log.drop("lab", axis=0)
+        log = log.drop(self.config.World, axis=0)
 
         x = log['X-pos'].values.tolist()
         x_res = any(hsrb[0]-0.5 <= ele <= hsrb[0]+0.5 for ele in x)
@@ -107,8 +106,7 @@ class TestPerception(Base):
         """Obstacle removal.
         """  
         # Deleting spawned models
-        # test = Model('glass')  
-        # test.delete_model('glass')
-        # test.delete_model('coffeetable')
+        test = Model('glass')  
+        test.delete_model(self.config.Obstacles_for_perc)
+        test.delete_model(self.config.Platform_for_obstacle_perc)
         # allure.attach(data, 'Configuration', allure.attachment_type.CSV)
-        pass

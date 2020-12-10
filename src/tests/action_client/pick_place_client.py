@@ -62,7 +62,7 @@ class MoveItPickAndPlace(object):
         ##############################################################################
         # add objects
         self.add_box("table",
-                     [0.63, 0.63, 0.44],
+                     [0.63, 0.63, 0.48],
                      [self.pick_x, self.pick_y, 0.02])
         # self.add_box("wall",
         #              [0.3, 0.01, 0.1],

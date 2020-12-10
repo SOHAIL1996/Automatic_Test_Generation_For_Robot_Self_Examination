@@ -40,7 +40,10 @@ def model_placement(param=None):
     world = World()
     dynamic_model_tracer = []
     
-    # Static model placement  
+    # Static model placement
+    static_model = Model(conf.World,0,0,0)
+    static_model.insert_model()
+      
     static_model = Model(conf.Multi_obstacle_platform,0,4,0.0254)
     static_model.insert_model()
     

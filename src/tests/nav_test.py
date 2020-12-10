@@ -64,7 +64,7 @@ class TestNavigation(Base):
         rospy.init_node('nav_test')
 
         store = [[0,0]]
-        for i in range(self.config.num_of_obstacles_for_nav):
+        for i in range(int(self.config.num_of_obstacles_for_nav)):
             x,y,z = randomizer(-3,3), randomizer(-3,3), 0
             if x == 0 and y==0:
                 continue
@@ -72,10 +72,11 @@ class TestNavigation(Base):
             for i in store:
                 if [x,y] == i:
                     continue
-                obstacles = Model(self.config.Obstacles_for_nav,x,y,z)
-                obstacles.model_number = str(randomizer(1,1000))
-                spawned_items.append(obstacle+obstacles.model_number)
-                obstacles.insert_model()
+            obstacle_name = random.choice(self.config.Obstacles_for_nav.split(','))
+            obstacles = Model(obstacle_name, x, y, z)
+            obstacles.model_number = str(randomizer(1,1000))
+            spawned_items.append(obstacle_name + obstacles.model_number)
+            obstacles.insert_model()
 
             
     # @settings(max_examples=1)

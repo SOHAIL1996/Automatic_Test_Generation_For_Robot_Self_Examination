@@ -10,15 +10,15 @@
 			<uri>model://ground_plane</uri>
 		</include>
     <!-- The world environment -->
-    <include>
+    <!-- <include>
 			<uri>/home/orion92/catkin_ws/src/atg/Environment/models/lab</uri>
       <name>lab</name>  
-      <pose>0 0 0 0 0 0</pose> <!--Translation: X Y Z and Rotation: Roll Pitch Yaw (In Radian)-->
-		</include>
+      <pose>0 0 0 0 0 0</pose> 
+		</include> -->
     <!-- The Camera position -->
     <gui>
         <camera name="user_camera">
-            <pose>4.716 -1.96 3.73 0 0.545798 2.515993</pose>
+            <pose>4.716 -1.96 3.73 0 0.545798 2.515993</pose> <!--Translation: X Y Z and Rotation: Roll Pitch Yaw (In Radian)-->
         </camera>
     </gui>
   </world>

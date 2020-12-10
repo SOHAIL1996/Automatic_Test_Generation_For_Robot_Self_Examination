@@ -59,11 +59,10 @@ class TestPerception(Base):
     def test_set_up(self,randomizer):
         """Initialzing parameters for testing.
         """               
-        self.config = Configuration()    
-        
+        self.config = Configuration() 
+        a = int(self.config.num_of_obstacles_for_nav)
+        print(a)   
 
-
-        
         # Adding the configuration file
         # data = {'First Column Name':  ['First value', 'Second value'],
         # 'Second Column Name': ['First value', 'Second value']}

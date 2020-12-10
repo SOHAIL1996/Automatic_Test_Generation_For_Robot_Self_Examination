@@ -20,6 +20,6 @@ def perceive_client():
         client.send_goal(goal)
         client.wait_for_result(rospy.Duration.from_sec(int(timeout)))
     except:
-        print('No result')
+        return False
     
     return True

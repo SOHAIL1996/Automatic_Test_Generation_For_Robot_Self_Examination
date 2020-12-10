@@ -44,6 +44,7 @@ class Configuration():
             Obstacles_for_pick          = data[14]
             Platform_for_obstacle_perc  = data[15]
             Obstacles_for_perc          = data[16]
+            World                       = data[18]
 
         # Splitting the text
         launch_dir                 = launch_dir.split('=')
@@ -58,6 +59,8 @@ class Configuration():
         Obstacles_for_pick         = Obstacles_for_pick.split('=')
         Platform_for_obstacle_perc = Platform_for_obstacle_perc.split('=')
         Obstacles_for_perc         = Obstacles_for_perc.split('=')
+        World                      = World.split('=')
+
         # Removing the text
         self.launch_dir                 = launch_dir[1].strip()
         self.model_dir                  = model_dir[1].strip()
@@ -70,6 +73,7 @@ class Configuration():
         self.Obstacles_for_pick         = Obstacles_for_pick[1].strip()
         self.Platform_for_obstacle_perc = Platform_for_obstacle_perc[1].strip()
         self.Obstacles_for_perc         = Obstacles_for_perc[1].strip()
+        self.World                      = World[1].strip()
             
     def config_data_frame(self):
         """[summary]

@@ -10,10 +10,11 @@
 --Models_list_1_for_table     = bottle,glass,plate,spoon,fork,mug,saltshaker
 --Models_list_2_for_table     = 
 --#_of_obstacles_for_nav      = 4
---Obstacles_for_nav           = coffeetable
+--Obstacles_for_nav           = coffeetable,minicoffeetable
 --Platform_for_obstacle_pick  = minicoffeetable
 --Obstacles_for_pick          = glass
 --Platform_for_obstacle_perc  = coffeetable
 --Obstacles_for_perc          = glass
 
+--World = room
 #==============================================================================#
