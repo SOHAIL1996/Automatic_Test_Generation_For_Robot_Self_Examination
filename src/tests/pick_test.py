@@ -27,16 +27,20 @@ from termcolor import colored
 import actionlib
 
 from mdr_pickup_action.msg import PickupAction, PickupGoal
+from utilities.Omni_base_locator.oml import OmniListener
 from tests.obstacle_generator.obstacle_gen import Model
 from tests.file_reader.file_reader import Configuration
 from tests.action_client.pick_client import picker_client
-from tests.action_client.pick_place_client import MoveItPickAndPlace
+from tests.action_client.pick_Toyota_client import MoveItPickAndPlace
 from hypothesis import given, settings, Verbosity, example
-from logger.data_logger import data_logger
-from logger.data_logger import data_reader
+from logger.data_logger import data_logger, lucy_gripper_information
+from logger.data_logger import data_reader, object_information
 from logger.data_logger import log_reader_comparator
 from logger.data_logger import log_hsrb_reader
 import hypothesis.strategies as st
+
+global destination_coord
+destination_coord = []
 
 class Base:
     @pytest.fixture(autouse=True)
@@ -54,14 +58,14 @@ class TestPickAction(Base):
         return _parameters
 
     def test_set_up(self,randomizer):
-        """Initializing the test scenario
+        """Initializing the test scenario.
         """  
         rospy.init_node('pick_test', anonymous=True)
         mo = Model('glass')   
         hx,hy,hz = mo.lucy_pos()[0],mo.lucy_pos()[1],mo.lucy_pos()[2]
         base_obj = Model(self.config.Platform_for_obstacle_pick, hx+0.8, hy, hz)
         base_obj.insert_model()
-        pick_obj = Model(self.config.Obstacles_for_pick, hx+0.75, hy, 0.43)
+        pick_obj = Model(self.config.Obstacles_for_pick, hx+0.75, hy, 0.44)
         pick_obj.insert_model() 
         
     def test_verification_of_pick_action(self):
@@ -71,12 +75,16 @@ class TestPickAction(Base):
         data_logger('logger/logs/pick_action_start')
         hx,hy,hz = mo.lucy_pos()[0],mo.lucy_pos()[1],mo.lucy_pos()[2] 
         # result = picker_client(hx+0.65, hy, 0.5, 0.0, 0.0, 0.0)
-        result = MoveItPickAndPlace( pick_x = hx+0.75, pick_y = hy, pick_z = 0.55, 
-                                     place_x = hx+0.7, place_y = hy, place_z = 0.76)
+        # Pick from table and drop on table
+        # result = MoveItPickAndPlace( pick_x = hx+0.75, pick_y = hy, pick_z = 0.55, 
+        #                              place_x = hx+0.7, place_y = hy, place_z = 0.76)
+        # Pick from table and place on shelf
+        result = MoveItPickAndPlace( pick_x = hx+0.75, pick_y = hy+0.05, pick_z = 0.53, 
+                                     place_x = 2.933, place_y = 3.107 , place_z = 0.46)
         data_logger('logger/logs/pick_action_end')
         
     def test_object_proximity_verification(self):
-        """Verification if object is ahead.
+        """Verification if objects are ahead of Lucy.
         """  
         log, lucy_log = data_reader('logger/logs/pick_action_end')
         log = log.set_index("Models")
@@ -97,26 +105,46 @@ class TestPickAction(Base):
     def test_collision_detection(self):
         """ Checking if the position of objects changed during pick action i.e. Lucy collided with an obstacle.
         """    
+        # True means no change and false means there is change.
+        x = False
+        y = False
+        z = False
         lower_tolerance_difference, upper_tolerance_difference = log_reader_comparator('X-pos', 'pick_action_start', 'pick_action_end')
-        assert lower_tolerance_difference != upper_tolerance_difference
+        if lower_tolerance_difference == upper_tolerance_difference:
+            x = True
         lower_tolerance_difference, upper_tolerance_difference = log_reader_comparator('Y-pos', 'pick_action_start', 'pick_action_end')
-        assert lower_tolerance_difference != upper_tolerance_difference
+        if lower_tolerance_difference == upper_tolerance_difference:
+            y = True
         lower_tolerance_difference, upper_tolerance_difference = log_reader_comparator('Z-pos', 'pick_action_start', 'pick_action_end')
-        assert lower_tolerance_difference == upper_tolerance_difference
-        
+        if lower_tolerance_difference == upper_tolerance_difference:
+            z = True
+        assert (x or y or z) == False
+
     def test_object_final_position(self):
-        """ Checking if the position of objects changed during pick action i.e. Lucy collided with an obstacle.
+        """ Checking if the designated obstacle is between lucys grippers.
         """    
-        pass
+        object_properties = object_information(self.config.Obstacles_for_pick, 'pick_action_end')
+        lucy_gripper_l, lucy_gripper_r = lucy_gripper_information()
+        assert lucy_gripper_l[0]-0.15 <= object_properties[0] <= lucy_gripper_r[0]+0.15
+        assert lucy_gripper_l[1]-0.15 <= object_properties[1] <= lucy_gripper_r[1]+0.15
     
     def test_operation_zone(self):
-        """ Checking if the position of objects changed during pick action i.e. Lucy collided with an obstacle.
+        """ Checking if the projected position of the robot has not gone out of the boundary. 
+        The boundary is the test lab navigation map and its dimensions are 10x10 m^2.
         """    
-        pass
+        hx,hy,hz = log_hsrb_reader()[0], log_hsrb_reader()[1], log_hsrb_reader()[2]
+        omni = OmniListener()
+        omni.omnibase_listener()
+        x,y,z = omni.x, omni.y, omni.z
+        assert -5 <= hx <= 5
+        assert -5 <= hy <= 5
+        assert -5 <= x <= 5
+        assert -5 <= y <= 5 
         
     def test_tear_down(self):
         """Tearing down the setup for the pick test.
         """  
-        test = Model('glass')   
-        test.delete_model(self.config.Obstacles_for_pick)
-        test.delete_model(self.config.Platform_for_obstacle_pick)
+        # test = Model('glass')   
+        # test.delete_model(self.config.Obstacles_for_pick)
+        # test.delete_model(self.config.Platform_for_obstacle_pick)
+        pass

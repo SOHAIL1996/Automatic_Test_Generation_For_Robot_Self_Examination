@@ -127,8 +127,8 @@ def log_reader_comparator(loc, action_start, action_end):
         int: Returns 2 numbers which are the difference in the log file,
              note the robot change in position in not taken into consideration.
     """    
-    nswp, ignore = data_reader('logger/logs/'+ action_start)
-    newp, ignore = data_reader('logger/logs/'+ action_end)
+    nswp, ignore = data_reader('logger/logs/'+action_start)
+    newp, ignore = data_reader('logger/logs/'+action_end)
            
     nswp = nswp.replace('-0.000', '0.000')
     newp = newp.replace('-0.000', '0.000')
@@ -137,9 +137,10 @@ def log_reader_comparator(loc, action_start, action_end):
     newp = newp.drop("hsrb", axis=0)
     nswp = nswp.set_index("Models")
     nswp = nswp.drop("hsrb", axis=0)
-    # Checking if objects have moved -+10 cm or +-0.10 mm
-    newp['8'] = np.where(nswp[loc]-0.1<=newp[loc], 1, 0) 
-    newp['9'] = np.where(newp[loc]<=nswp[loc]+0.1, 1, 0)
+
+    # Checking if objects have moved -+0.05 cm or +-5 mm
+    newp['8'] = np.where(nswp[loc]-0.05<=newp[loc], 1, 0) 
+    newp['9'] = np.where(newp[loc]<=nswp[loc]+0.05, 1, 0)
              
     expected_difference_lower_tolerance = newp['8'].sum()
     original_difference_lower_tolerance = len(newp['8'])
@@ -171,3 +172,29 @@ def log_hsrb_reader():
     hsrb = nav_end_world_props.loc["hsrb"]
     hsrb = hsrb.values.tolist()[1:] 
     return hsrb
+
+def lucy_gripper_information():
+    """Extracts the gripper information
+
+    Returns:
+        list: returns the x y z quat1 quat2 quat3 quat4
+    """    
+    ignore, gripper = data_reader('logger/logs/pick_action_end')
+    gripper = gripper.set_index("Gripper Position")
+    gripper_l = gripper.loc["Lucy left gripper"]
+    gripper_r = gripper.loc["Lucy right gripper"]
+    gripper_l = gripper_l.values.tolist()[1:]
+    gripper_r = gripper_r.values.tolist()[1:]
+    return gripper_l, gripper_r
+
+def object_information(object_name, action):
+    """Extracts an objects information.
+
+    Returns:
+        list: returns the x y z quat1 quat2 quat3 quat4
+    """    
+    end_action_model_states, ignore = data_reader('logger/logs/'+action)
+    end_action_model_states = end_action_model_states.set_index("Models")
+    object_properties = end_action_model_states.loc[object_name]
+    object_properties = object_properties.values.tolist()[1:] 
+    return object_properties
