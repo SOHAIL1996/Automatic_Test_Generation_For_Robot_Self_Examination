@@ -76,14 +76,14 @@ class TestPerception(Base):
         # data = df.to_csv(index=False)
         # data.to_csv('my_csv.csv', mode='a', header=False)
 
-    def test_perceive_action(self):
+    def test_verification_of_perception(self):
         """Activates perception action.
         """
         data_logger('logger/logs/perception')
         result = perceive_client()    
         assert True == result
     
-    def test_verify_object_ahead_exists(self):
+    def test_object_proximity_verification(self):
         """Verification if object is ahead.
         """  
         log, lucy_log = data_reader('logger/logs/perception')
@@ -100,7 +100,12 @@ class TestPerception(Base):
         y = log['Y-pos'].values.tolist()
         y_res = any(hsrb[1]-0.5 <= ele <= hsrb[1]+0.5 for ele in y)
 
-        assert True == x_res and y_res              
+        assert True == x_res and y_res    
+        
+    def test_lighting_conditions(self):
+        """Verification if object is ahead.
+        """
+        pass             
         
     def test_tear_down(self):
         """Obstacle removal.

@@ -41,7 +41,7 @@ class Model():
     """
     This class contains all relevant information of a gazebo model.
     """    
-    def __init__(self, model_real_name,x=0,y=0,z=0,R=0,P=0,Y=0):
+    def __init__(self, model_real_name, x=0, y=0, z=0, R=0, P=0, Y=0):
         
         conf = Configuration()
 

@@ -40,7 +40,9 @@ from hypothesis import given, settings, Verbosity, example
 import hypothesis.strategies as st
 
 global spawned_items
+global destination_coord
 spawned_items = []
+destination_coord = []
 
 class Base:
     @pytest.fixture(autouse=True)
@@ -60,24 +62,23 @@ class TestNavigation(Base):
     def test_set_up(self,randomizer):
         """Initializing navigation scenario.
         """  
-        start_time = time.time()
         rospy.init_node('nav_test')
-
         store = [[0,0]]
+        is_spawned = False
         for i in range(int(self.config.num_of_obstacles_for_nav)):
-            x,y,z = randomizer(-3,3), randomizer(-3,3), 0
-            if x == 0 and y==0:
-                continue
-            store.append([x,y])
+            x,y = randomizer(-3,3), randomizer(-3,3)
             for i in store:
                 if [x,y] == i:
-                    continue
-            obstacle_name = random.choice(self.config.Obstacles_for_nav.split(','))
-            obstacles = Model(obstacle_name, x, y, z)
-            obstacles.model_number = str(randomizer(1,1000))
-            spawned_items.append(obstacle_name + obstacles.model_number)
-            obstacles.insert_model()
-
+                    is_spawned = True
+                    break
+            if is_spawned != True:
+                store.append([x,y])    
+                obstacle_name = random.choice(self.config.Obstacles_for_nav.split(','))
+                obstacles = Model(obstacle_name, x=x, y=y, z=0.02)
+                obstacles.model_number = str(randomizer(1,1000))
+                spawned_items.append(obstacle_name + obstacles.model_number)
+                obstacles.insert_model()
+                is_spawned = False
             
     # @settings(max_examples=1)
     # @given(st.sampled_from(['table','shelf','cabinet','sofa']))
@@ -89,16 +90,18 @@ class TestNavigation(Base):
     #     data_logger('logger/logs/nav_end')
     #     assert result == True
 
-    def test_scenario_generation_coordinates(self,randomizer): 
+    def test_verification_of_navigation(self,randomizer): 
         """Defines a scenario for the rest of the tests to run in using coodrinates.
         """    
         coord_x, coord_y, direction = randomizer(-2,2),randomizer(-2,2),randomizer(0,360)
+        destination_coord.append(coord_x)
+        destination_coord.append(coord_y)
         data_logger('logger/logs/nav_start')
         result = pose_action_client(coord_x, coord_y, direction)
         data_logger('logger/logs/nav_end')
         assert result == True    
 
-    def test_allmodels_positon(self):
+    def test_collision_detection(self):
         """ Checking if the position of objects changed furing navigation i.e. Lucy collided with an obstacle.
         """    
         lower_tolerance_difference, upper_tolerance_difference = log_reader_comparator('X-pos', 'nav_start', 'nav_end')
@@ -108,7 +111,7 @@ class TestNavigation(Base):
         lower_tolerance_difference, upper_tolerance_difference = log_reader_comparator('Z-pos', 'nav_start', 'nav_end')
         assert lower_tolerance_difference == upper_tolerance_difference
 
-    def test_robot_position(self):
+    def test_location_verification(self):
         """Checking if the projected position of the robot matches 
         the position in the simulator.
         """    
@@ -116,11 +119,19 @@ class TestNavigation(Base):
         omni = OmniListener()
         omni.omnibase_listener()
         x,y,z = omni.x, omni.y, omni.z
+        assert hx-0.45 <= x <= hx+0.45
+        assert hy-0.45 <= y <= hy+0.45
+        
+        
+    def test_destination_verification(self):
+        """Checking if the projected position of the robot matches 
+        the position in the simulator.
+        """    
+        hx,hy,hz = log_hsrb_reader()[0], log_hsrb_reader()[1], log_hsrb_reader()[2] 
+        assert hx-0.45 <= destination_coord[0] <= hx+0.45
+        assert hy-0.45 <= destination_coord[1] <= hy+0.45
 
-        assert hx-0.5 <= x <= hx+0.5
-        assert hy-0.5 <= y <= hy+0.5
-
-    def test_legal_zone(self):
+    def test_operation_zone_verification(self):
         """Checking if the projected position of the robot has not gone out of the boundary. 
         The boundary is the test lab navigation map and its dimensions are 10x10 m^2.
         """    
@@ -128,7 +139,6 @@ class TestNavigation(Base):
         omni = OmniListener()
         omni.omnibase_listener()
         x,y,z = omni.x, omni.y, omni.z
-
         assert -5 <= hx <= 5
         assert -5 <= hy <= 5
         assert -5 <= x <= 5
@@ -139,5 +149,4 @@ class TestNavigation(Base):
         """  
         test = Model('glass') 
         for i in spawned_items:  
-            test.delete_model(i)
-        
+            test.delete_model(i)        

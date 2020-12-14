@@ -64,7 +64,7 @@ class TestPickAction(Base):
         pick_obj = Model(self.config.Obstacles_for_pick, hx+0.75, hy, 0.43)
         pick_obj.insert_model() 
         
-    def test_pick_action_activation(self):
+    def test_verification_of_pick_action(self):
         """Activating the pick action test and checking whether it was successful.
         """
         mo = Model('glass')   
@@ -75,7 +75,7 @@ class TestPickAction(Base):
                                      place_x = hx+0.7, place_y = hy, place_z = 0.76)
         data_logger('logger/logs/pick_action_end')
         
-    def test_verify_object_ahead_exists(self):
+    def test_object_proximity_verification(self):
         """Verification if object is ahead.
         """  
         log, lucy_log = data_reader('logger/logs/pick_action_end')
@@ -94,16 +94,25 @@ class TestPickAction(Base):
 
         assert True == x_res and y_res  
     
-    @pytest.mark.xfail(reason="One of the objects position should have changed")
-    def test_allmodels_positon_are_same(self):
+    def test_collision_detection(self):
         """ Checking if the position of objects changed during pick action i.e. Lucy collided with an obstacle.
         """    
         lower_tolerance_difference, upper_tolerance_difference = log_reader_comparator('X-pos', 'pick_action_start', 'pick_action_end')
-        assert lower_tolerance_difference == upper_tolerance_difference
+        assert lower_tolerance_difference != upper_tolerance_difference
         lower_tolerance_difference, upper_tolerance_difference = log_reader_comparator('Y-pos', 'pick_action_start', 'pick_action_end')
-        assert lower_tolerance_difference == upper_tolerance_difference
+        assert lower_tolerance_difference != upper_tolerance_difference
         lower_tolerance_difference, upper_tolerance_difference = log_reader_comparator('Z-pos', 'pick_action_start', 'pick_action_end')
         assert lower_tolerance_difference == upper_tolerance_difference
+        
+    def test_object_final_position(self):
+        """ Checking if the position of objects changed during pick action i.e. Lucy collided with an obstacle.
+        """    
+        pass
+    
+    def test_operation_zone(self):
+        """ Checking if the position of objects changed during pick action i.e. Lucy collided with an obstacle.
+        """    
+        pass
         
     def test_tear_down(self):
         """Tearing down the setup for the pick test.
