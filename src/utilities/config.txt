@@ -1,5 +1,5 @@
 #==============================================================================#
-#      Configuration file for the ATF package in the Gazebo world.             #
+#      Configuration file for the ATG package in the Gazebo world.             #
 #==============================================================================#
 
 --launch_dir          = /home/orion92/catkin_ws/src/atg/launch/hsr.launch
