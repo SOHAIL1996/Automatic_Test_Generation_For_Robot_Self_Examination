@@ -27,6 +27,7 @@ from termcolor import colored
 import actionlib
 import allure
 
+from gazebo_msgs.srv import GetLightProperties
 from mdr_pickup_action.msg import PickupAction, PickupGoal
 from tests.obstacle_generator.obstacle_gen import Model
 from tests.file_reader.file_reader import Configuration
@@ -96,9 +97,16 @@ class TestPerception(Base):
         assert True == x_res and y_res    
         
     def test_lighting_conditions(self):
-        """Verification if object is ahead.
+        """Verification of illumination levels.
         """
-        pass             
+        rospy.wait_for_service('/gazebo/get_light_properties')
+        try:
+            light_prop = rospy.ServiceProxy('/gazebo/get_light_properties',GetLightProperties)
+            light_props = light_prop('sun')
+            color_spectrum = light_props.diffuse
+        except rospy.ServiceException as e:
+            print(colored('Cannot acquire ligh State.','red')) 
+        assert (color_spectrum.r or color_spectrum.g or color_spectrum.b) > 0.5        
         
     def test_tear_down(self):
         """Obstacle removal.

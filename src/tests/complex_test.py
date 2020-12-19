@@ -27,6 +27,7 @@ from termcolor import colored
 import actionlib
 import allure
 
+from gazebo_msgs.srv import GetLightProperties
 from tests.action_client.nav_client import pose_action_client
 from tests.action_client.nav_client import toyota_action_client
 from utilities.Omni_base_locator.oml import OmniListener
@@ -133,10 +134,7 @@ class TestComplexScenario(Base):
         """Activates perception action.
         """
         data_logger('logger/logs/perception')
-    #     robot = Robot()
-    #     whole_body = robot.get('whole_body')
-    #     whole_body.move_to_joint_positions({'head_tilt_joint': -0.3})
-    #     # # MAS HSR perception library not configured, requires ROS to not shutdown # #
+    #     # MAS HSR perception library not configured, requires ROS to not shutdown conflicts
     #     result = perceive_client()    
     #     assert True == result
     
@@ -162,7 +160,14 @@ class TestComplexScenario(Base):
     def test_lighting_conditions(self):
         """Verification if object is ahead.
         """
-        pass
+        rospy.wait_for_service('/gazebo/get_light_properties')
+        try:
+            light_prop = rospy.ServiceProxy('/gazebo/get_light_properties',GetLightProperties)
+            light_props = light_prop('sun')
+            color_spectrum = light_props.diffuse
+        except rospy.ServiceException as e:
+            print(colored('Cannot acquire ligh State.','red')) 
+        assert (color_spectrum.r or color_spectrum.g or color_spectrum.b) > 0.5  
     
     def test_verification_of_pick_action(self):
         """Activating the pick action test and checking whether it was successful.
