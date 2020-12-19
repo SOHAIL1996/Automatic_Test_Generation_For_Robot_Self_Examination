@@ -2,9 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 ---------------------------------------------------- 
-Picking Tests
-
-The ...
+Perceive Test module
 ----------------------------------------------------
 Supervisor: Prof. Dr. Paul Ploger
             Prof. Dr. Nico Hochgeschwender

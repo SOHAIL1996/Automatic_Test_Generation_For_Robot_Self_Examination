@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 """
 ---------------------------------------------------- 
-Complex-scenarios 
+Complex-tests module
 
-Tests Lucy in a complex-scenario
+Tests Lucy in a complex-scenarios.
 ----------------------------------------------------
 Supervisor: Prof. Dr. Paul Ploger
             Prof. Dr. Nico Hochgeschwender
@@ -70,12 +70,12 @@ class TestComplexScenario(Base):
     def test_verification_of_navigation(self): 
         """Defines a scenario for the rest of the tests to run in using coodrinates.
         """    
-        # coord_x, coord_y, direction = 0.000, 2.855, 90
-        coord_x, coord_y, direction = 0.000, 0.000, 90
+        coord_x, coord_y, direction = 0.000, 2.855, 90
+        # coord_x, coord_y, direction = 0.000, 0.000, 90
         destination_coord.append(coord_x)
         destination_coord.append(coord_y)
         data_logger('logger/logs/nav_start')
-        # result = pose_action_client(coord_x, coord_y, direction)
+        result = pose_action_client(coord_x, coord_y, direction)
         data_logger('logger/logs/nav_end')
         assert result == True      
 
