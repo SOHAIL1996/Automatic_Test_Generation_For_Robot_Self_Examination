@@ -44,7 +44,7 @@ def model_placement(param=None):
     static_model = Model(conf.World,0,0,0)
     static_model.insert_model()
       
-    static_model = Model(conf.Multi_obstacle_platform,0,4,0.0254)
+    static_model = Model(conf.Multi_obstacle_platform,0,4,0.0254,0,0,0)
     static_model.insert_model()
     
     static_model_shelf = Model('shelf',4.8, 3, 0.0254, 0, 0, 1.5708)
@@ -55,6 +55,11 @@ def model_placement(param=None):
     
     static_model_cabinet = Model('cabinet',4.5, -4.8, 0.0254, 0, 0, 1.5708)
     static_model_cabinet.insert_model()
+    
+    # Temporary fixed spawning until MAS develops perceive pick library for Lucy
+    complex_scenario_bottle = Model('glass',0.000, 0.900, 0.500, 0, 0, 0)
+    complex_scenario_bottle.insert_model()
+    dynamic_model_tracer.append(complex_scenario_bottle)
 
     # Dynamic model placement through config file
     model_choices = choices(conf.model_list(), k=int(conf.num_of_mod))

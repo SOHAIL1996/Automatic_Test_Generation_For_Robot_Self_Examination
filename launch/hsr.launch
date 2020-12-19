@@ -23,7 +23,7 @@
     <arg name="map" default="$(find atg)/Environment/maps/my_map.yaml" />
     <arg name="world_name" value="$(find atg)/Environment/worlds/my_world.world"/>
     <!-- <arg name="robot_pos" value="-x 0 -y 0 -z 0.0254 -Y 1.567" /> -->
-    <arg name="robot_pos" value="-x 0 -y 0 -z 0.05 -Y 0" />
+    <arg name="robot_pos" value="-x 0 -y 0 -z 0.04 -Y 0" />
   </include>
   <!-- rosrun mdr_pickup_action pickup_action_client_test -->
   <!-- python3.6 -m pytest src/action_test.py -v -s -->

@@ -64,7 +64,7 @@ class MoveItPickAndPlace(object):
         # top 3 are box coordinates bottom 3 are pose coordinates
         self.add_box("table",
                      [0.63, 0.63, 0.48],
-                     [self.pick_x, self.pick_y, 0.02])
+                     [self.pick_x, self.pick_y, 0.25])
         # self.add_box("wall",
         #              [0.3, 0.01, 0.1],
         #              [0.5, 0.0, 0.5 + 0.1 / 2])

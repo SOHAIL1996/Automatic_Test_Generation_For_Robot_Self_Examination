@@ -149,4 +149,9 @@ class TestNavigation(Base):
         """  
         test = Model('glass') 
         for i in spawned_items:  
-            test.delete_model(i)        
+            test.delete_model(i)  
+        # Attaching log file to the test results
+        logs = self.config.config_data_frame('nav_end')
+        data = logs.to_csv(index=False)
+        allure.attach(data, 'Configuration', allure.attachment_type.CSV)   
+           

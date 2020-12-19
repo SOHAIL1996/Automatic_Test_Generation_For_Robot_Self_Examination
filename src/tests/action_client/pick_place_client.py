@@ -1,9 +1,9 @@
 #!/usr/bin/env python2
-# Copyright (C) 2017 Toyota Motor Corporation
 """
 ---------------------------------------------------- 
 Pick and place sample by Yoshimi_yoda 
 
+Copyright (C) 2017 Toyota Motor Corporation
 """
 from copy import deepcopy
 import math
@@ -17,11 +17,10 @@ import shape_msgs.msg
 from tf.transformations import quaternion_from_euler, quaternion_multiply
 import trajectory_msgs.msg
 
-
 class MoveItPickAndPlace(object):
     def __init__(self, pick_x = 0, pick_y = 0, pick_z = 0, place_x = 0, place_y = 0, place_z = 0,wait=0.0):
         # initialize
-        moveit_commander.roscpp_initialize(sys.argv)
+        # moveit_commander.roscpp_initialize(sys.argv)
         # rospy.init_node("moveit_demo", anonymous=True)
 
         self.reference_frame = "odom"
@@ -50,30 +49,33 @@ class MoveItPickAndPlace(object):
         ##############################################################################
         # move_to_neutral
         rospy.loginfo("step1: move_to_neutral")
-        base.go()
+        # base.go()
         arm.set_named_target("neutral")
         arm.go()
-        head.set_named_target("neutral")
-        head.go()
-        gripper.set_joint_value_target("hand_motor_joint", 0.5)
+        # head.set_named_target("neutral")
+        # head.go()
+        gripper.set_joint_value_target("hand_motor_joint", 1.2)
         gripper.go()
         rospy.logdebug("done")
         rospy.sleep(wait)
         ##############################################################################
         # add objects
         self.add_box("table",
-                     [0.63, 0.63, 0.48],
-                     [self.pick_x, self.pick_y, 0.02])
+                     [3.0, 1.39, 0.46],
+                     [0   , 2   , 0.025])
         # self.add_box("wall",
-        #              [0.3, 0.01, 0.1],
-        #              [0.5, 0.0, 0.5 + 0.1 / 2])
+        #              [3.0, 1.39, 0.46],
+        #              [0   , 2   , 0.46/2])
+        # self.add_cylinder("target1",
+        #                   0.04, 0.13,
+        #                   [self.pick_x, self.pick_y, self.pick_z])
         self.add_box("target1",
-                     [0.01, 0.01, 0.1],
+                     [0.03, 0.03, 0.225],
                      [self.pick_x, self.pick_y, self.pick_z])
         # self.add_cylinder("target2",
         #                   0.03, 0.08,
         #                   [0.5, 0.25, 0.5 + 0.08 / 2])
-        # rospy.sleep(1)
+        rospy.sleep(1)
         ##############################################################################
         # pick target1
         self.whole_body.set_support_surface_name("table")
@@ -191,50 +193,53 @@ class MoveItPickAndPlace(object):
                     quality=None,
                     x=[0], y=[0], z=[0],
                     roll=[0], pitch=[0], yaw=[0]):
-        poses = self.scene.get_object_poses([target])
-        pose = poses[target]
-        g = moveit_msgs.msg.Grasp()
-        g.pre_grasp_posture = self.make_gripper_posture(0.8)
-        g.grasp_posture = self.make_gripper_posture(0.2, -0.01)
-        g.pre_grasp_approach \
-            = self.make_gripper_translation(0.01, 0.02, [0.0, 0.0, 1.0])
-        g.post_grasp_retreat \
-            = self.make_gripper_translation(0.01, 0.02, [0.0, 0.0, 1.0],
-                                            "base_footprint")
-        grasps = []
-        for ix in x:
-            for iy in y:
-                for iz in z:
-                    for iroll in roll:
-                        for ipitch in pitch:
-                            for iyaw in yaw:
-                                x = pose.position.x + ix
-                                y = pose.position.y + iy
-                                z = pose.position.z + iz
-                                g.grasp_pose = self.make_pose(init,
-                                                              x, y, z,
-                                                              iroll,
-                                                              ipitch,
-                                                              iyaw)
-            g.id = str(len(grasps))
-            g.allowed_touch_objects = ["target1"]
-            g.max_contact_force = 0
-            if quality is None:
-                g.grasp_quality = 1.0
-            else:
-                g.grasp_quality = quality(ix, iy, iz, iroll, ipitch, iyaw)
-            grasps.append(deepcopy(g))
-        return grasps
+     
+        attempt = 0
+        while attempt <= 5:
+            try:
+                poses = self.scene.get_object_poses([target])
+                pose = poses[target]
+                g = moveit_msgs.msg.Grasp()
+                g.pre_grasp_posture = self.make_gripper_posture(0.8)
+                g.grasp_posture = self.make_gripper_posture(0.2, -0.01)
+                g.pre_grasp_approach = self.make_gripper_translation(0.01, 0.02, [0.0, 0.0, 1.0])
+                g.post_grasp_retreat= self.make_gripper_translation(0.01, 0.02, [0.0, 0.0, 1.0],
+                                                    "base_footprint")
+                grasps = []
+                for ix in x:
+                    for iy in y:
+                        for iz in z:
+                            for iroll in roll:
+                                for ipitch in pitch:
+                                    for iyaw in yaw:
+                                        x = pose.position.x + ix
+                                        y = pose.position.y + iy
+                                        z = pose.position.z + iz
+                                        g.grasp_pose = self.make_pose(init,
+                                                                    x, y, z,
+                                                                    iroll,
+                                                                    ipitch,
+                                                                    iyaw)
+                    g.id = str(len(grasps))
+                    g.allowed_touch_objects = ["target1"]
+                    g.max_contact_force = 0
+                    if quality is None:
+                        g.grasp_quality = 1.0
+                    else:
+                        g.grasp_quality = quality(ix, iy, iz, iroll, ipitch, iyaw)
+                    grasps.append(deepcopy(g))
+                return grasps
+                attempt = 5
+            except KeyError:
+                print('Attempt number '+ str(attempt) +' failed.')
+                attempt+=1
+        
 
     def make_place_location(self, x, y, z):
         location = moveit_msgs.msg.PlaceLocation()
-        location.pre_place_approach \
-            = self.make_gripper_translation(0.03, 0.05, [0, 0, -1.0],
-                                            "base_footprint")
-        location.post_place_posture \
-            = self.make_gripper_posture(0.8)
-        location.post_place_retreat \
-            = self.make_gripper_translation(0.03, 0.05, [0, 0, -1.0])
+        location.pre_place_approach = self.make_gripper_translation(0.03, 0.05, [0, 0, -1.0],"base_footprint")
+        location.post_place_posture = self.make_gripper_posture(0.8)
+        location.post_place_retreat = self.make_gripper_translation(0.03, 0.05, [0, 0, -1.0])
         location.place_pose = self.make_pose((0, 0, 0, 1),
                                              x, y, z,
                                              0, 0, 0)

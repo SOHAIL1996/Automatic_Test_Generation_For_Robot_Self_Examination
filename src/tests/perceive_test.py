@@ -68,13 +68,6 @@ class TestPerception(Base):
         base_obj.insert_model()
         perceive_obj = Model(self.config.Obstacles_for_perc, hx+0.6, hy, 0.72)
         perceive_obj.insert_model() 
-  
-        # Adding the configuration file
-        # data = {'First Column Name':  ['First value', 'Second value'],
-        # 'Second Column Name': ['First value', 'Second value']}
-        # df = pd.DataFrame (data, columns = ['First Column Name','Second Column Name'])
-        # data = df.to_csv(index=False)
-        # data.to_csv('my_csv.csv', mode='a', header=False)
 
     def test_verification_of_perception(self):
         """Activates perception action.
@@ -114,4 +107,7 @@ class TestPerception(Base):
         test = Model('glass')  
         test.delete_model(self.config.Obstacles_for_perc)
         test.delete_model(self.config.Platform_for_obstacle_perc)
-        # allure.attach(data, 'Configuration', allure.attachment_type.CSV)
+        # Attaching log file to the test results
+        logs = self.config.config_data_frame('perception')
+        data = logs.to_csv(index=False)
+        allure.attach(data, 'Configuration', allure.attachment_type.CSV)

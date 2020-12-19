@@ -3,6 +3,7 @@ import numpy as np
 import rospy
 import actionlib
 import std_msgs.msg
+import hsrb_interface
 
 from control_msgs.msg import JointTrajectoryControllerState
 from geometry_msgs.msg import PoseStamped, Pose, Point, Quaternion
@@ -68,13 +69,32 @@ def pose_action_client(coord_x, coord_y, direction):
     try:
         goal.goal_type = MoveBaseGoal.POSE    
         goal.pose = PoseStamped(header=head, pose=Pose(position=location, orientation=angle))       
-        timeout = 120.0
+        timeout = 1000.0
         rospy.loginfo('Sending action lib goal to move_base_server, ' + goal.destination_location)
         client.send_goal(goal)
         client.wait_for_result(rospy.Duration.from_sec(int(timeout)))
-        rospy.sleep(0.5)
-        print(client.get_result())
+        rospy.sleep(3)
     except Exception as exc:
         print(str(exc))
         return False
     return True
+
+def toyota_action_client(coord_x, coord_y, direction):
+    """Action client test for navigation using coordinates.
+
+    Args:
+        coord_x (float 32): x coordinate in the map for the robot to move towards.
+        coord_y (float 32): y coordinate in the map for the robot to move towards.
+        direction (float 32)(Degrees): Direction the robot should face.
+
+    Returns:
+        bool: Returns boolean rarely works in a laptop.
+    """
+    robot = hsrb_interface.Robot()
+    omni_base = robot.get('omni_base')
+    with hsrb_interface.Robot() as robot:
+        base = robot.try_get('omni_base')
+        base.go_abs(coord_x, coord_y, direction)
+        
+    return True
+           

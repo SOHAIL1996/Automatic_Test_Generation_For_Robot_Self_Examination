@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- actions -->
+    <include file="$(find mas_hsr_move_arm_action)/ros/launch/move_arm.launch"/>
+    <include file="$(find mas_hsr_move_arm_joints_action)/ros/launch/move_arm_joints.launch"/>
+    <include file="$(find mas_hsr_move_forward_action)/ros/launch/move_forward.launch"/>
+
+    <include file="$(find mas_hsr_move_base_action)/ros/launch/move_base.launch">
+        <arg name="move_base_server" value="/move_base" />
+        <arg name="timeout" value="60.0" />
+        <arg name="recovery_position_m_std" value="0.25" />
+        <arg name="max_recovery_attempts" value="1" />
+    </include>
+
+    <include file="$(find mas_hsr_pickup_action)/ros/launch/pickup_action.launch">
+        <arg name="intermediate_grasp_offset" value="0.2" />
+        <arg name="grasping_dmp" value="" />
+    </include>
+
+    <include file="$(find mas_hsr_place_action)/ros/launch/place_action.launch">
+        <arg name="placing_dmp" value="" />
+    </include>
+
+    <include file="$(find mas_perception_libs)/ros/launch/cloud_obstacle_detection_cpp_test.launch"/>
+
+    <!-- State machine -->
+    <node pkg="mas_execution_manager" type="state_machine_creator" name="wrs_tidy_up" output="screen">
+        <param name="sm_config_file" type="str" value="$(find mas_hsr_wrs_tidy_up)/config/tidy_up_sm.yaml" />
+        <param name="parent_sm_config_file" type="str" value="$(find mdr_wrs_tidy_up)/config/tidy_up_sm.yaml" />
+    </node>
+</launch>

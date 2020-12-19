@@ -20,6 +20,7 @@ Date: August 19, 2020
 import random
 import sys,os
 import numpy as np
+import pandas as pd
 
 class Configuration():
     """It extracts information from the configuration file.
@@ -75,12 +76,39 @@ class Configuration():
         self.Obstacles_for_perc         = Obstacles_for_perc[1].strip()
         self.World                      = World[1].strip()
             
-    def config_data_frame(self):
-        """[summary]
+    def config_data_frame(self, loc):
+        """Attaches logs to the final test report.
         """    
 
-        data = {'Configuration Settings':  ['First value', 'Second value'],
-                'Selected Parameters'   : ['First value', 'Second value']}
+        data = {'Configuration Settings':  ['Launch directory',
+                                            'Model directory',                
+                                            'Number of models for multi obstacle platform',             
+                                            'Multi object platform',   
+                                            'Objects for multi object platform',                     
+                                            'Number of obstacles for navigation',   
+                                            'Obstacles for navigation',         
+                                            'Platform for pick-action', 
+                                            'Object for pick-action',        
+                                            'Platform for perception', 
+                                            'Objects for perception',         
+                                            'Selected world environment'],
+                'Selected Parameters'   : [self.launch_dir,
+                                            self.model_dir,                
+                                            self.num_of_mod,             
+                                            self.Multi_obstacle_platform,   
+                                            self.models,                     
+                                            self.num_of_obstacles_for_nav,   
+                                            self.Obstacles_for_nav,         
+                                            self.Platform_for_obstacle_pick, 
+                                            self.Obstacles_for_pick,        
+                                            self.Platform_for_obstacle_perc, 
+                                            self.Obstacles_for_perc,         
+                                            self.World]}
 
-        df = pd.DataFrame (data, columns = ['Configuration Settings','Selected Parameters'])
-        df.to_csv('tests/results/configuration_data.csv',index=False)
+        df  = pd.DataFrame (data, columns = ['Configuration Settings','Selected Parameters'])
+        df2 =  pd.read_csv('logger/logs/'+loc+'_logs.csv')
+        df2 = df2.drop("Unnamed: 0", axis=1)   
+        df3 = pd.concat([df, df2],sort=False,axis=1)
+        # df3.to_csv('tests/results/configuration_data.csv', mode= 'w' ,encoding='utf-8')
+        return df3
+        # df.to_csv('tests/results/configuration_data.csv',index=False)

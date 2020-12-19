@@ -79,7 +79,7 @@ class TestPickAction(Base):
         # result = MoveItPickAndPlace( pick_x = hx+0.75, pick_y = hy, pick_z = 0.55, 
         #                              place_x = hx+0.7, place_y = hy, place_z = 0.76)
         # Pick from table and place on shelf
-        result = MoveItPickAndPlace( pick_x = hx+0.75, pick_y = hy+0.05, pick_z = 0.53, 
+        result = MoveItPickAndPlace(pick_x = hx+0.75, pick_y = hy+0.05, pick_z = 0.55, 
                                      place_x = 2.933, place_y = 3.107 , place_z = 0.46)
         data_logger('logger/logs/pick_action_end')
         
@@ -147,4 +147,7 @@ class TestPickAction(Base):
         # test = Model('glass')   
         # test.delete_model(self.config.Obstacles_for_pick)
         # test.delete_model(self.config.Platform_for_obstacle_pick)
-        pass
+        # Attaching log file to the test results
+        logs = self.config.config_data_frame('pick_action_end')
+        data = logs.to_csv(index=False)
+        allure.attach(data, 'Configuration', allure.attachment_type.CSV)
