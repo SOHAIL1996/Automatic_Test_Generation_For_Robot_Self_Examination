@@ -1,9 +1,10 @@
 # Automated Test Generator for Toyota HSR Bot (LUCY)
 
-This package aims to enables the HSR bot to examine itself for basic
-faults in a variety of test case scenarios that range from grasping 
-actions to the execution of complex scenarios automatically.
-
+    Robot automation has come a long way since its inception. Robots now have the ability to perform complex tasks like driving, cooking, or performing surgery. However, the question arises are how safe are these robots? or in other words, if one was to go to a hospital and have a robot perform surgery on them, what would be the success rate of that surgery. The good news is that there is a 99.52% chance that the surgery will be successful; the bad news is that there is a 0.48% chance that the surgery is unsuccessful. 
+    
+    Our research and development project aims to facilitate testing complex robotic systems similar to robotic surgery by automatically generating a set of simulated test case scenarios in which a robot can assess its performance via tests. The Toyota HSR robot (Lucy) will be used as our test subject. Several behaviors of hers will be assessed such as navigation, perception, and manipulation over four different use-cases. The first use-case will be on navigation, in which she will have to navigate to various locations designated by a scenario generator. The second use-case will be on perception in which she will have to perceive various objects designated by the scenario generator. The third use-case will be on manipulation, in which she will have to pick an object designated by the scenario generator. The fourth use-case will be the combination of the aforementioned three use-cases along with an extra action of placing the object back on the table.
+    
+    For the test framework, we will apply property-based tests. In this method, the environment provides evidence for the actions of a robot and affirms them. Finally, a report is generated that provides detailed information on each use-case's success and failure, which in a later project may be extended to use machine learning algorithms to improve the robot's planning strategy.
 
 ## Software Requirements
 
@@ -40,10 +41,10 @@ actions to the execution of complex scenarios automatically.
 
 These constitute the bare minimum requirements to run this package.
 
-* `+8 Gb ram`
-* `+Intel® Core™ i5-6300HQ CPU @ 2.30GHz × 4 `
-* `+Nvidia GeForce GTX 960M/PCIe/SSE2`
-* `+250 Gb hard disk`
+* `8 Gb ram`
+* `Intel® Core™ i5-6300HQ CPU @ 2.30GHz × 4 `
+* `Nvidia GeForce GTX 960M/PCIe/SSE2`
+* `250 Gb hard disk`
 
 ## Setup
 
@@ -67,7 +68,7 @@ in the `~/.bashrc` below the ros kinetic package.
 
 ## Configuration
 
-To configure the parameters of the simulator goto the utilities file and set the parameters in the configuration file.
+To configure the parameters of the simulator, open the utilities folder and set the parameters in the configuration file.
 
 ## Simulation Startup
 
@@ -97,5 +98,10 @@ To use simply open the simulator with Lucy in it, run `./atg.sh` from `$(Parent 
 - Run `python2 -m pytest --alluredir=results tests/place_test.py -v -s` from `$(Parent directory)/atg/src`.
 - Run `allure serve results/` from `$(Parent directory)/atg/src` to view results.
 
+## Running Complex Test
 
-## Acknowledgments
+- Run `atg.sh` from `$(Parent directory)/atg`.
+- Run `python2 -m pytest --alluredir=results tests/complex_test.py -v -s` from `$(Parent directory)/atg/src`.
+- Run `allure serve results/` from `$(Parent directory)/atg/src` to view results.
+
+
