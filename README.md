@@ -6,7 +6,7 @@ Our research and development project aims to facilitate testing complex robotic 
     
 For the test framework, we will apply property-based tests. In this method, the environment provides evidence for the actions of a robot and affirms them. Finally, a report is generated that provides detailed information on each use-case's success and failure, which in a later project may be extended to use machine learning algorithms to improve the robot's planning strategy.
 
-![Overview of Automatic Test Generator](https://octodex.github.com/images/yaktocat.png)
+![Overview of Automatic Test Generator](https://github.com/SOHAIL1996/ATG/blob/master/Res%26Dev/Images/overview_test_suite-1.png)
 
 ## Software Requirements
 
