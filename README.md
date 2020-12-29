@@ -82,11 +82,15 @@ To use simply open the simulator with Lucy in it, run `./atg.sh` from `$(Parent 
 - Run `python2 -m pytest --alluredir=results tests/nav_test.py -v -s` from `$(Parent directory)/atg/src`.
 - Run `allure serve results/` from `$(Parent directory)/atg/src` to view results.
 
+![Overview of Automatic Test Generator](https://github.com/SOHAIL1996/ATG/blob/master/Res%26Dev/Images/nav_test-1.png)
+
 ## Running Perception Test
 
 - Run `atg.sh` from `$(Parent directory)/atg`.
 - Run `python2 -m pytest --alluredir=results tests/perceive_test.py -v -s` from `$(Parent directory)/atg/src`.
 - Run `allure serve results/` from `$(Parent directory)/atg/src` to view results.
+
+![Overview of Automatic Test Generator](https://github.com/SOHAIL1996/ATG/blob/master/Res%26Dev/Images/perceive_test-1.png)
 
 ## Running Pick Action Test
 
@@ -94,11 +98,8 @@ To use simply open the simulator with Lucy in it, run `./atg.sh` from `$(Parent 
 - Run `python2 -m pytest --alluredir=results tests/pick_test.py -v -s` from `$(Parent directory)/atg/src`.
 - Run `allure serve results/` from `$(Parent directory)/atg/src` to view results.
 
-## Running Place Action Test
+![Overview of Automatic Test Generator](https://github.com/SOHAIL1996/ATG/blob/master/Res%26Dev/Images/pick_test-1.png)
 
-- Run `atg.sh` from `$(Parent directory)/atg`.
-- Run `python2 -m pytest --alluredir=results tests/place_test.py -v -s` from `$(Parent directory)/atg/src`.
-- Run `allure serve results/` from `$(Parent directory)/atg/src` to view results.
 
 ## Running Complex Test
 
@@ -106,4 +107,4 @@ To use simply open the simulator with Lucy in it, run `./atg.sh` from `$(Parent 
 - Run `python2 -m pytest --alluredir=results tests/complex_test.py -v -s` from `$(Parent directory)/atg/src`.
 - Run `allure serve results/` from `$(Parent directory)/atg/src` to view results.
 
-
+![Overview of Automatic Test Generator](https://github.com/SOHAIL1996/ATG/blob/master/Res%26Dev/Images/complex_scenario-1.png)
