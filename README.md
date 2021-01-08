@@ -112,3 +112,10 @@ To use simply open the simulator with Lucy in it, run `./atg.sh` from `$(Parent 
 - Run `allure serve results/` from `$(Parent directory)/atg/src` to view results.
 
 ![Overview of Automatic Test Generator](https://github.com/SOHAIL1996/ATG/blob/master/Res%26Dev/Images/complex_scenario-1.png)
+
+## Acknowledgements
+
+Supervised by:
+ - Prof. Dr. Paul G. Pl ̈oger
+ - Prof. Dr. Nico Hochgeschwender
+ - Alex Mitrevski
