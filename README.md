@@ -41,7 +41,6 @@
 * `torchvision==0.5.0`
 * `allure-python-commons==2.6.0`
 * `hypothesis--4.57.1`
-* `future`
 
 ## Hardware Requirements
 
