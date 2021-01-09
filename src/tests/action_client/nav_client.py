@@ -1,4 +1,19 @@
 #!/usr/bin/env python
+"""
+---------------------------------------------------- 
+Navigation client
+
+The client activates the MDR navigation module.
+----------------------------------------------------
+Supervisor: Prof. Dr. Paul Ploger
+            Prof. Dr. Nico Hochgeschwender
+            Alex Mitrevski 
+
+Author    : Salman Omar Sohail
+----------------------------------------------------
+Date: August 19, 2020
+----------------------------------------------------
+"""
 import numpy as np
 import rospy
 import actionlib

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 ---------------------------------------------------- 
-Complex-scenarios 
+Experimental-Complex-scenarios 
 
 Tests Lucy in a complex-scenario
 ----------------------------------------------------

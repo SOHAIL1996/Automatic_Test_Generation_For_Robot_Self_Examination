@@ -3,9 +3,9 @@
 
 """
 ---------------------------------------------------- 
-Utilities
+Toyota HSR base ROS subscriber
 
-Utilitie functions.
+Subscribes to the Toyota HSR's omni base messages.
 ----------------------------------------------------
 Supervisor: Prof. Dr. Paul Ploger
             Prof. Dr. Nico Hochgeschwender

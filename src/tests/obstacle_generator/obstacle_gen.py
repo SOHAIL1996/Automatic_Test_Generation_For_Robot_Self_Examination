@@ -2,11 +2,9 @@
 # -*- coding: utf-8 -*-
 """
 ---------------------------------------------------- 
-Random Scenario Generator
+Obstacle Generator
 
-The RSG will be used to generate unique and altered
-poses for the models that will be used within the
-worlds of Gazebo simulator.
+Generates obstacles and gathers worlds properties.
 ----------------------------------------------------
 Supervisor: Prof. Dr. Paul Ploger
             Prof. Dr. Nico Hochgeschwender

@@ -1,4 +1,19 @@
 #!/usr/bin/env python
+"""
+---------------------------------------------------- 
+Place client
+
+The client activates the MDR place action module.
+----------------------------------------------------
+Supervisor: Prof. Dr. Paul Ploger
+            Prof. Dr. Nico Hochgeschwender
+            Alex Mitrevski 
+
+Author    : Salman Omar Sohail
+----------------------------------------------------
+Date: August 19, 2020
+----------------------------------------------------
+"""
 import rospy
 import actionlib
 

@@ -4,7 +4,8 @@
 ---------------------------------------------------- 
 Navigation Tests
 
-The ...
+Tests Lucy in a variety of parameterized and randomized
+navigation scenarios.
 ----------------------------------------------------
 Supervisor: Prof. Dr. Paul Ploger
             Prof. Dr. Nico Hochgeschwender

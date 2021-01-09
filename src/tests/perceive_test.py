@@ -3,6 +3,9 @@
 """
 ---------------------------------------------------- 
 Perceive Test module
+
+Tests Lucy in a variety of parameterized and randomized
+perception scenarios.
 ----------------------------------------------------
 Supervisor: Prof. Dr. Paul Ploger
             Prof. Dr. Nico Hochgeschwender

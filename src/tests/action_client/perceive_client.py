@@ -1,4 +1,20 @@
 #! /usr/bin/env python
+"""
+---------------------------------------------------- 
+Perceive client
+
+The client activates the perceive action based
+on the updated MDR module.
+----------------------------------------------------
+Supervisor: Prof. Dr. Paul Ploger
+            Prof. Dr. Nico Hochgeschwender
+            Alex Mitrevski 
+
+Author    : Salman Omar Sohail
+----------------------------------------------------
+Date: August 19, 2020
+----------------------------------------------------
+"""
 import rospy
 import actionlib
 from mdr_perceive_plane_action.msg import PerceivePlaneAction, PerceivePlaneGoal  

@@ -4,3 +4,14 @@ transforms3d
 shapely
 termcolor
 rospkg
+pandas
+moveit_commander
+tf
+rospy
+stl
+cv2
+actionlib
+ros_numpy
+hypothesis
+pytest
+allure

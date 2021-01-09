@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 ---------------------------------------------------- 
 Utilities
@@ -16,7 +15,6 @@ Author    : Salman Omar Sohail
 Date: August 19, 2020
 ----------------------------------------------------
 """
-
 import random
 import sys,os
 import numpy as np

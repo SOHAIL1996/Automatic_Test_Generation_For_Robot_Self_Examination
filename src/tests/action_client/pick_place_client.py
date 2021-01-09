@@ -1,9 +1,21 @@
 #!/usr/bin/env python2
 """
 ---------------------------------------------------- 
-Pick and place sample by Yoshimi_yoda 
+Pick and place modified sample by Yoshimi_yoda 
 
 Copyright (C) 2017 Toyota Motor Corporation
+
+The client activates the pick and place action based
+on the default Toyota HSR client.
+----------------------------------------------------
+Supervisor: Prof. Dr. Paul Ploger
+            Prof. Dr. Nico Hochgeschwender
+            Alex Mitrevski 
+
+Author    : Salman Omar Sohail
+----------------------------------------------------
+Date: August 19, 2020
+----------------------------------------------------
 """
 from copy import deepcopy
 import math

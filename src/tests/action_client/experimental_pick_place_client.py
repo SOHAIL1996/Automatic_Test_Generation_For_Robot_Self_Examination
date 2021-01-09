@@ -1,7 +1,22 @@
 #!/bin/usr/env python2
 # -*- coding: utf-8 -*-
 # Copyright (C) 2017 Toyota Motor Corporation
+"""
+---------------------------------------------------- 
+Experimental pick, place client
 
+The client activates the pick and place action based
+on the default Toyota HSR client.
+----------------------------------------------------
+Supervisor: Prof. Dr. Paul Ploger
+            Prof. Dr. Nico Hochgeschwender
+            Alex Mitrevski 
+
+Author    : Salman Omar Sohail
+----------------------------------------------------
+Date: August 19, 2020
+----------------------------------------------------
+"""
 import math
 
 import actionlib

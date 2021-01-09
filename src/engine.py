@@ -4,7 +4,7 @@
 ---------------------------------------------------- 
 Engine
 
-Starter module for the source code.
+Starter module for the test suite.
 ----------------------------------------------------
 Supervisor: Prof. Dr. Paul Ploger
             Prof. Dr. Nico Hochgeschwender

@@ -5,7 +5,7 @@
 ---------------------------------------------------- 
 Report Generator
 
-The ...
+Alternate version for the report generator.
 ----------------------------------------------------
 Supervisor: Prof. Dr. Paul Ploger
             Prof. Dr. Nico Hochgeschwender

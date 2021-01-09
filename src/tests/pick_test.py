@@ -4,7 +4,8 @@
 ---------------------------------------------------- 
 Picking Tests
 
-The ...
+Tests Lucy in a variety of parameterized and randomized
+pick-action scenarios.
 ----------------------------------------------------
 Supervisor: Prof. Dr. Paul Ploger
             Prof. Dr. Nico Hochgeschwender

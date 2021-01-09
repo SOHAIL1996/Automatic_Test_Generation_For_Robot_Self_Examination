@@ -1,9 +1,9 @@
 #!/usr/bin/env python2
-# Copyright (C) 2017 Toyota Motor Corporation
 """
 ---------------------------------------------------- 
 Pick and place sample by Yoshimi_yoda 
 
+Copyright (C) 2017 Toyota Motor Corporation
 """
 from copy import deepcopy
 import math

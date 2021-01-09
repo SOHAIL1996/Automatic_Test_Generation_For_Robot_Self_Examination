@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 ---------------------------------------------------- 
-Random Scenario Generator
+Random Scenario Generator (RSG)
 
 The RSG will be used to generate unique and altered
 poses for the models that will be used within the

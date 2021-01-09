@@ -1,4 +1,20 @@
 #!/usr/bin/env python
+"""
+---------------------------------------------------- 
+Pick client
+
+The client activates the pick action based on the 
+default MDR client.
+----------------------------------------------------
+Supervisor: Prof. Dr. Paul Ploger
+            Prof. Dr. Nico Hochgeschwender
+            Alex Mitrevski 
+
+Author    : Salman Omar Sohail
+----------------------------------------------------
+Date: August 19, 2020
+----------------------------------------------------
+"""
 import rospy
 import numpy as np
 import actionlib

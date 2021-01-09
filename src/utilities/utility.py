@@ -5,7 +5,7 @@
 ---------------------------------------------------- 
 Utilities
 
-Utilitie functions.
+Provides miscellaneous utility functions.
 ----------------------------------------------------
 Supervisor: Prof. Dr. Paul Ploger
             Prof. Dr. Nico Hochgeschwender
