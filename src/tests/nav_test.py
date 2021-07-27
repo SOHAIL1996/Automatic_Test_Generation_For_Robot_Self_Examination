@@ -24,6 +24,7 @@ import numpy as np
 import pandas as pd
 from subprocess import check_output
 import pytest
+import allure
 from termcolor import colored
 
 from tests.action_client.nav_client import navi_action_client
