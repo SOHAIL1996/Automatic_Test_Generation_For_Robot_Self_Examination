@@ -1,5 +1,9 @@
 # Automated Test Generator for Toyota HSR Bot (LUCY)
 
+<p align="center" style="border:solid #6495ED">
+  <img src="https://github.com/SOHAIL1996/Automatic_Test_Generation_For_Robot_Self_Examination/blob/master/Res%26Dev/videos/Toyota%20HSR%20robot%20(Lucy)%20-%20Performing%20tasks%20in%20a%20complex-scenario.gif" width="100%"/>
+</p>
+
    One of the key challenges in domestic robotics is ensuring the correct behaviors of a robot when it performs a task. However, even simple scenarios in which a robot is tasked with grasping a cup poses a problem in the domestic environment, problems such as collision with obstacles, failure to grasp the object, or simply failing to recognize the cup. These problems' root causes lay in the environment's unpredictability, robot's lack of knowledge, hardware failures, and software faults. These problems are further compounded when it comes to complex-scenarios due to each scenario's dependence on the preceding scenario. The established approach for discovering these problems is through testing.
 
    The aim of this project was to facilitate the testing of domestic robotic systems by automatically generating a set of simulated test case scenarios in which a robot assessed its performance. Furthermore, the Toyota Human Support Robot (Lucy) was used as the test subject. Several of her behaviors were assessed, such as navigation, perception, and manipulation over four different use-cases. 
