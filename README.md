@@ -4,6 +4,40 @@
   <img src="https://github.com/SOHAIL1996/Automatic_Test_Generation_For_Robot_Self_Examination/blob/master/Res%26Dev/videos/Toyota%20HSR%20robot%20(Lucy)%20-%20Performing%20tasks%20in%20a%20complex-scenario.gif" width="100%"/>
 </p>
 
+
+## Copyright and licence
+
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![DOI](https://zenodo.org/badge/DOI/10.1109/ECMR50962.2021.9568837.svg)](https://ieeexplore.ieee.org/document/9568837)
+
+Copyright (C) 2022 by [Hochschule Bonn Rhein Sieg](https://www.h-brs.de/de)
+
+---
+
+### Author 
+
+*Salman Omar Sohail*
+
+### Co-authors
+
+*Nico Hochgeschwender, Paul G. Pl ̈oger, Alex Mitrevski*
+
+## Publication
+[Property-Based Testing in Simulation for Verifying Robot Action Execution in Tabletop Manipulation](https://ieeexplore.ieee.org/document/10260447](https://ieeexplore.ieee.org/document/9568837)
+```bash
+@INPROCEEDINGS{9568837,
+  author={Sohail, Salman Omar and Mitrevski, Alex and Hochgeschwender, Nico and Plöger, Paul G.},
+  booktitle={2021 European Conference on Mobile Robots (ECMR)}, 
+  title={Property-Based Testing in Simulation for Verifying Robot Action Execution in Tabletop Manipulation}, 
+  year={2021},
+  volume={},
+  number={},
+  pages={1-7},
+  keywords={Software architecture;Service robots;Reliability theory;Ontologies;Robustness;Software reliability;Mobile robots},
+  doi={10.1109/ECMR50962.2021.9568837}}
+```
+
+## Abstract
+
    One of the key challenges in domestic robotics is ensuring the correct behaviors of a robot when it performs a task. However, even simple scenarios in which a robot is tasked with grasping a cup poses a problem in the domestic environment, problems such as collision with obstacles, failure to grasp the object, or simply failing to recognize the cup. These problems' root causes lay in the environment's unpredictability, robot's lack of knowledge, hardware failures, and software faults. These problems are further compounded when it comes to complex-scenarios due to each scenario's dependence on the preceding scenario. The established approach for discovering these problems is through testing.
 
    The aim of this project was to facilitate the testing of domestic robotic systems by automatically generating a set of simulated test case scenarios in which a robot assessed its performance. Furthermore, the Toyota Human Support Robot (Lucy) was used as the test subject. Several of her behaviors were assessed, such as navigation, perception, and manipulation over four different use-cases. 
