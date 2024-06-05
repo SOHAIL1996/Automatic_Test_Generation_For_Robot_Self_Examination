@@ -22,7 +22,7 @@ Copyright (C) 2022 by [Hochschule Bonn Rhein Sieg](https://www.h-brs.de/de)
 *Nico Hochgeschwender, Paul G. Pl ̈oger, Alex Mitrevski*
 
 ## Publication
-[Property-Based Testing in Simulation for Verifying Robot Action Execution in Tabletop Manipulation](https://ieeexplore.ieee.org/document/10260447](https://ieeexplore.ieee.org/document/9568837)
+[Property-Based Testing in Simulation for Verifying Robot Action Execution in Tabletop Manipulation](https://ieeexplore.ieee.org/document/9568837)
 ```bash
 @INPROCEEDINGS{9568837,
   author={Sohail, Salman Omar and Mitrevski, Alex and Hochgeschwender, Nico and Plöger, Paul G.},
